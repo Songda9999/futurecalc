@@ -177,6 +177,22 @@ input  { font-family:inherit; }
 .mob-drawer-item-sub { font-size:11px; font-weight:400; color:var(--text3); margin-left:auto; }
 .mob-drawer-item.active .mob-drawer-item-sub { color:var(--orange); opacity:0.7; }
 
+/* 抽屉分组 */
+.mob-drawer-group-head {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 16px 8px;
+  font-size:10px; font-weight:700; color:var(--text3);
+  text-transform:uppercase; letter-spacing:0.1em;
+  border-top:1px solid rgba(255,255,255,0.08);
+  cursor:pointer; user-select:none;
+  margin-top:4px;
+}
+.mob-drawer-group-head:first-child { border-top:none; margin-top:0; }
+.mob-drawer-group-head svg { width:14px; height:14px; transition:transform 0.2s; }
+.mob-drawer-group-head.open svg { transform:rotate(180deg); }
+.mob-drawer-group-items { display:none; }
+.mob-drawer-group-items.open { display:block; }
+
 .mob-drawer-footer {
   padding:14px 16px;
   border-top:1px solid var(--border);
@@ -274,8 +290,8 @@ input  { font-family:inherit; }
 
 @keyframes fadein      { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 @keyframes fadeout     { from{opacity:1;transform:translateY(0)} to{opacity:0;transform:translateY(10px)} }
-@keyframes fadeup      { from{opacity:0;transform:translateY(28px) scale(0.95)} to{opacity:1;transform:translateY(0) scale(1)} }
-@keyframes fadedown    { from{opacity:1;transform:translateY(0) scale(1)} to{opacity:0;transform:translateY(20px) scale(0.96)} }
+@keyframes fadeup      { from{opacity:0;transform:scale(0.88)} to{opacity:1;transform:scale(1)} }
+@keyframes fadedown    { from{opacity:1;transform:scale(1)} to{opacity:0;transform:scale(0.88)} }
 @keyframes fadeoverlay { from{opacity:0} to{opacity:1} }
 @keyframes fadeoverlayout { from{opacity:1} to{opacity:0} }
 @keyframes dropin      { from{opacity:0;transform:translateY(-10px) scale(0.95)} to{opacity:1;transform:translateY(0) scale(1)} }
@@ -645,6 +661,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
   display:flex; flex-direction:column;
   box-shadow:0 20px 60px rgba(0,0,0,0.2);
   overflow:hidden;
+  transform-origin:center center;
 }
 .coin-picker-head {
   display:flex; align-items:center; justify-content:space-between;
@@ -755,6 +772,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
 .modal {
   background:var(--white); border-radius:var(--r); max-width:380px; width:100%;
   box-shadow:0 20px 60px rgba(0,0,0,0.2); overflow:hidden;
+  transform-origin:center center;
 }
 .modal-head {
   padding:18px 20px 14px; border-bottom:1px solid var(--border2);
@@ -887,59 +905,107 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
     </div>
   </div>
   <div class="mob-drawer-list">
-    <button class="mob-drawer-item active" id="md-pnl" onclick="drawerNav('pnl')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-      盈亏计算<span class="mob-drawer-item-sub">P&amp;L</span>
-    </button>
-    <button class="mob-drawer-item" id="md-liq" onclick="drawerNav('liq')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      强平价格<span class="mob-drawer-item-sub">Liquidation</span>
-    </button>
-    <button class="mob-drawer-item" id="md-open" onclick="drawerNav('open')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-      可开多少<span class="mob-drawer-item-sub">Max Size</span>
-    </button>
 
-    <button class="mob-drawer-item" id="md-adl" onclick="drawerNav('adl')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
-      ADL 档位<span class="mob-drawer-item-sub">Auto-Deleverage</span>
-    </button>
-    <button class="mob-drawer-item" id="md-margin" onclick="drawerNav('margin')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-      保证金参数<span class="mob-drawer-item-sub">Margin</span>
-    </button>
-    <button class="mob-drawer-item" id="md-contract-rules" onclick="drawerNav('contract-rules')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-      合约规格<span class="mob-drawer-item-sub">Contract Specs</span>
-    </button>
-    <button class="mob-drawer-item" id="md-tradefee" onclick="drawerNav('tradefee')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-      手续费计算<span class="mob-drawer-item-sub">Trading Fee</span>
-    </button>
-    <button class="mob-drawer-item" id="md-fund" onclick="drawerNav('fund')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-      资金费率<span class="mob-drawer-item-sub">Funding</span>
-    </button>
-    <button class="mob-drawer-item" id="md-closecheck" onclick="drawerNav('closecheck')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 8 12 12 16"/><line x1="16" y1="12" x2="8" y2="12"/></svg>
-      平仓异常核查<span class="mob-drawer-item-sub">Close Check</span>
-    </button>
-    <button class="mob-drawer-item" id="md-qa-liq" onclick="drawerNav('qa-liq')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      Q&amp;A 爆仓强平<span class="mob-drawer-item-sub">FAQ</span>
-    </button>
-    <button class="mob-drawer-item" id="md-qa-adl" onclick="drawerNav('qa-adl')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      Q&amp;A 强制减仓<span class="mob-drawer-item-sub">FAQ</span>
-    </button>
-    <button class="mob-drawer-item" id="md-qa-fee" onclick="drawerNav('qa-fee')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      Q&amp;A 手续费资金费<span class="mob-drawer-item-sub">FAQ</span>
-    </button>
-    <button class="mob-drawer-item" id="md-qa-margin" onclick="drawerNav('qa-margin')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      Q&amp;A 保证金杠杆<span class="mob-drawer-item-sub">FAQ</span>
-    </button>
+    <!-- 基础计算 -->
+    <div class="mob-drawer-group-head open" onclick="toggleDrawerGroup(this)">
+      基础计算
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="mob-drawer-group-items open">
+      <button class="mob-drawer-item active" id="md-pnl" onclick="drawerNav('pnl')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        盈亏计算<span class="mob-drawer-item-sub">P&amp;L</span>
+      </button>
+      <button class="mob-drawer-item" id="md-liq" onclick="drawerNav('liq')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        强平价格<span class="mob-drawer-item-sub">Liquidation</span>
+      </button>
+      <button class="mob-drawer-item" id="md-open" onclick="drawerNav('open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        可开多少<span class="mob-drawer-item-sub">Max Size</span>
+      </button>
+    </div>
+
+    <!-- 保证金 -->
+    <div class="mob-drawer-group-head" onclick="toggleDrawerGroup(this)">
+      保证金
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="mob-drawer-group-items">
+      <button class="mob-drawer-item" id="md-margin" onclick="drawerNav('margin')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        保证金参数<span class="mob-drawer-item-sub">Margin</span>
+      </button>
+      <button class="mob-drawer-item" id="md-contract-rules" onclick="drawerNav('contract-rules')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        合约规格<span class="mob-drawer-item-sub">Contract Specs</span>
+      </button>
+    </div>
+
+    <!-- 手续费 -->
+    <div class="mob-drawer-group-head" onclick="toggleDrawerGroup(this)">
+      手续费
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="mob-drawer-group-items">
+      <button class="mob-drawer-item" id="md-tradefee" onclick="drawerNav('tradefee')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        手续费计算<span class="mob-drawer-item-sub">Trading Fee</span>
+      </button>
+      <button class="mob-drawer-item" id="md-fund" onclick="drawerNav('fund')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+        资金费率<span class="mob-drawer-item-sub">Funding</span>
+      </button>
+    </div>
+
+    <!-- 异常核查 -->
+    <div class="mob-drawer-group-head" onclick="toggleDrawerGroup(this)">
+      异常核查
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="mob-drawer-group-items">
+      <button class="mob-drawer-item" id="md-adl" onclick="drawerNav('adl')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+        ADL 强制减仓<span class="mob-drawer-item-sub">Auto-Deleverage</span>
+      </button>
+      <button class="mob-drawer-item" id="md-closecheck" onclick="drawerNav('closecheck')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 8 12 12 16"/><line x1="16" y1="12" x2="8" y2="12"/></svg>
+        平仓异常核查<span class="mob-drawer-item-sub">Close Check</span>
+      </button>
+      <button class="mob-drawer-item" id="md-sharecheck" onclick="drawerNav('sharecheck')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        分摊核查<span class="mob-drawer-item-sub">Share Check</span>
+      </button>
+    </div>
+
+    <!-- Q&A -->
+    <div class="mob-drawer-group-head" onclick="toggleDrawerGroup(this)">
+      Q&amp;A 常见问题
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="mob-drawer-group-items">
+      <button class="mob-drawer-item" id="md-qa-liq" onclick="drawerNav('qa-liq')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        爆仓 / 强平<span class="mob-drawer-item-sub">FAQ</span>
+      </button>
+      <button class="mob-drawer-item" id="md-qa-adl" onclick="drawerNav('qa-adl')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        强制减仓<span class="mob-drawer-item-sub">FAQ</span>
+      </button>
+      <button class="mob-drawer-item" id="md-qa-fee" onclick="drawerNav('qa-fee')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        手续费 / 资金费<span class="mob-drawer-item-sub">FAQ</span>
+      </button>
+      <button class="mob-drawer-item" id="md-qa-margin" onclick="drawerNav('qa-margin')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        保证金 / 杠杆<span class="mob-drawer-item-sub">FAQ</span>
+      </button>
+      <button class="mob-drawer-item" id="md-qa-share" onclick="drawerNav('qa-share')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        分摊 / 穿仓<span class="mob-drawer-item-sub">FAQ</span>
+      </button>
+    </div>
+
   </div>
   <div class="mob-drawer-footer">合约计算器 · 客服专用工具</div>
 </div>
@@ -1000,6 +1066,10 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 8 12 12 16"/><line x1="16" y1="12" x2="8" y2="12"/></svg>
         <div><div class="sb-label">平仓异常核查</div><div class="sb-sub">Close Order Check</div></div>
       </button>
+      <button class="side-btn" id="sb-sharecheck" onclick="switchTab('sharecheck',this)">
+        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div><div class="sb-label">分摊核查</div><div class="sb-sub">Socialized Loss Check</div></div>
+      </button>
     </div>
     <!-- Q&A group -->
     <div id="sg-qa" style="display:none">
@@ -1019,6 +1089,10 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
       <button class="side-btn" id="sb-qa-margin" onclick="switchTab('qa-margin',this)">
         <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2"/></svg>
         <div><div class="sb-label">保证金 / 杠杆</div><div class="sb-sub">Margin FAQ</div></div>
+      </button>
+      <button class="side-btn" id="sb-qa-share" onclick="switchTab('qa-share',this)">
+        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div><div class="sb-label">分摊 / 穿仓</div><div class="sb-sub">Socialized Loss FAQ</div></div>
       </button>
     </div>
   </div>
@@ -2493,6 +2567,103 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
 </div>
 
 <!-- ══════════════════════════════════════════════
+     TAB: 分摊核查
+══════════════════════════════════════════════ -->
+<div id="tab-sharecheck" class="panel">
+<div class="card">
+  <div class="card-head">
+    <div class="card-head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+    <div>
+      <h2>分摊核查</h2>
+      <p>输入用户持仓信息与分摊触发时间，自动抓取该分钟标记价格区间，判断分摊是否合理</p>
+    </div>
+  </div>
+  <div class="card-body">
+
+    <div class="info-chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg>
+      分摊只扣取<strong>分摊时刻仍持仓且周期内盈利</strong>的用户。填入持仓信息和分摊触发时间（<strong>北京时间 UTC+8</strong>，精确到分钟），系统自动换算为 UTC 查询标记价格 K 线，计算浮盈判断分摊是否正常。标记价格数据仅供参考，最终以技术核查为准。
+    </div>
+
+    <!-- 合约 + 方向 -->
+    <div class="form-grid" style="margin-bottom:16px">
+      <div class="field">
+        <div class="field-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
+          选择合约
+        </div>
+        <div style="position:relative">
+          <div class="mp-sel-box" id="sc-sel-box" onclick="toggleDrop('sc')">
+            <img id="sc-sel-icon" class="sel-coin-icon" src="" alt="" onerror="this.classList.remove('loaded')">
+            <span id="sc-sel-txt">选择合约...</span>
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="mp-dropdown" id="sc-drop"></div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">仓位方向</div>
+        <div class="seg">
+          <button class="seg-btn active-long" id="sc-dlong" onclick="setDir('sc','long')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>做多 Long
+          </button>
+          <button class="seg-btn" id="sc-dshort" onclick="setDir('sc','short')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>做空 Short
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 持仓信息 + 添加时间按钮 -->
+    <div class="field-label" style="margin-bottom:8px;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;font-weight:700">持仓信息</div>
+    <div class="form-grid" style="margin-bottom:8px">
+      <div class="field">
+        <div class="field-label">
+          持仓数量
+          &nbsp;<span style="display:inline-flex;border:1px solid #e5e7eb;border-radius:5px;overflow:hidden;vertical-align:middle">
+            <button id="sc-qty-coin" onclick="setScQtyMode('coin')" style="padding:1px 8px;font-size:11px;font-weight:600;border:none;background:var(--orange);color:#fff;cursor:pointer">币</button>
+            <button id="sc-qty-zhang" onclick="setScQtyMode('zhang')" style="padding:1px 8px;font-size:11px;font-weight:600;border:none;background:#fff;color:var(--text3);cursor:pointer">张</button>
+          </span>
+        </div>
+        <div class="fi"><input type="number" id="sc-qty" placeholder="0.00" step="any"><span class="fi-unit" id="sc-qty-u">BTC</span></div>
+        <div id="sc-face-hint" style="display:none;font-size:12px;color:var(--text2);margin-top:4px">
+          合约面值：<span id="sc-face-display" style="font-weight:700;color:var(--orange-dark);font-family:'Inter',-apple-system,sans-serif">—</span>
+          <span id="sc-face-u" style="color:var(--text3)"></span> / 张
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">分摊触发时间</div>
+        <div id="sc-times-list" style="display:flex;flex-direction:column;gap:6px"></div>
+        <button id="sc-add-btn" onclick="addShareTime()" style="margin-top:6px;display:flex;align-items:center;gap:4px;padding:6px 14px;border:1.5px dashed var(--border);border-radius:var(--r-sm);background:transparent;color:var(--text3);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.18s;width:100%;justify-content:center" onmouseover="this.style.borderColor='var(--orange)';this.style.color='var(--orange-dark)';this.style.background='var(--orange-light)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text3)';this.style.background='transparent'">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          添加时间
+        </button>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="doShareCheck()">核 查 分 摊 是 否 正 常</button>
+
+    <div class="result-section" id="sharecheck-rs">
+      <div class="result-divider"></div>
+      <div class="result-label">核查结果</div>
+      <div id="sc-results-list" style="display:flex;flex-direction:column;gap:12px"></div>
+
+      <!-- 公式说明 -->
+      <div class="formula-wrap" style="margin-top:16px">
+        <div class="formula-toggle" id="ft-sharecheck" onclick="toggleF('sharecheck')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          查看完整公式说明（可截图发给客户）
+          <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:auto"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="formula-body" id="fb-sharecheck"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
      Q&A: 爆仓 / 强平
 ══════════════════════════════════════════════ -->
 <div id="tab-qa-liq" class="panel">
@@ -2502,6 +2673,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
   <button class="qa-mobile-tab" onclick="switchTab('qa-adl',document.getElementById('sb-qa-adl'))">强制减仓</button>
   <button class="qa-mobile-tab" onclick="switchTab('qa-fee',document.getElementById('sb-qa-fee'))">手续费/资金费</button>
   <button class="qa-mobile-tab" onclick="switchTab('qa-margin',document.getElementById('sb-qa-margin'))">保证金/杠杆</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-share',document.getElementById('sb-qa-share'))">分摊/穿仓</button>
 </div>
 <div class="card">
   <div class="card-head">
@@ -2529,8 +2701,9 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <div class="qa-a">
           <div class="qa-answer">强平价格由官方公式计算，会随账户权益实时变化：<br><br>
           <strong>全仓多单：</strong>强平价 = 标记价 − (账户权益 − 平仓手续费 − 所有仓位维持保证金总和 + 当前仓位档位扣减额) ÷ 数量<br>
-          <strong>全仓空单：</strong>强平价 = 标记价 + (...) ÷ 数量<br>
-          <strong>逐仓多单：</strong>强平价 = 标记价 − (逐仓权益 − 当前仓位手续费 − 当前仓位维持保证金 + 扣减额) ÷ 数量<br><br>
+          <strong>全仓空单：</strong>强平价 = 标记价 + (账户权益 − 平仓手续费 − 所有仓位维持保证金总和 + 当前仓位档位扣减额) ÷ 数量<br>
+          <strong>逐仓多单：</strong>强平价 = 标记价 − (逐仓权益 − 当前仓位手续费 − 当前仓位维持保证金 + 扣减额) ÷ 数量<br>
+          <strong>逐仓空单：</strong>强平价 = 标记价 + (逐仓权益 − 当前仓位手续费 − 当前仓位维持保证金 + 扣减额) ÷ 数量<br><br>
           可使用「强平价格」板块输入仓位数据核算理论强平价。</div>
           <div class="qa-script-label">📋 参考话术</div>
           <div class="qa-script">您好，强平价格并非固定数值，会随您的账户权益、持仓量及维持保证金率实时变化。我已使用系统工具为您核算了理论强平价格，计算结果与系统一致，属正常触发。如需了解详细计算过程，欢迎提供当时的仓位数据，我可为您进一步核查。</div>
@@ -2593,6 +2766,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
   <button class="qa-mobile-tab active" onclick="switchTab('qa-adl',this)">强制减仓</button>
   <button class="qa-mobile-tab" onclick="switchTab('qa-fee',document.getElementById('sb-qa-fee'))">手续费/资金费</button>
   <button class="qa-mobile-tab" onclick="switchTab('qa-margin',document.getElementById('sb-qa-margin'))">保证金/杠杆</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-share',document.getElementById('sb-qa-share'))">分摊/穿仓</button>
 </div>
 <div class="card">
   <div class="card-head">
@@ -2672,6 +2846,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
   <button class="qa-mobile-tab" onclick="switchTab('qa-adl',document.getElementById('sb-qa-adl'))">强制减仓</button>
   <button class="qa-mobile-tab active" onclick="switchTab('qa-fee',this)">手续费/资金费</button>
   <button class="qa-mobile-tab" onclick="switchTab('qa-margin',document.getElementById('sb-qa-margin'))">保证金/杠杆</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-share',document.getElementById('sb-qa-share'))">分摊/穿仓</button>
 </div>
 <div class="card">
   <div class="card-head">
@@ -2757,6 +2932,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
   <button class="qa-mobile-tab" onclick="switchTab('qa-adl',document.getElementById('sb-qa-adl'))">强制减仓</button>
   <button class="qa-mobile-tab" onclick="switchTab('qa-fee',document.getElementById('sb-qa-fee'))">手续费/资金费</button>
   <button class="qa-mobile-tab active" onclick="switchTab('qa-margin',this)">保证金/杠杆</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-share',document.getElementById('sb-qa-share'))">分摊/穿仓</button>
 </div>
 <div class="card">
   <div class="card-head">
@@ -2825,6 +3001,111 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
           仓位名义价值等级提高，并不会造成此前等级的仓位改变杠杆倍数，只影响超出部分对应的要求。</div>
           <div class="qa-script-label">📋 参考话术</div>
           <div class="qa-script">您好，平台对不同规模的仓位设有分级的风险档位。当您的仓位名义价值增大进入更高档位后，系统会相应调低最大可用杠杆倍数并提高维持保证金率要求，这是控制市场系统性风险的必要机制。您可以在「保证金参数」页面查看各合约的完整档位信息及对应的 MMR 和最大杠杆。</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     Q&A: 分摊 / 穿仓
+══════════════════════════════════════════════ -->
+<div id="tab-qa-share" class="panel">
+<div class="qa-mobile-tabs">
+  <button class="qa-mobile-tab" onclick="switchTab('qa-liq',document.getElementById('sb-qa-liq'))">爆仓/强平</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-adl',document.getElementById('sb-qa-adl'))">强制减仓</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-fee',document.getElementById('sb-qa-fee'))">手续费/资金费</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-margin',document.getElementById('sb-qa-margin'))">保证金/杠杆</button>
+  <button class="qa-mobile-tab active" onclick="switchTab('qa-share',this)">分摊/穿仓</button>
+</div>
+<div class="card">
+  <div class="card-head">
+    <div class="card-head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+    <div><h2>分摊 / 穿仓 常见问题</h2><p>客户投诉分摊扣费和穿仓相关问题的标准解答与客服处理流程</p></div>
+  </div>
+  <div class="card-body">
+    <div class="qa-list">
+
+      <div class="qa-item">
+        <div class="qa-q">Q：什么是穿仓？什么是分摊？</div>
+        <div class="qa-a">
+          <div class="qa-answer">
+          <strong>穿仓：</strong>用户爆仓后，因极端行情导致实际亏损超过其全部保证金，账户出现负余额。<br><br>
+          <strong>分摊机制：</strong>当穿仓损失超过保险基金可覆盖的范围时，由该周期内所有合约盈利的用户按盈利比例共同分担剩余缺口。平台不会因穿仓而损失，用户资金整体得到保护。<br><br>
+          触发顺序：强平执行 → 穿仓（亏损超保证金）→ 保险基金优先补偿 → 不足时启动分摊
+          </div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，分摊是合约交易中针对极端穿仓风险的标准化风控规则，并非针对个人。当市场出现极端行情导致某用户爆仓后保险基金不足以覆盖全部穿仓损失时，系统会由该周期内所有合约盈利的用户按盈利金额占比分摊剩余缺口。这是行业内通用的防范极端行情风险的机制，目的是保护全平台用户的资金安全。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：分摊是怎么计算的？我被扣了多少？</div>
+        <div class="qa-a">
+          <div class="qa-answer">
+          <strong>计算公式：</strong><br>
+          单个用户分摊金额 = 系统需分摊总金额 × 80% × (该用户周期内盈利 ÷ 所有参与分摊的盈利总和)<br><br>
+          <strong>举例：</strong>本次穿仓缺口 10,000 USDT，所有盈利用户净盈利之和 1,000,000 USDT，您周期内盈利 500 USDT：<br>
+          您的分摊 = 500 × (10,000 ÷ 1,000,000) × 80% = <strong>4 USDT</strong><br><br>
+          注意：分摊金额从可用余额直接扣除，具体数据需后台核查。
+          </div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，分摊金额按「您的周期盈利 ÷ 所有盈利用户净盈利之和 × 系统需分摊总金额 × 80%」计算。具体的分摊总金额和参与用户盈利总和属于系统内部数据，需要技术部门核查。如您对本次分摊金额有疑问，我们会为您提交核查申请，请耐心等候。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：我根本没有盈利，为什么还被分摊了？</div>
+        <div class="qa-a">
+          <div class="qa-answer">
+          这是最常见的异常投诉场景。根据规则，分摊只扣取<strong>周期内盈利</strong>的用户，若您当时账户整体亏损或仓位已平，理论上不应被分摊。<br><br>
+          <strong>客服核查步骤：</strong><br>
+          ① 查询分摊触发的精确时间（到分钟）<br>
+          ② 确认分摊时刻用户是否仍持有对应合约仓位<br>
+          ③ 确认分摊周期内（1分钟）用户合约账户整体是否盈利<br><br>
+          满足以下任一条件 → 直接判定异常，提交技术核查：<br>
+          ❌ 分摊时刻用户已平仓<br>
+          ❌ 分摊周期内用户整体亏损
+          </div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，根据分摊规则，只有在分摊结算时刻仍持仓且周期内合约账户整体盈利的用户才会被分摊。我已将您的情况记录并提交技术部门核查，核查内容包括：分摊触发时刻您的持仓状态及账户盈亏情况。如经核查确认存在异常，我们将按规定为您处理，请耐心等候，我们会尽快给您答复。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：分摊是针对我个人的吗？平台在故意扣我的钱吗？</div>
+        <div class="qa-a">
+          <div class="qa-answer">
+          不是针对个人，也不是平台扣钱。<br><br>
+          分摊机制是行业内通用的风控规则，目的是避免单一大额穿仓引发平台系统性风险。<strong>平台本身不收取任何分摊费用</strong>，所有分摊金额均在盈利用户之间流转，用于填补穿仓缺口，保护全体用户资金安全。<br><br>
+          平台会优先动用保险基金赔付，只有保险基金不足时才启动分摊，且分摊上限为 80%（保留 20% 给保险基金）。
+          </div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，分摊机制是合约行业的通用风控规则，并非针对您个人，平台也不会从中获利。所有分摊金额在盈利用户之间流转，用于填补极端行情下的穿仓缺口，目的是保护包括您在内的全体用户的资金安全。平台会优先动用保险基金处理，只有在保险基金不足时才会启动分摊。感谢您的理解与支持。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：客服如何判断分摊是否正常？</div>
+        <div class="qa-a">
+          <div class="qa-answer">
+          <strong>第一步：核查基础信息（后台查）</strong><br>
+          · 分摊触发的精确时间（到分钟）<br>
+          · 分摊时刻用户是否仍持仓<br>
+          · 分摊周期内用户合约账户整体盈亏<br><br>
+          <strong>第二步：查询标记价格历史</strong><br>
+          · 查询分摊触发分钟内的标记价格区间（最高价、最低价）<br><br>
+          <strong>第三步：价格对比判断</strong><br>
+          · 多仓用户：开仓均价 ≤ 该分钟标记价最高价 → ✅ 正常（有浮盈）<br>
+          · 多仓用户：开仓均价 > 该分钟标记价最高价 → ❌ 异常（无浮盈却被分摊）<br>
+          · 空仓用户：开仓均价 ≥ 该分钟标记价最低价 → ✅ 正常<br>
+          · 空仓用户：开仓均价 < 该分钟标记价最低价 → ❌ 异常<br><br>
+          异常情况一律反馈技术部门核实。
+          </div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，我已按照标准流程为您核查了本次分摊情况，包括分摊触发时刻您的持仓状态、账户盈亏及对应的标记价格区间。如核查结果显示存在异常，我们将第一时间为您处理并反馈结果；如属正常分摊，我们也会为您详细说明原因。请耐心等候，感谢您的配合。</div>
         </div>
       </div>
 
@@ -3173,6 +3454,13 @@ document.getElementById('modal-overlay').addEventListener('click', e => { if(e.t
 // ═══════════════════════════════════════════════════════════
 // TAB SWITCHING
 // ═══════════════════════════════════════════════════════════
+function toggleDrawerGroup(head) {
+  const items = head.nextElementSibling;
+  const isOpen = head.classList.contains('open');
+  head.classList.toggle('open', !isOpen);
+  items.classList.toggle('open', !isOpen);
+}
+
 function openDrawer() {
   document.getElementById('mob-drawer').classList.add('open');
   document.getElementById('mob-overlay').style.display = 'block';
@@ -3567,8 +3855,8 @@ const GROUP_TABS = {
   basic:  { tabs:['pnl','liq','open'],       first:'pnl'         },
   margin: { tabs:['margin','contract-rules'],  first:'margin'      },
   fee:    { tabs:['tradefee','fund'],         first:'tradefee'    },
-  check:  { tabs:['adl','closecheck'],                    first:'adl'     },
-  qa:     { tabs:['qa-liq','qa-adl','qa-fee','qa-margin'], first:'qa-liq'  },
+  check:  { tabs:['adl','closecheck','sharecheck'], first:'adl' },
+  qa:     { tabs:['qa-liq','qa-adl','qa-fee','qa-margin','qa-share'], first:'qa-liq'  },
 };
 function switchGroup(group, btn) {
   document.querySelectorAll('.topnav-btn').forEach(b => b.classList.remove('active'));
@@ -3757,7 +4045,8 @@ function setCT(mod, t, btn) {
   }
 }
 function setDir(mod, d) {
-  if(S[mod]) S[mod].dir=d;
+  if(mod === 'sc') S_sc.dir = d;
+  else if(S[mod]) S[mod].dir = d;
   const lb=document.getElementById(mod+'-dlong'), sb=document.getElementById(mod+'-dshort');
   if(lb) lb.className='seg-btn'+(d==='long'?' active-long':'');
   if(sb) sb.className='seg-btn'+(d==='short'?' active-short':'');
@@ -4479,6 +4768,17 @@ buildDrop('open-drop', c => {
 buildDrop('adl-drop', c => {
   setSelCoin('adl', c.sym);
   loadForAdl(c.id, c.sym);
+});
+buildDrop('sc-drop', c => {
+  setSelCoin('sc', c.sym);
+  scContractId = c.id;
+  scFace = c.face || 1;
+  scSym  = c.sym;
+  document.getElementById('sc-qty-u').textContent = scQtyMode === 'zhang' ? '张' : c.sym;
+  const faceDisp = document.getElementById('sc-face-display');
+  const faceU    = document.getElementById('sc-face-u');
+  if (faceDisp) faceDisp.textContent = c.face;
+  if (faceU)    faceU.textContent    = c.sym;
 });
 buildDrop('mp-drop', c => {
   setSelCoin('mp', c.sym);
@@ -5815,6 +6115,19 @@ window.addEventListener('DOMContentLoaded', () => {
   const tfFaceU    = document.getElementById('tf-face-u');
   if (tfFaceDisp) tfFaceDisp.textContent = btc.face;
   if (tfFaceU)    tfFaceU.textContent    = btc.sym;
+  // 分摊核查默认 BTC
+  setSelCoin('sc', btc.sym);
+  scContractId = btc.id;
+  scFace = btc.face;
+  scSym  = btc.sym;
+  const scQtyU     = document.getElementById('sc-qty-u');
+  const scFaceDisp = document.getElementById('sc-face-display');
+  const scFaceU2   = document.getElementById('sc-face-u');
+  if (scQtyU)     scQtyU.textContent     = btc.sym;
+  if (scFaceDisp) scFaceDisp.textContent = btc.face;
+  if (scFaceU2)   scFaceU2.textContent   = btc.sym;
+  // 默认添加第一条时间行
+  addShareTime();
   // chk-fee-sel fixed to Taker 0.0375
   updateFeeDisp('cc-fee');
   buildDrop('cc-drop', c => {
@@ -5982,6 +6295,506 @@ function doCloseCheck() {
   if (!wouldLiq) {
   } else {
   }
+}
+// ═══════════════════════════════════════════════════════════
+// SHARE CHECK (分摊核查)
+// ═══════════════════════════════════════════════════════════
+const MARK_KLINE_URL = 'https://futures.crabx.com/fe-co-api/v1/common/tag-price-kline';
+let scContractId = null;
+let scFace       = 1;
+let scSym        = 'BTC';
+let scTimeCount  = 0;
+let scQtyMode    = 'coin';
+const S_sc = { dir: 'long' };
+
+function setScQtyMode(mode) {
+  scQtyMode = mode;
+  const coinBtn  = document.getElementById('sc-qty-coin');
+  const zhangBtn = document.getElementById('sc-qty-zhang');
+  const qtyU     = document.getElementById('sc-qty-u');
+  const faceHint = document.getElementById('sc-face-hint');
+  if (mode === 'coin') {
+    if (coinBtn)  { coinBtn.style.background  = 'var(--orange)'; coinBtn.style.color = '#fff'; }
+    if (zhangBtn) { zhangBtn.style.background = '#fff'; zhangBtn.style.color = 'var(--text3)'; }
+    if (qtyU)     qtyU.textContent = scSym;
+    if (faceHint) faceHint.style.display = 'none';
+  } else {
+    if (coinBtn)  { coinBtn.style.background  = '#fff'; coinBtn.style.color = 'var(--text3)'; }
+    if (zhangBtn) { zhangBtn.style.background = 'var(--orange)'; zhangBtn.style.color = '#fff'; }
+    if (qtyU)     qtyU.textContent = '张';
+    if (faceHint) faceHint.style.display = '';
+  }
+}
+
+
+// ─── 自定义日期时间选择器 ───
+let scPickerUid = null; // 当前打开的 picker 对应的 uid
+
+function addShareTime() {
+  const list = document.getElementById('sc-times-list');
+  const uid  = Date.now();
+  const count = list.children.length;
+  const isFirst = count === 0;
+  const displayNum = count + 1;
+
+  const bj  = new Date(new Date().getTime() + 8 * 3600 * 1000);
+  const pad = n => String(n).padStart(2,'0');
+
+  const row = document.createElement('div');
+  row.id = `sc-time-${uid}`;
+  row.dataset.y = bj.getUTCFullYear();
+  row.dataset.mo = bj.getUTCMonth() + 1;
+  row.dataset.d  = bj.getUTCDate();
+  row.dataset.h  = bj.getUTCHours();
+  row.dataset.m  = bj.getUTCMinutes();
+  row.dataset.s  = bj.getUTCSeconds();
+  row.style.cssText = 'display:flex;align-items:center;gap:10px;position:relative;' + (isFirst?'':'animation:fadein 0.25s cubic-bezier(0.22,1,0.36,1);');
+
+  const dateStr = `${bj.getUTCFullYear()}-${pad(bj.getUTCMonth()+1)}-${pad(bj.getUTCDate())}`;
+  const timeStr = `${pad(bj.getUTCHours())}:${pad(bj.getUTCMinutes())}:${pad(bj.getUTCSeconds())}`;
+
+  row.innerHTML = `
+    ${!isFirst ? `<span class="sc-time-num" style="font-size:11px;font-weight:700;color:var(--text3);min-width:20px;text-align:right;flex-shrink:0">#${displayNum}</span>` : ''}
+    <div style="flex:1;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--border);border-radius:var(--r-sm);background:var(--white);cursor:pointer;transition:border-color 0.2s;min-height:44px"
+      onclick="openScPicker('${uid}',this)"
+      id="sc-display-${uid}">
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:10px;padding:9px 14px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" style="flex-shrink:0"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span id="sc-date-label-${uid}" style="font-size:13px;font-weight:600;color:var(--text1);font-family:'Inter',-apple-system,sans-serif">${dateStr}</span>
+        <span style="color:var(--border2);font-size:13px">|</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span id="sc-time-label-${uid}" style="font-size:13px;font-weight:600;color:var(--orange-dark);font-family:'Inter',-apple-system,sans-serif;letter-spacing:0.02em">${timeStr}</span>
+      </div>
+      <div style="padding:0 8px;min-width:24px;text-align:center;font-size:13px" id="sc-time-status-${uid}"></div>
+    </div>
+    ${!isFirst ? `<button class="sc-del-btn" onclick="removeShareTime('${uid}')"
+      style="width:32px;height:32px;border:none;background:#f3f4f6;border-radius:var(--r-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);flex-shrink:0;transition:all 0.18s"
+      onmouseover="this.style.background='#fef2f2';this.style.color='var(--red)'"
+      onmouseout="this.style.background='#f3f4f6';this.style.color='var(--text3)'">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>` : ''}
+  `;
+  list.appendChild(row);
+}
+
+function openScPicker(uid, anchor) {
+  // 关闭已有
+  closeScPicker();
+  scPickerUid = uid;
+  const row = document.getElementById(`sc-time-${uid}`);
+  const y   = +row.dataset.y, mo = +row.dataset.mo, d = +row.dataset.d;
+  const h   = +row.dataset.h, m  = +row.dataset.m,  s = +row.dataset.s;
+
+  const picker = document.createElement('div');
+  picker.id = 'sc-picker';
+  picker.style.cssText = 'position:absolute;left:0;top:calc(100% + 6px);z-index:9999;background:var(--white);border:1.5px solid var(--border);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,0.12);width:260px;overflow:hidden;animation:dropin 0.2s cubic-bezier(0.22,1,0.36,1)';
+
+  picker.innerHTML = `
+    <div style="padding:10px 10px 0">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <button onclick="scNavMonth(-1)" style="border:none;background:none;cursor:pointer;padding:3px 7px;border-radius:6px;color:var(--text2);font-size:15px;transition:background 0.15s" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">‹</button>
+        <span id="sc-cal-title" style="font-size:12px;font-weight:700;color:var(--text1)"></span>
+        <button onclick="scNavMonth(1)" style="border:none;background:none;cursor:pointer;padding:3px 7px;border-radius:6px;color:var(--text2);font-size:15px;transition:background 0.15s" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">›</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:3px">
+        ${['一','二','三','四','五','六','日'].map(d=>`<div style="text-align:center;font-size:10px;font-weight:700;color:var(--text3);padding:2px 0">${d}</div>`).join('')}
+      </div>
+      <div id="sc-cal-days" style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;margin-bottom:8px"></div>
+    </div>
+    <div style="height:1px;background:var(--border2)"></div>
+    <div style="padding:10px 10px 12px">
+      <div style="display:flex;align-items:center;gap:4px;justify-content:center">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <div style="display:flex;align-items:center;gap:3px">
+          <select id="sc-ph" onchange="scTimeChange()" style="border:1.5px solid var(--border);border-radius:6px;background:var(--white);font-size:13px;font-weight:700;color:var(--text1);padding:4px 2px;text-align:center;cursor:pointer;outline:none;width:44px"></select>
+          <span style="font-size:14px;font-weight:700;color:var(--text3)">:</span>
+          <select id="sc-pm" onchange="scTimeChange()" style="border:1.5px solid var(--border);border-radius:6px;background:var(--white);font-size:13px;font-weight:700;color:var(--text1);padding:4px 2px;text-align:center;cursor:pointer;outline:none;width:44px"></select>
+          <span style="font-size:14px;font-weight:700;color:var(--text3)">:</span>
+          <select id="sc-ps" onchange="scTimeChange()" style="border:1.5px solid var(--border);border-radius:6px;background:var(--white);font-size:13px;font-weight:700;color:var(--text1);padding:4px 2px;text-align:center;cursor:pointer;outline:none;width:44px"></select>
+        </div>
+      </div>
+      <div style="margin-top:8px;text-align:center;font-size:10px;color:var(--text3)">点击外部区域自动保存</div>
+    </div>
+  `;
+
+  // 追加到行容器
+  row.style.position = 'relative';
+  row.appendChild(picker);
+
+  // 时分秒选项
+  const pad = n => String(n).padStart(2,'0');
+  const ph = document.getElementById('sc-ph');
+  const pm = document.getElementById('sc-pm');
+  const ps = document.getElementById('sc-ps');
+  for(let i=0;i<24;i++) { const o=document.createElement('option'); o.value=i; o.textContent=pad(i); if(i===h) o.selected=true; ph.appendChild(o); }
+  for(let i=0;i<60;i++) { const o=document.createElement('option'); o.value=i; o.textContent=pad(i); if(i===m) o.selected=true; pm.appendChild(o); }
+  for(let i=0;i<60;i++) { const o=document.createElement('option'); o.value=i; o.textContent=pad(i); if(i===s) o.selected=true; ps.appendChild(o); }
+
+  // 渲染日历
+  picker.dataset.viewY  = y;
+  picker.dataset.viewMo = mo;
+  picker.dataset.selD   = d;
+  scRenderCal(y, mo, d);
+
+  // 点外面关闭
+  setTimeout(() => {
+    document.addEventListener('click', scOutsideClick, true);
+  }, 10);
+}
+
+function scOutsideClick(e) {
+  const picker = document.getElementById('sc-picker');
+  if (picker && !picker.contains(e.target)) {
+    const uid = scPickerUid;
+    const displayEl = uid ? document.getElementById(`sc-display-${uid}`) : null;
+    if (displayEl && displayEl.contains(e.target)) return;
+    confirmScPicker(); // 点外面自动保存
+  }
+}
+
+function closeScPicker() {
+  const picker = document.getElementById('sc-picker');
+  if (picker) picker.remove();
+  document.removeEventListener('click', scOutsideClick, true);
+  scPickerUid = null;
+}
+
+function scRenderCal(y, mo, selD) {
+  const picker = document.getElementById('sc-picker');
+  if (!picker) return;
+  const months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+  document.getElementById('sc-cal-title').textContent = `${months[mo-1]} ${y}`;
+
+  const container = document.getElementById('sc-cal-days');
+  container.innerHTML = '';
+
+  const firstDay = new Date(y, mo-1, 1).getDay(); // 0=Sun
+  const daysInMonth = new Date(y, mo, 0).getDate();
+  const offset = firstDay === 0 ? 6 : firstDay - 1; // 周一为第一列
+
+  const today = new Date(new Date().getTime() + 8*3600*1000);
+  const todayY = today.getUTCFullYear(), todayMo = today.getUTCMonth()+1, todayD = today.getUTCDate();
+
+  // 空格
+  for(let i=0;i<offset;i++) {
+    const blank = document.createElement('div');
+    container.appendChild(blank);
+  }
+
+  for(let d=1;d<=daysInMonth;d++) {
+    const btn = document.createElement('button');
+    const isSel   = (d === selD);
+    const isToday = (d === todayD && mo === todayMo && y === todayY);
+    const isFuture = new Date(y, mo-1, d) > new Date(todayY, todayMo-1, todayD);
+
+    btn.textContent = d;
+    btn.style.cssText = `border:none;border-radius:5px;width:100%;aspect-ratio:1;font-size:11px;font-weight:${isToday?'700':'500'};cursor:${isFuture?'default':'pointer'};transition:background 0.12s;
+      background:${isSel?'var(--orange)':'transparent'};
+      color:${isSel?'#fff': isFuture?'var(--border)': isToday?'var(--orange-dark)':'var(--text1)'};
+      outline:${isToday&&!isSel?'1.5px solid var(--orange)':'none'};outline-offset:-1px`;
+
+    if (!isFuture) {
+      btn.onclick = () => scSelectDay(d);
+      if (!isSel) {
+        btn.onmouseover = () => { btn.style.background='var(--orange-light)'; };
+        btn.onmouseout  = () => { btn.style.background='transparent'; };
+      }
+    }
+    container.appendChild(btn);
+  }
+  picker.dataset.viewY  = y;
+  picker.dataset.viewMo = mo;
+}
+
+function scNavMonth(dir) {
+  const picker = document.getElementById('sc-picker');
+  if (!picker) return;
+  let y = +picker.dataset.viewY, mo = +picker.dataset.viewMo;
+  mo += dir;
+  if (mo > 12) { mo=1; y++; }
+  if (mo < 1)  { mo=12; y--; }
+  const selD = +picker.dataset.selD || 1;
+  scRenderCal(y, mo, selD);
+}
+
+function scSelectDay(d) {
+  const picker = document.getElementById('sc-picker');
+  if (!picker) return;
+  picker.dataset.selD = d;
+  const y = +picker.dataset.viewY, mo = +picker.dataset.viewMo;
+  scRenderCal(y, mo, d);
+  // 更新行数据
+  if (scPickerUid) {
+    const row = document.getElementById(`sc-time-${scPickerUid}`);
+    if (row) { row.dataset.y=y; row.dataset.mo=mo; row.dataset.d=d; }
+  }
+}
+
+function scTimeChange() {
+  if (!scPickerUid) return;
+  const row = document.getElementById(`sc-time-${scPickerUid}`);
+  if (!row) return;
+  row.dataset.h = document.getElementById('sc-ph').value;
+  row.dataset.m = document.getElementById('sc-pm').value;
+  row.dataset.s = document.getElementById('sc-ps').value;
+}
+
+function confirmScPicker() {
+  if (!scPickerUid) return;
+  const uid = scPickerUid;
+  const row = document.getElementById(`sc-time-${uid}`);
+  if (!row) { closeScPicker(); return; }
+
+  // 同步时间选择
+  const h = +document.getElementById('sc-ph').value;
+  const m = +document.getElementById('sc-pm').value;
+  const s = +document.getElementById('sc-ps').value;
+  row.dataset.h = h; row.dataset.m = m; row.dataset.s = s;
+
+  const pad = n => String(n).padStart(2,'0');
+  const y=+row.dataset.y, mo=+row.dataset.mo, d=+row.dataset.d;
+  const dateStr = `${y}-${pad(mo)}-${pad(d)}`;
+  const timeStr = `${pad(h)}:${pad(m)}:${pad(s)}`;
+
+  const dateLabel = document.getElementById(`sc-date-label-${uid}`);
+  const timeLabel = document.getElementById(`sc-time-label-${uid}`);
+  if (dateLabel) dateLabel.textContent = dateStr;
+  if (timeLabel) timeLabel.textContent = timeStr;
+
+  // 高亮边框
+  const display = document.getElementById(`sc-display-${uid}`);
+  if (display) { display.style.borderColor='var(--orange)'; setTimeout(()=>{display.style.borderColor='var(--border)';},600); }
+
+  closeScPicker();
+}
+
+function removeShareTime(uid) {
+  const list = document.getElementById('sc-times-list');
+  if (list.children.length <= 1) return;
+  if (scPickerUid === uid) closeScPicker();
+  const row = document.getElementById(`sc-time-${uid}`);
+  if (row) row.remove();
+  const rows = Array.from(list.children);
+  const onlyOne = rows.length === 1;
+  rows.forEach((r, i) => {
+    const numEl  = r.querySelector('.sc-time-num');
+    const delBtn = r.querySelector('.sc-del-btn');
+    if (onlyOne) {
+      if (numEl)  numEl.remove();
+      if (delBtn) delBtn.remove();
+    } else {
+      if (numEl) numEl.textContent = `#${i+1}`;
+    }
+  });
+}
+
+async function fetchMarkKline(contractId, localMinuteStr) {
+  // localMinuteStr 格式: "YYYY-MM-DD HH:mm:ss"（北京时间）
+  // beginTime = 该分钟的 UTC 毫秒时间戳
+  const beginTime = new Date(localMinuteStr.replace(' ', 'T') + '+08:00').getTime();
+  const payload = { contractId, beginTime, uaTime: localMinuteStr };
+  const res = await fetch(MARK_KLINE_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  const text = await res.text();
+  let data;
+  try { data = JSON.parse(text); } catch { return null; }
+  // 兼容多种返回格式
+  const rec = data?.data?.records?.[0] || data?.data?.[0] || data?.records?.[0] || null;
+  if (!rec) return null;
+  return rec;
+}
+
+// 将北京时间字符串标准化到分钟 "YYYY-MM-DD HH:mm:00"
+function normalizeToMinuteBJ(bjTimeStr) {
+  const s = bjTimeStr.trim().replace('T', ' ');
+  const [datePart, timePart] = s.split(' ');
+  const [hh, mm] = timePart.split(':');
+  return `${datePart} ${hh}:${mm}:00`;
+}
+
+// 下一分钟（北京时间字符串）
+function nextMinuteBJ(minuteStr) {
+  const ms = new Date(minuteStr.replace(' ', 'T') + '+08:00').getTime();
+  const next = new Date(ms + 60000);
+  const bj  = new Date(next.getTime() + 8 * 3600 * 1000);
+  const pad = n => String(n).padStart(2,'0');
+  return `${bj.getUTCFullYear()}-${pad(bj.getUTCMonth()+1)}-${pad(bj.getUTCDate())} ${pad(bj.getUTCHours())}:${pad(bj.getUTCMinutes())}:00`;
+}
+
+// 前一分钟（北京时间字符串）
+function prevMinuteBJ(minuteStr) {
+  const ms = new Date(minuteStr.replace(' ', 'T') + '+08:00').getTime();
+  const prev = new Date(ms - 60000);
+  const bj  = new Date(prev.getTime() + 8 * 3600 * 1000);
+  const pad = n => String(n).padStart(2,'0');
+  return `${bj.getUTCFullYear()}-${pad(bj.getUTCMonth()+1)}-${pad(bj.getUTCDate())} ${pad(bj.getUTCHours())}:${pad(bj.getUTCMinutes())}:00`;
+}
+
+// 获取秒数
+function getSeconds(timeStr) {
+  const s = timeStr.trim().replace('T', ' ');
+  const timePart = s.split(' ')[1] || '';
+  const parts = timePart.split(':');
+  return parts.length >= 3 ? parseInt(parts[2]) || 0 : 0;
+}
+
+async function doShareCheck() {
+  const qtyRaw = +document.getElementById('sc-qty').value;
+  const long   = S_sc.dir === 'long';
+
+  if (!qtyRaw)       { showModal('缺少输入', '请填写持仓数量'); return; }
+  if (!scContractId) { showModal('缺少输入', '请先选择合约'); return; }
+
+  const qty      = scQtyMode === 'zhang' ? mulSafe(qtyRaw, scFace) : qtyRaw;
+  const qtyLabel = scQtyMode === 'zhang'
+    ? `${qtyRaw}张 × 面值${scFace} = ${fmt(qty,6)} ${scSym}`
+    : `${fmt(qty,6)} ${scSym}`;
+
+  // 读取所有时间行（直接取 list 子元素）
+  const list2 = document.getElementById('sc-times-list');
+  const timeRowEls = list2 ? Array.from(list2.children) : [];
+  if (!timeRowEls.length) { showModal('缺少输入', '请至少添加一条分摊触发时间'); return; }
+
+  const btn = document.querySelector('#tab-sharecheck .calc-btn');
+  if (btn) { btn.textContent = '查 询 中...'; btn.disabled = true; }
+
+  const resultsList = document.getElementById('sc-results-list');
+  resultsList.innerHTML = '';
+
+  let allNormal = true;
+  let hasError  = false;
+  const formulaLines = [
+    fCmt(`分摊核查 · ${scSym}-USDT · ${long?'做多':'做空'}`),
+    fCmt(`持仓数量：${qtyLabel}`),
+    fCmt('浮盈公式：(本次分钟 Close - 前次分钟 Close) × 数量(币) × 方向'),
+    fCmt('分钟判断：秒=0 → 本次=该分钟；秒>0 → 本次=下一分钟（该分钟K线未结束）'),
+    fCmt(''),
+  ];
+
+  for (const rowEl of timeRowEls) {
+    const uid      = rowEl.id.replace('sc-time-','');
+    const statusEl = document.getElementById(`sc-time-status-${uid}`);
+    const y  = rowEl.dataset.y  || '';
+    const mo = rowEl.dataset.mo || '';
+    const d  = rowEl.dataset.d  || '';
+    const h  = rowEl.dataset.h  || '0';
+    const m  = rowEl.dataset.m  || '0';
+    const s  = rowEl.dataset.s  || '0';
+    if (!y) continue;
+
+    const pad2 = n => String(n).padStart(2,'0');
+    const timeStr = `${y}-${pad2(mo)}-${pad2(d)} ${pad2(h)}:${pad2(m)}:${pad2(s)}`;
+
+    if (statusEl) statusEl.textContent = '查询中...';
+    try {
+      const seconds    = getSeconds(timeStr);
+      const thisMinStr = normalizeToMinuteBJ(timeStr);
+
+      // 关键逻辑：
+      // 秒数 = 0 → 本次分钟 = 该分钟，前次 = 上一分钟
+      // 秒数 > 0 → 该分钟K线未结束，本次分钟 = 下一分钟，前次 = 该分钟
+      let currMinStr, prevMinStr, logicNote;
+      if (seconds === 0) {
+        currMinStr = thisMinStr;                    // 21:44
+        prevMinStr = prevMinuteBJ(thisMinStr);      // 21:43
+        logicNote  = `秒=0，本次=${currMinStr.slice(11,16)}，前次=${prevMinStr.slice(11,16)}`;
+      } else {
+        currMinStr = nextMinuteBJ(thisMinStr);      // 21:45（44分钟K线结束后）
+        prevMinStr = prevMinuteBJ(thisMinStr);      // 21:43（永远是输入分钟的上一分钟）
+        logicNote  = `秒=${seconds}>0，本次=${currMinStr.slice(11,16)}，前次=${prevMinStr.slice(11,16)}`;
+      }
+
+      const [kline, klinePrev] = await Promise.all([
+        fetchMarkKline(scContractId, currMinStr),
+        fetchMarkKline(scContractId, prevMinStr)
+      ]);
+
+      const timeLabel = currMinStr.slice(0,16);
+      const prevLabel = prevMinStr.slice(0,16);
+      const card = document.createElement('div');
+      card.style.cssText = 'border:1px solid var(--border2);border-radius:var(--r-sm);overflow:hidden;';
+
+      if (!kline || !klinePrev) {
+        card.innerHTML = `
+          <div style="background:#fef2f2;padding:12px 16px;display:flex;align-items:center;gap:10px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--red)">⚠ API 查询失败</div>
+              <div style="font-size:12px;color:var(--text3);margin-top:2px">${timeLabel}</div>
+            </div>
+          </div>`;
+        hasError = true; allNormal = false;
+        if (statusEl) statusEl.textContent = '❌';
+        formulaLines.push(fCmt(`[${timeLabel}] ⚠ 查询失败`));
+      } else {
+        const curClose  = kline.close;
+        const prevClose = klinePrev.close;
+        const dir       = long ? 1 : -1;
+        const pnl       = (curClose - prevClose) * qty * dir;
+        card.dataset.pnl = pnl;
+        const isNormal  = pnl > 0;
+        if (!isNormal) allNormal = false;
+
+        const statusColor = isNormal ? 'var(--green)' : 'var(--red)';
+        const statusBg    = isNormal ? '#f0fdf4' : '#fef2f2';
+        const verdict     = isNormal ? '✅ 正常（周期内有浮盈）' : '❌ 异常（周期内无浮盈）';
+
+        card.innerHTML = `
+          <div style="background:${statusBg};padding:12px 16px;border-bottom:1px solid var(--border2)">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+              <div>
+                <div style="font-size:13px;font-weight:700;color:${statusColor}">${verdict}</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:2px">${timeStr.slice(0,16)}:${String(seconds).padStart(2,'0')} · ${logicNote} · ${long?'做多':'做空'} ${scSym}</div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-size:11px;color:var(--text3)">该分钟浮盈</div>
+                <div style="font-size:15px;font-weight:700;font-family:'Inter',-apple-system,sans-serif;color:${pnl>0?'var(--green)':'var(--red)'}">${pnl>0?'+':''}${fmt(pnl,4)} USDT</div>
+              </div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:10px 16px;gap:8px;font-size:12px">
+            <div><div style="color:var(--text3);margin-bottom:2px">前次分钟 Close（${prevMinStr.slice(11,16)}）</div><div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;color:var(--text1)">${fmt(prevClose,6)}</div></div>
+            <div><div style="color:var(--text3);margin-bottom:2px">本次分钟 Close（${currMinStr.slice(11,16)}）</div><div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;color:var(--text1)">${fmt(curClose,6)}</div></div>
+            <div><div style="color:var(--text3);margin-bottom:2px">浮盈计算</div><div style="font-weight:600;color:${statusColor};font-size:11px">(${fmt(curClose,4)} - ${fmt(prevClose,4)}) × ${fmt(qty,4)} × ${long?'1':'-1'}</div></div>
+          </div>
+          ${!isNormal ? `<div style="background:#fef2f2;padding:8px 16px;font-size:12px;color:var(--red);border-top:1px solid #fecaca">⚠ 该分钟浮盈 ≤ 0，不应被分摊，建议提交技术核查</div>` : ''}
+        `;
+        if (statusEl) statusEl.textContent = isNormal ? '✅' : '❌';
+
+        formulaLines.push(
+          fCmt(`─── ${timeStr.slice(0,19)} → ${logicNote} ───`),
+          fLine(`前次分钟 Close (${prevMinStr.slice(11,16)})`, '标记价 K 线', fmt(prevClose,6)+' USDT'),
+          fLine(`本次分钟 Close (${currMinStr.slice(11,16)})`, '标记价 K 线', fmt(curClose,6)+' USDT'),
+          fLine('价格变动', `${fmt(curClose,6)} - ${fmt(prevClose,6)}`, fmt(curClose-prevClose,6)+' USDT'),
+          fLine('该分钟浮盈', `${fmt(curClose-prevClose,6)} × ${fmt(qty,4)} × ${long?'1（做多）':'-1（做空）'}`, (pnl>0?'+':'')+fmt(pnl,4)+' USDT'),
+          fCmt(isNormal ? '→ 浮盈 > 0，分摊正常 ✅' : '→ 浮盈 ≤ 0，分摊异常 ❌'),
+          fCmt(''),
+        );
+      }
+      resultsList.appendChild(card);
+    } catch(e) {
+      hasError = true; allNormal = false;
+      if (statusEl) statusEl.textContent = '❌';
+    }
+  }
+
+  if (resultsList.children.length > 1) {
+    const summary = document.createElement('div');
+    summary.style.cssText = `padding:12px 16px;border-radius:var(--r-sm);font-size:13px;font-weight:700;text-align:center;background:${allNormal&&!hasError?'#f0fdf4':'#fef2f2'};color:${allNormal&&!hasError?'var(--green)':'var(--red)'}`;
+    summary.textContent = allNormal && !hasError
+      ? `✅ 全部 ${resultsList.children.length} 条分摊核查正常`
+      : `⚠ 存在异常分摊记录，建议提交技术核查`;
+    resultsList.appendChild(summary);
+  }
+
+  formulaLines.push(fCmt('★ 标记价格数据来自 API，可能与实际分摊时存在细微差异，最终以技术核查为准。'));
+  setFB('sharecheck', formulaLines.join(''));
+
+  if (btn) { btn.textContent = '核 查 分 摊 是 否 正 常'; btn.disabled = false; }
+  showRS('sharecheck');
 }
 let adlQtyMode    = 'coin'; // 'coin' | 'zhang'
 let adlReduceMode = 'coin';
