@@ -62,7 +62,7 @@ input  { font-family:inherit; }
   padding:6px 16px; border:none; background:transparent;
   font-size:13px; font-weight:600; color:var(--text2);
   border-bottom:2px solid transparent; cursor:pointer;
-  transition:all 0.15s; position:relative; top:1px;
+  transition:color 0.2s, border-color 0.2s; position:relative; top:1px;
 }
 .topnav-btn:hover { color:var(--text1); }
 .topnav-btn.active { color:var(--orange-dark); border-bottom-color:var(--orange); }
@@ -89,8 +89,8 @@ input  { font-family:inherit; }
   display:flex; align-items:center; gap:12px;
   width:100%; padding:13px 16px;
   border:none; background:transparent;
-  color:var(--text2); text-align:left;
-  transition:all 0.15s; border-left:3px solid transparent;
+  color:var(--text2); text-align:left; cursor:pointer;
+  transition:background 0.18s, color 0.18s, border-color 0.18s; border-left:3px solid transparent;
 }
 .side-btn:hover { background:var(--bg); color:var(--text1); }
 .side-btn.active { background:var(--orange-light); color:var(--orange-dark); font-weight:600; border-left-color:var(--orange); }
@@ -187,8 +187,102 @@ input  { font-family:inherit; }
    PANEL
 ═══════════════════════════════════════════════════ */
 .panel { display:none; }
-.panel.active { display:block; animation:fadein 0.2s ease; }
-@keyframes fadein { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
+.panel.active { display:block; animation:fadein 0.35s cubic-bezier(0.22,1,0.36,1); }
+/* ═══════════════════════════════════════════════════
+   Q&A STYLES
+═══════════════════════════════════════════════════ */
+.qa-list { display:flex; flex-direction:column; gap:12px; }
+
+/* Q&A 手机端分类切换 */
+.qa-mobile-tabs {
+  display:none;
+  gap:6px;
+  flex-wrap:wrap;
+  padding:12px 0 4px;
+}
+.qa-mobile-tab {
+  padding:6px 12px;
+  border:1.5px solid var(--border);
+  border-radius:20px;
+  background:var(--white);
+  font-size:12px;
+  font-weight:600;
+  color:var(--text2);
+  cursor:pointer;
+  transition:all 0.15s;
+}
+.qa-mobile-tab:hover  { border-color:var(--orange); color:var(--orange-dark); }
+.qa-mobile-tab.active { border-color:var(--orange); background:var(--orange); color:#fff; }
+@media(max-width:900px) {
+  .qa-mobile-tabs { display:flex; }
+}
+
+.qa-item {
+  border:1px solid var(--border); border-radius:var(--r);
+  overflow:hidden;
+}
+
+.qa-q {
+  padding:14px 16px;
+  font-size:13.5px; font-weight:700; color:var(--text1);
+  background:var(--white); cursor:pointer;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  user-select:none; transition:background 0.2s, color 0.2s;
+}
+.qa-q::after {
+  content:'▾'; font-size:14px; color:var(--text3);
+  flex-shrink:0; transition:transform 0.25s cubic-bezier(0.34,1.3,0.64,1);
+}
+.qa-q.open { color:var(--orange-dark); background:var(--orange-light); }
+.qa-q.open::after { transform:rotate(180deg); color:var(--orange); }
+
+.qa-a {
+  display:none; padding:14px 16px;
+  border-top:1px solid var(--border2);
+  background:#fafbfc;
+}
+.qa-a.show { display:block; animation:fadein 0.35s cubic-bezier(0.22,1,0.36,1); }
+.qa-a.closing { display:block; animation:fadeout 0.2s ease forwards; }
+
+.qa-answer {
+  font-size:13px; color:var(--text2); line-height:1.8;
+  margin-bottom:12px;
+}
+.qa-answer strong { color:var(--text1); }
+
+.qa-script-label {
+  font-size:11px; font-weight:700; color:var(--orange-dark);
+  margin-bottom:6px; letter-spacing:0.04em;
+}
+
+.qa-script {
+  font-size:13px; color:#374151; line-height:1.8;
+  background:var(--white); border:1px solid var(--orange-mid);
+  border-radius:var(--r-sm); padding:12px 14px;
+  position:relative;
+}
+
+.qa-copy-btn {
+  display:inline-flex; align-items:center; gap:4px;
+  margin-top:8px; padding:5px 12px;
+  border:1.5px solid var(--orange); border-radius:6px;
+  background:var(--orange-light); color:var(--orange-dark);
+  font-size:12px; font-weight:700; cursor:pointer;
+  transition:all 0.15s;
+}
+.qa-copy-btn:hover { background:var(--orange); color:#fff; }
+
+@keyframes fadein      { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeout     { from{opacity:1;transform:translateY(0)} to{opacity:0;transform:translateY(10px)} }
+@keyframes fadeup      { from{opacity:0;transform:translateY(28px) scale(0.95)} to{opacity:1;transform:translateY(0) scale(1)} }
+@keyframes fadedown    { from{opacity:1;transform:translateY(0) scale(1)} to{opacity:0;transform:translateY(20px) scale(0.96)} }
+@keyframes fadeoverlay { from{opacity:0} to{opacity:1} }
+@keyframes fadeoverlayout { from{opacity:1} to{opacity:0} }
+@keyframes dropin      { from{opacity:0;transform:translateY(-10px) scale(0.95)} to{opacity:1;transform:translateY(0) scale(1)} }
+@keyframes dropout     { from{opacity:1;transform:translateY(0) scale(1)} to{opacity:0;transform:translateY(-8px) scale(0.96)} }
+@keyframes slidein     { from{opacity:0;transform:translateX(-12px)} to{opacity:1;transform:translateX(0)} }
+@keyframes popin       { 0%{opacity:0;transform:scale(0.85)} 60%{transform:scale(1.04)} 100%{opacity:1;transform:scale(1)} }
+@keyframes ripple-anim { to{transform:scale(1);opacity:0} }
 
 /* ═══════════════════════════════════════════════════
    CARD
@@ -250,8 +344,8 @@ input  { font-family:inherit; }
 .seg-btn {
   flex:1; padding:9px 10px;
   border:none; border-radius:6px; background:transparent;
-  font-size:13px; font-weight:600; color:var(--text3);
-  transition:all 0.18s; white-space:nowrap; text-align:center;
+  font-size:13px; font-weight:600; color:var(--text3); cursor:pointer;
+  transition:background 0.2s, color 0.2s, box-shadow 0.2s; white-space:nowrap; text-align:center;
   display:flex; align-items:center; justify-content:center; gap:5px;
   letter-spacing:-0.01em;
 }
@@ -266,10 +360,11 @@ input  { font-family:inherit; }
   width:36px; height:36px; border-radius:8px;
   font-size:22px; color:var(--text2); line-height:1;
   display:flex; align-items:center; justify-content:center;
-  flex-shrink:0; transition:all 0.15s; user-select:none; font-weight:700; border:none;
+  flex-shrink:0; transition:background 0.18s, color 0.18s, transform 0.12s; user-select:none; font-weight:700; border:none;
   background:#f3f4f6; cursor:pointer;
 }
 .lev-pm:hover { background:var(--orange-light); color:var(--orange); }
+.lev-pm:active { transform:scale(0.92); }
 
 /* clickable number display */
 .lev-display {
@@ -391,20 +486,21 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
 .fee-selector { border:1.5px solid var(--border); border-radius:var(--r-sm); overflow:hidden; background:#fafbfc; }
 .fee-tabs { display:flex; border-bottom:1px solid var(--border); }
 .fee-tab {
-  flex:1; padding:9px 6px; border:none; background:transparent;
+  flex:1; padding:9px 6px; border:none; background:transparent; cursor:pointer;
   font-size:13px; font-weight:600; color:var(--text3);
-  transition:all 0.15s; border-bottom:2px solid transparent; position:relative; top:1px;
+  transition:color 0.18s, background 0.18s, border-color 0.18s; border-bottom:2px solid transparent; position:relative; top:1px;
 }
 .fee-tab.active { color:var(--text1); background:var(--white); border-bottom-color:var(--orange); }
 .fee-panel { display:none; padding:12px 14px 13px; }
-.fee-panel.show { display:block; }
+.fee-panel.show { display:block; animation:fadein 0.25s cubic-bezier(0.22,1,0.36,1); }
 .fee-opts { display:flex; flex-wrap:wrap; gap:8px; }
 .fee-opt {
-  padding:6px 12px; border:1.5px solid var(--border); border-radius:6px;
+  padding:6px 12px; border:1.5px solid var(--border); border-radius:6px; cursor:pointer;
   background:var(--white); font-size:13px; font-weight:600; color:var(--text2);
-  transition:all 0.15s;
+  transition:border-color 0.18s, background 0.18s, color 0.18s, transform 0.12s;
 }
-.fee-opt:hover { border-color:var(--orange); color:var(--orange-dark); }
+.fee-opt:hover { border-color:var(--orange); color:var(--orange-dark); transform:translateY(-1px); }
+.fee-opt:active { transform:scale(0.96); }
 .fee-opt.active { border-color:var(--orange); background:var(--orange-light); color:var(--orange-dark); }
 .fee-footer { padding:8px 14px; background:#f9fafb; border-top:1px solid var(--border2); display:flex; justify-content:space-between; font-size:12px; color:var(--text2); }
 .fee-footer strong { font-family:'Inter',-apple-system,sans-serif; color:var(--text1); font-variant-numeric:tabular-nums; font-weight:600; }
@@ -415,17 +511,18 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
   background:linear-gradient(135deg,var(--orange),var(--orange-dark));
   border:none; border-radius:var(--r-sm);
   font-size:14px; font-weight:700; color:#fff;
-  letter-spacing:0.06em; transition:opacity 0.15s, transform 0.1s;
+  letter-spacing:0.06em; cursor:pointer;
+  transition:opacity 0.2s, transform 0.2s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s;
   box-shadow:0 2px 10px rgba(249,115,22,0.35);
 }
-.calc-btn:hover { opacity:0.92; box-shadow:0 4px 16px rgba(249,115,22,0.45); }
-.calc-btn:active { transform:scale(0.99); opacity:0.85; }
+.calc-btn:hover { opacity:0.95; box-shadow:0 8px 24px rgba(249,115,22,0.55); transform:translateY(-2px); }
+.calc-btn:active { transform:scale(0.97) translateY(0) !important; opacity:0.85; box-shadow:0 2px 8px rgba(249,115,22,0.3); transition-duration:0.08s; }
 
 /* ═══════════════════════════════════════════════════
    RESULT SECTION
 ═══════════════════════════════════════════════════ */
-.result-section { display:none; margin-top:22px; animation:fadein 0.25s ease; }
-.result-section.show { display:block; }
+.result-section { display:none; margin-top:22px; }
+.result-section.show { display:block; animation:fadein 0.45s cubic-bezier(0.22,1,0.36,1); }
 .result-divider { height:1px; background:var(--border2); margin-bottom:16px; }
 .result-label { font-size:10px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:12px; }
 .result-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:16px; }
@@ -434,7 +531,9 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
   background:#fafbfc; border:1px solid var(--border2);
   border-radius:var(--r-sm); padding:13px 14px;
   position:relative; overflow:hidden;
+  transition:transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s;
 }
+.ri:hover { transform:translateY(-3px); box-shadow:0 6px 18px rgba(0,0,0,0.1); }
 .ri::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--orange); }
 .ri.ri-green::before { background:var(--green); }
 .ri.ri-red::before   { background:var(--red); }
@@ -455,10 +554,10 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
   padding:10px 14px; cursor:pointer; user-select:none;
   background:#f7f8fa; border:1px solid var(--border2); border-radius:var(--r-sm);
   font-size:12px; font-weight:600; color:var(--text3);
-  transition:background 0.15s; gap:8px;
+  transition:background 0.2s, color 0.2s; gap:8px;
 }
 .formula-toggle:hover { background:var(--orange-light); color:var(--text2); }
-.formula-toggle svg { width:14px; height:14px; flex-shrink:0; transition:transform 0.2s; }
+.formula-toggle svg { width:14px; height:14px; flex-shrink:0; transition:transform 0.25s cubic-bezier(0.34,1.3,0.64,1); }
 .formula-toggle.open svg.arr { transform:rotate(180deg); }
 .formula-body {
   display:none; background:#f7f8fa;
@@ -466,7 +565,8 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
   border-radius:0 0 var(--r-sm) var(--r-sm);
   padding:12px 16px 14px;
 }
-.formula-body.show { display:block; }
+.formula-body.show { display:block; animation:fadein 0.3s cubic-bezier(0.22,1,0.36,1); }
+.formula-body.closing { display:block; animation:fadeout 0.2s ease forwards; }
 .fl { font-family:'Inter',-apple-system,sans-serif; font-size:12px; line-height:2.1; color:#555; letter-spacing:0; font-variant-numeric:tabular-nums; }
 .fl .fk  { color:#9ca3af; }
 .fl .fv  { color:var(--green); font-weight:700; }
@@ -508,18 +608,79 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
   border:1.5px solid var(--border); border-radius:var(--r-sm);
   padding:9px 13px; background:var(--white); cursor:pointer;
   font-size:13px; font-weight:600; color:var(--text1);
-  transition:border-color 0.15s, box-shadow 0.15s; user-select:none; position:relative;
+  transition:border-color 0.2s, box-shadow 0.2s, background 0.2s; user-select:none; position:relative;
 }
-.mp-sel-box:hover { border-color:var(--orange); }
+.mp-sel-box:hover { border-color:var(--orange); background:#fffbf7; }
 .mp-sel-box.open { border-color:var(--orange); box-shadow:0 0 0 3px rgba(249,115,22,0.12); }
-.mp-sel-box svg.arrow { width:16px; height:16px; color:var(--text3); margin-left:auto; transition:transform 0.2s; }
+.mp-sel-box svg.arrow { width:16px; height:16px; color:var(--text3); margin-left:auto; transition:transform 0.25s cubic-bezier(0.34,1.3,0.64,1); }
 .mp-sel-box.open svg.arrow { transform:rotate(180deg); }
 .mp-dropdown {
   display:none; position:absolute; top:calc(100% + 4px); left:0; right:0;
   background:var(--white); border:1.5px solid var(--border); border-radius:var(--r-sm);
   box-shadow:var(--shadow-md); z-index:400; overflow:hidden;
 }
-.mp-dropdown.open { display:block; }
+.mp-dropdown.open { display:block; animation:dropin 0.28s cubic-bezier(0.22,1,0.36,1); }
+.mp-dropdown.closing { display:block; animation:dropout 0.18s ease forwards; }
+/* body 级别的 fixed 下拉框（脱离父容器裁切） */
+.mp-dropdown-fixed {
+  display:none; position:fixed;
+  background:var(--white); border:1.5px solid var(--border); border-radius:var(--r-sm);
+  box-shadow:var(--shadow-md); z-index:9999; overflow:hidden;
+}
+.mp-dropdown-fixed.open { display:block; }
+
+/* 币种选择器模态框 */
+.coin-picker-overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,0.45); z-index:8000;
+  align-items:center; justify-content:center;
+}
+.coin-picker-overlay.open { display:flex; animation:fadeoverlay 0.25s ease; }
+.coin-picker-overlay.open .coin-picker-modal { animation:fadeup 0.4s cubic-bezier(0.22,1,0.36,1); }
+.coin-picker-overlay.closing { display:flex; animation:fadeoverlayout 0.22s ease forwards; }
+.coin-picker-overlay.closing .coin-picker-modal { animation:fadedown 0.22s ease forwards; }
+.coin-picker-modal {
+  background:var(--white); border-radius:12px;
+  width:min(420px, 92vw); max-height:80vh;
+  display:flex; flex-direction:column;
+  box-shadow:0 20px 60px rgba(0,0,0,0.2);
+  overflow:hidden;
+}
+.coin-picker-head {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 18px 12px;
+  border-bottom:1px solid var(--border2);
+  font-size:15px; font-weight:700; color:var(--text1);
+}
+.coin-picker-close {
+  width:28px; height:28px; border:none; background:#f3f4f6;
+  border-radius:6px; cursor:pointer; display:flex; align-items:center;
+  justify-content:center; color:var(--text3); transition:all 0.15s;
+}
+.coin-picker-close:hover { background:#fee2e2; color:var(--red); }
+.coin-picker-search {
+  display:flex; align-items:center; gap:8px;
+  padding:10px 14px; border-bottom:1px solid var(--border2);
+  background:var(--white);
+}
+.coin-picker-search svg { width:15px; height:15px; color:var(--text3); flex-shrink:0; }
+.coin-picker-search input {
+  flex:1; border:none; outline:none; font-size:14px;
+  color:var(--text1); background:transparent; font-family:'Inter',sans-serif;
+}
+.coin-picker-list {
+  flex:1; overflow-y:auto; padding:4px 0;
+  scrollbar-width:thin;
+}
+.coin-picker-list::-webkit-scrollbar { width:4px; }
+.coin-picker-list::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+.coin-picker-opt {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 16px; cursor:pointer; transition:background 0.1s;
+  font-size:13px; color:var(--text2);
+}
+.coin-picker-opt:hover { background:var(--orange-light); color:var(--orange-dark); }
+.coin-picker-empty { padding:24px; text-align:center; color:var(--text3); font-size:13px; }
 /* search bar inside dropdown */
 .mp-drop-search {
   display:flex; align-items:center; gap:8px;
@@ -587,7 +748,10 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
   align-items:center; justify-content:center; padding:20px;
   backdrop-filter:blur(2px);
 }
-.modal-overlay.show { display:flex; animation:fadein 0.18s ease; }
+.modal-overlay.show { display:flex; animation:fadeoverlay 0.25s ease; }
+.modal-overlay.show .modal { animation:fadeup 0.4s cubic-bezier(0.22,1,0.36,1); }
+.modal-overlay.closing { display:flex; animation:fadeoverlayout 0.22s ease forwards; }
+.modal-overlay.closing .modal { animation:fadedown 0.22s ease forwards; }
 .modal {
   background:var(--white); border-radius:var(--r); max-width:380px; width:100%;
   box-shadow:0 20px 60px rgba(0,0,0,0.2); overflow:hidden;
@@ -701,12 +865,12 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
     <span class="badge">客服专用</span>
   </div>
   <div class="topbar-divider"></div>
-  <div class="topbar-sub">实时保证金参数 · 自动填入</div>
   <nav class="topnav" id="topnav" style="margin-left:16px">
     <button class="topnav-btn active" id="tn-basic"  onclick="switchGroup('basic',this)">基础计算</button>
     <button class="topnav-btn"        id="tn-margin" onclick="switchGroup('margin',this)">保证金</button>
     <button class="topnav-btn"        id="tn-fee"    onclick="switchGroup('fee',this)">手续费</button>
     <button class="topnav-btn"        id="tn-check"  onclick="switchGroup('check',this)">异常核查</button>
+    <button class="topnav-btn"        id="tn-qa"     onclick="switchGroup('qa',this)">Q&amp;A</button>
   </nav>
 </div>
 
@@ -759,6 +923,22 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
     <button class="mob-drawer-item" id="md-closecheck" onclick="drawerNav('closecheck')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 8 12 12 16"/><line x1="16" y1="12" x2="8" y2="12"/></svg>
       平仓异常核查<span class="mob-drawer-item-sub">Close Check</span>
+    </button>
+    <button class="mob-drawer-item" id="md-qa-liq" onclick="drawerNav('qa-liq')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Q&amp;A 爆仓强平<span class="mob-drawer-item-sub">FAQ</span>
+    </button>
+    <button class="mob-drawer-item" id="md-qa-adl" onclick="drawerNav('qa-adl')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Q&amp;A 强制减仓<span class="mob-drawer-item-sub">FAQ</span>
+    </button>
+    <button class="mob-drawer-item" id="md-qa-fee" onclick="drawerNav('qa-fee')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Q&amp;A 手续费资金费<span class="mob-drawer-item-sub">FAQ</span>
+    </button>
+    <button class="mob-drawer-item" id="md-qa-margin" onclick="drawerNav('qa-margin')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Q&amp;A 保证金杠杆<span class="mob-drawer-item-sub">FAQ</span>
     </button>
   </div>
   <div class="mob-drawer-footer">合约计算器 · 客服专用工具</div>
@@ -819,6 +999,26 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
       <button class="side-btn" id="sb-closecheck" onclick="switchTab('closecheck',this)">
         <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 8 12 12 16"/><line x1="16" y1="12" x2="8" y2="12"/></svg>
         <div><div class="sb-label">平仓异常核查</div><div class="sb-sub">Close Order Check</div></div>
+      </button>
+    </div>
+    <!-- Q&A group -->
+    <div id="sg-qa" style="display:none">
+      <div class="sidebar-header">常见问题</div>
+      <button class="side-btn" id="sb-qa-liq" onclick="switchTab('qa-liq',this)">
+        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div><div class="sb-label">爆仓 / 强平</div><div class="sb-sub">Liquidation FAQ</div></div>
+      </button>
+      <button class="side-btn" id="sb-qa-adl" onclick="switchTab('qa-adl',this)">
+        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+        <div><div class="sb-label">强制减仓</div><div class="sb-sub">ADL FAQ</div></div>
+      </button>
+      <button class="side-btn" id="sb-qa-fee" onclick="switchTab('qa-fee',this)">
+        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <div><div class="sb-label">手续费 / 资金费</div><div class="sb-sub">Fee FAQ</div></div>
+      </button>
+      <button class="side-btn" id="sb-qa-margin" onclick="switchTab('qa-margin',this)">
+        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2"/></svg>
+        <div><div class="sb-label">保证金 / 杠杆</div><div class="sb-sub">Margin FAQ</div></div>
       </button>
     </div>
   </div>
@@ -1322,7 +1522,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
             </button>
           </div>
         </div>
-        <div id="chk-positions-list" style="display:flex;flex-direction:column;gap:8px;margin-top:6px;min-width:0;overflow:hidden"></div>
+        <div id="chk-positions-list" style="display:flex;flex-direction:column;gap:8px;margin-top:6px;min-width:0;overflow:visible"></div>
         <div id="chk-positions-total-wrap" style="display:none;margin-top:8px;padding:8px 12px;background:#f7f8fa;border:1px solid var(--border2);border-radius:var(--r-sm);display:flex;justify-content:space-between;align-items:center;font-size:12px">
           <span style="color:var(--text2);font-weight:600">其他仓位维持保证金合计</span>
           <span id="chk-positions-total" style="font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums;font-weight:600;color:var(--orange-dark)">0.000000 USDT</span>
@@ -1367,6 +1567,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
           <div class="formula-body" id="fb-liqcheck"></div>
         </div>
       </div>
+      <!-- 参考话术 -->
     </div>
 
   </div>
@@ -1778,6 +1979,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         </div>
         <div class="formula-body" id="fb-fund"></div>
       </div>
+      <!-- 参考话术 -->
     </div>
   </div>
 </div>
@@ -1864,17 +2066,17 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
     <div class="card-head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg></div>
     <div>
       <h2>强制减仓分析</h2>
-      <p>用于核实用户投诉被强制减仓（ADL）是否合理，根据仓位盈利档位和对手方爆仓情况，判断减仓逻辑是否正常 &nbsp;<span class="api-status loading" id="adl-api-status"><span class="api-dot"></span>加载中</span></p>
+      <p>用于核实用户投诉被强制减仓是否合理，根据专业公式反推理论减仓数量，与实际减仓数量对比验证 &nbsp;<span class="api-status loading" id="adl-api-status"><span class="api-dot"></span>加载中</span></p>
     </div>
   </div>
   <div class="card-body">
 
     <div class="info-chip">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg>
-      当仓位名义价值超过当前档位上限时，系统触发<strong>强制减仓</strong>，将仓位降至下一档上限以内。填入客户的交易记录，系统自动反推触发原因并生成完整公式说明。
+      当仓位名义价值超过当前档位上限时，系统触发<strong>强制减仓</strong>，将仓位降至下一档上限以内。填入客户的持仓与减仓记录，系统自动计算理论减仓数量并与实际对比。
     </div>
 
-    <!-- 合约 -->
+    <!-- 合约 + 方向 -->
     <div class="form-grid" style="margin-bottom:16px">
       <div class="field">
         <div class="field-label">
@@ -1903,29 +2105,57 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
       </div>
     </div>
 
-    <!-- 开仓信息 -->
-    <div class="field-label" style="margin-bottom:8px;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;font-weight:700">① 开仓信息（从开仓记录填写）</div>
-    <div class="form-grid" style="margin-bottom:20px">
+    <!-- ① 持仓信息 -->
+    <div class="field-label" style="margin-bottom:8px;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;font-weight:700">① 持仓信息（从持仓页填写）</div>
+
+    <!-- 第一行：持仓数量 + 标记价格 -->
+    <div class="form-grid" style="margin-bottom:8px">
       <div class="field">
-        <div class="field-label">开仓成交均价</div>
-        <div class="fi"><input type="number" id="adl-entry" placeholder="71.807" step="any"><span class="fi-unit">USDT</span></div>
+        <div class="field-label">
+          持仓数量<span style="font-size:10px;color:var(--text3);font-weight:400"> 持仓页「数量」</span>
+          &nbsp;<span style="display:inline-flex;border:1px solid #e5e7eb;border-radius:5px;overflow:hidden;vertical-align:middle">
+            <button id="adl-qty-coin" onclick="setAdlQtyMode('coin')" style="padding:1px 8px;font-size:11px;font-weight:600;border:none;background:var(--orange);color:#fff;cursor:pointer">币</button>
+            <button id="adl-qty-zhang" onclick="setAdlQtyMode('zhang')" style="padding:1px 8px;font-size:11px;font-weight:600;border:none;background:#fff;color:var(--text3);cursor:pointer">张</button>
+          </span>
+        </div>
+        <div class="fi"><input type="number" id="adl-qty-before" placeholder="0" step="any"><span class="fi-unit" id="adl-qty-before-u">币</span></div>
+        <div id="adl-face-hint" style="display:none;font-size:12px;color:var(--text2);margin-top:4px">
+          合约面值：<span id="adl-face-display" style="font-weight:700;color:var(--orange-dark);font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">—</span>
+          <span id="adl-face-u" style="color:var(--text3)"></span> / 张
+        </div>
       </div>
       <div class="field">
-        <div class="field-label">开仓成交数量</div>
-        <div class="fi"><input type="number" id="adl-qty-before" placeholder="2182.21" step="any"><span class="fi-unit" id="adl-qty-u">BTC</span></div>
+        <div class="field-label">标记价格<span style="font-size:10px;color:var(--text3);font-weight:400"> 持仓页「标记价格」</span></div>
+        <div class="fi"><input type="number" id="adl-mark-price" placeholder="0.00" step="any"><span class="fi-unit">USDT</span></div>
       </div>
     </div>
 
-    <!-- 强制减仓信息 -->
+    <!-- ② 强制减仓记录 -->
     <div class="field-label" style="margin-bottom:8px;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;font-weight:700">② 强制减仓记录（从"强制减仓"那条订单填写）</div>
-    <div class="form-grid" style="margin-bottom:20px">
+
+    <!-- 第二行：实际减仓数量 + 强制减仓成交价 -->
+    <div class="form-grid" style="margin-bottom:12px">
       <div class="field">
-        <div class="field-label">强制减仓成交价</div>
-        <div class="fi"><input type="number" id="adl-reduce-price" placeholder="65.230" step="any"><span class="fi-unit">USDT</span></div>
+        <div class="field-label">
+          实际减仓数量<span style="font-size:10px;color:var(--text3);font-weight:400"> 订单页数量</span>
+          &nbsp;<span style="display:inline-flex;border:1px solid #e5e7eb;border-radius:5px;overflow:hidden;vertical-align:middle">
+            <button id="adl-reduce-coin" onclick="setAdlReduceMode('coin')" style="padding:1px 8px;font-size:11px;font-weight:600;border:none;background:var(--orange);color:#fff;cursor:pointer">币</button>
+            <button id="adl-reduce-zhang" onclick="setAdlReduceMode('zhang')" style="padding:1px 8px;font-size:11px;font-weight:600;border:none;background:#fff;color:var(--text3);cursor:pointer">张</button>
+          </span>
+        </div>
+        <div class="fi"><input type="number" id="adl-reduce-qty" placeholder="0" step="any"><span class="fi-unit" id="adl-reduce-qty-u">币</span></div>
       </div>
       <div class="field">
-        <div class="field-label">强制减仓数量</div>
-        <div class="fi"><input type="number" id="adl-reduce-qty" placeholder="2165.39" step="any"><span class="fi-unit" id="adl-reduce-u">BTC</span></div>
+        <div class="field-label">强制减仓成交价<span style="font-size:10px;color:var(--text3);font-weight:400"> 选填，用于计算盈亏</span></div>
+        <div class="fi"><input type="number" id="adl-reduce-price" placeholder="0.00" step="any"><span class="fi-unit">USDT</span></div>
+      </div>
+    </div>
+
+    <!-- 第三行：开仓均价（选填，占满整行） -->
+    <div class="form-grid" style="margin-bottom:20px">
+      <div class="field form-full">
+        <div class="field-label">开仓均价<span style="font-size:10px;color:var(--text3);font-weight:400"> 选填，用于计算盈亏</span></div>
+        <div class="fi"><input type="number" id="adl-entry" placeholder="0.00" step="any"><span class="fi-unit">USDT</span></div>
       </div>
     </div>
 
@@ -1937,21 +2167,39 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
       <!-- 触发原因 -->
       <div class="result-label">触发原因分析</div>
       <div class="result-grid" style="margin-bottom:20px">
-        <div class="ri"><div class="ri-lbl">开仓名义价值</div><div class="ri-val" id="ra-notional-before">—</div><div class="ri-sub">USDT</div></div>
-        <div class="ri ri-red" id="ra-trigger-card"><div class="ri-lbl">触发档位上限</div><div class="ri-val red" id="ra-trigger-limit">—</div><div class="ri-sub">USDT</div></div>
+        <div class="ri"><div class="ri-lbl">标记价值</div><div class="ri-val" id="ra-notional-before">—</div><div class="ri-sub">USDT</div></div>
+        <div class="ri ri-red"><div class="ri-lbl">阶梯最小仓位价值</div><div class="ri-val red" id="ra-trigger-limit">—</div><div class="ri-sub">USDT</div></div>
         <div class="ri ri-red"><div class="ri-lbl">超出档位上限</div><div class="ri-val red" id="ra-exceed">—</div><div class="ri-sub">USDT</div></div>
         <div class="ri"><div class="ri-lbl">减仓前所在档位</div><div class="ri-val" id="ra-tier-before">—</div><div class="ri-sub" id="ra-tier-before-mmr">—</div></div>
         <div class="ri ri-amber"><div class="ri-lbl">减仓后降至档位</div><div class="ri-val amber" id="ra-tier-after">—</div><div class="ri-sub" id="ra-tier-after-mmr">—</div></div>
         <div class="ri"><div class="ri-lbl">减仓后名义价值</div><div class="ri-val" id="ra-notional-after">—</div><div class="ri-sub">USDT</div></div>
       </div>
 
-      <!-- 盈亏结果 -->
-      <div class="result-label">强制减仓盈亏</div>
+      <!-- 理论减仓数量核对 -->
+      <div class="result-label">理论减仓数量核对</div>
       <div class="result-grid" style="margin-bottom:20px">
-        <div class="ri"><div class="ri-lbl">减仓部分开仓价</div><div class="ri-val" id="ra-pnl-entry">—</div><div class="ri-sub">USDT</div></div>
-        <div class="ri"><div class="ri-lbl">强制平仓价</div><div class="ri-val" id="ra-pnl-exit">—</div><div class="ri-sub">USDT</div></div>
-        <div class="ri" id="ra-pnl-card"><div class="ri-lbl">减仓部分盈亏</div><div class="ri-val" id="ra-pnl">—</div><div class="ri-sub">USDT</div></div>
-        <div class="ri"><div class="ri-lbl">剩余仓位数量</div><div class="ri-val" id="ra-remain-qty">—</div><div class="ri-sub" id="ra-remain-u">TRUMP</div></div>
+        <div class="ri"><div class="ri-lbl">减少的仓位价值</div><div class="ri-val" id="ra-reduce-value">—</div><div class="ri-sub">USDT</div></div>
+        <div class="ri"><div class="ri-lbl">基础减仓数量</div><div class="ri-val" id="ra-base-reduce-qty">—</div><div class="ri-sub">张</div></div>
+        <div class="ri"><div class="ri-lbl">MAX附加量</div><div class="ri-val" id="ra-max-addon">—</div><div class="ri-sub">张（MAX取较大值）</div></div>
+        <div class="ri ri-orange"><div class="ri-lbl">理论最终减仓数量</div><div class="ri-val orange" id="ra-theory-reduce-qty">—</div><div class="ri-sub">张</div></div>
+        <div class="ri"><div class="ri-lbl">实际减仓数量</div><div class="ri-val" id="ra-actual-reduce-qty">—</div><div class="ri-sub">张</div></div>
+        <div class="ri" id="ra-verdict-card"><div class="ri-lbl">核查结论</div><div class="ri-val" id="ra-verdict">—</div><div class="ri-sub" id="ra-verdict-sub">—</div></div>
+      </div>
+
+      <!-- 盈亏结果（选填） -->
+      <div id="ra-pnl-section" style="display:none">
+        <div class="result-label">强制减仓盈亏</div>
+        <div class="result-grid" style="margin-bottom:20px">
+          <div class="ri"><div class="ri-lbl">减仓部分开仓价</div><div class="ri-val" id="ra-pnl-entry">—</div><div class="ri-sub">USDT</div></div>
+          <div class="ri"><div class="ri-lbl">强制平仓价</div><div class="ri-val" id="ra-pnl-exit">—</div><div class="ri-sub">USDT</div></div>
+          <div class="ri" id="ra-pnl-card"><div class="ri-lbl">减仓部分盈亏</div><div class="ri-val" id="ra-pnl">—</div><div class="ri-sub">USDT</div></div>
+        </div>
+      </div>
+
+      <!-- 剩余仓位 -->
+      <div class="result-label">减仓后剩余仓位</div>
+      <div class="result-grid" style="margin-bottom:20px">
+        <div class="ri"><div class="ri-lbl">剩余数量</div><div class="ri-val" id="ra-remain-qty">—</div><div class="ri-sub" id="ra-remain-u">张</div></div>
         <div class="ri"><div class="ri-lbl">剩余仓位名义价值</div><div class="ri-val" id="ra-remain-notional">—</div><div class="ri-sub">USDT</div></div>
         <div class="ri ri-amber"><div class="ri-lbl">剩余仓位档位</div><div class="ri-val amber" id="ra-remain-tier">—</div><div class="ri-sub" id="ra-remain-mmr">—</div></div>
       </div>
@@ -1970,12 +2218,14 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
       <div style="margin-top:20px">
         <div class="result-label">该合约档位一览</div>
         <div style="border:1px solid var(--border2);border-radius:var(--r-sm);overflow:hidden">
-          <div style="display:grid;grid-template-columns:50px 1fr 55px 55px;background:#f7f8fa;padding:9px 14px;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;gap:8px">
-            <span>档位</span><span>名义价值上限 (USDT)</span><span>MMR</span><span>最大杠杆</span>
+          <div style="display:grid;grid-template-columns:50px 1fr 55px 55px 60px;background:#f7f8fa;padding:9px 14px;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;gap:8px">
+            <span>档位</span><span>名义价值上限 (USDT)</span><span>MMR</span><span>最大杠杆</span><span></span>
           </div>
           <div id="ra-tiers-rows"></div>
         </div>
       </div>
+
+      <!-- 参考话术 -->
 
     </div>
   </div>
@@ -2103,6 +2353,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         </div>
         <div class="formula-body" id="fb-tradefee"></div>
       </div>
+      <!-- 参考话术 -->
     </div>
   </div>
 </div>
@@ -2234,8 +2485,350 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         </div>
         <div class="formula-body" id="fb-closecheck"></div>
       </div>
+      <!-- 参考话术 -->
     </div>
 
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     Q&A: 爆仓 / 强平
+══════════════════════════════════════════════ -->
+<div id="tab-qa-liq" class="panel">
+<!-- 手机端分类切换 -->
+<div class="qa-mobile-tabs">
+  <button class="qa-mobile-tab active" onclick="switchTab('qa-liq',this.closest('.panel').previousElementSibling);switchTab('qa-liq',this)">爆仓/强平</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-adl',document.getElementById('sb-qa-adl'))">强制减仓</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-fee',document.getElementById('sb-qa-fee'))">手续费/资金费</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-margin',document.getElementById('sb-qa-margin'))">保证金/杠杆</button>
+</div>
+<div class="card">
+  <div class="card-head">
+    <div class="card-head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+    <div><h2>爆仓 / 强平 常见问题</h2><p>客户投诉强平相关问题的标准解答与话术参考</p></div>
+  </div>
+  <div class="card-body">
+    <div class="qa-list">
+
+      <div class="qa-item">
+        <div class="qa-q">Q：为什么我会被强制平仓（爆仓）？</div>
+        <div class="qa-a">
+          <div class="qa-answer">强平是指当标记价格达到强平价格时，系统以破产价格进行平仓。触发条件为：<br>
+          <strong>保证金率 ≤ 维持保证金率 + 平仓手续费率</strong><br><br>
+          全仓保证金率 = (账户权益 − 其他仓位维持保证金) ÷ 当前仓位价值<br>
+          逐仓保证金率 = 逐仓仓位权益 ÷ 仓位价值<br><br>
+          注意：标记价格是触发强平的参考价格，而非最新成交价，可防止市场操纵。</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，经核查您的账户在强平触发时，保证金率已降至系统规定的触发阈值（维持保证金率 + 平仓手续费率）以下，系统依规自动执行了强制平仓。这是正常的风险控制机制，并非系统错误。建议您在持仓期间关注账户保证金率变化，合理控制仓位规模，并可设置止损单提前锁定风险。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：强平价格和我预期的不一样，是系统错误吗？</div>
+        <div class="qa-a">
+          <div class="qa-answer">强平价格由官方公式计算，会随账户权益实时变化：<br><br>
+          <strong>全仓多单：</strong>强平价 = 标记价 − (账户权益 − 平仓手续费 − 所有仓位维持保证金总和 + 当前仓位档位扣减额) ÷ 数量<br>
+          <strong>全仓空单：</strong>强平价 = 标记价 + (...) ÷ 数量<br>
+          <strong>逐仓多单：</strong>强平价 = 标记价 − (逐仓权益 − 当前仓位手续费 − 当前仓位维持保证金 + 扣减额) ÷ 数量<br><br>
+          可使用「强平价格」板块输入仓位数据核算理论强平价。</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，强平价格并非固定数值，会随您的账户权益、持仓量及维持保证金率实时变化。我已使用系统工具为您核算了理论强平价格，计算结果与系统一致，属正常触发。如需了解详细计算过程，欢迎提供当时的仓位数据，我可为您进一步核查。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：全仓和逐仓的区别是什么？</div>
+        <div class="qa-a">
+          <div class="qa-answer">
+          <strong>全仓保证金模式：</strong>所有仓位共用合约账户中的保证金来避免仓位被强平。在强平事件中，交易者可能会损失所有的保证金和仓位。<br><br>
+          <strong>逐仓保证金模式：</strong>一定数量保证金被分配到仓位上。如果仓位保证金亏损到低于维持保证金的水平，仓位将被强平。在逐仓模式下，用户可以为仓位添加和减少保证金。</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，全仓模式下所有仓位共享账户保证金，当某仓位出现亏损时，账户内其他资金会自动补充以维持持仓，但一旦整体账户权益不足则所有全仓仓位均会被强平，风险较高。逐仓模式下每个仓位使用独立分配的保证金，亏完该仓位专属保证金才会触发强平，不影响其他仓位，且您可随时为仓位增减保证金。建议根据您的风险偏好选择合适的模式。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：我明明有足够的余额，为什么还是被强平了？</div>
+        <div class="qa-a">
+          <div class="qa-answer">全仓模式下，触发强平的依据是「账户权益」而非「钱包余额」。<br><br>
+          未实现盈亏计算：单张合约面值 × 合约张数 × 订单方向 × (标记价格 − 开仓价格)<br><br>
+          若您同时持有多个亏损仓位，各仓位的未实现亏损叠加后会大幅拉低账户权益，即使钱包余额充足，账户权益也可能已低于强平阈值。</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，全仓模式下系统判断是否强平的依据是「账户权益」（即钱包余额加上所有仓位的未实现盈亏总和），而非单纯的钱包余额。若您当时同时持有其他亏损仓位，这些仓位的浮亏会降低账户权益，可能导致即使钱包余额看似充足也触发了强平。建议您查看强平时刻的账户权益数值，我可协助您核查。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：强平时的成交价格是怎么确定的？</div>
+        <div class="qa-a">
+          <div class="qa-answer">强平是指系统以「破产价格」（即保证金归零时对应的价格）进行平仓。标记价格达到强平价格时触发，实际执行价格由市场流动性决定。<br><br>
+          若强平执行价格劣于破产价格（即出现穿仓），差额将由保险基金补偿；若保险基金不足，则启动分摊机制。</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，强平触发后系统以当时市场价格执行平仓。在极端行情下市场流动性不足时，实际成交价可能出现滑点，这属于市场正常现象。您可以在历史订单记录中查看该笔强平订单的具体成交价格。如出现穿仓情况，平台保险基金会优先进行补偿。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：什么是标记价格？为什么用标记价格而不是成交价触发强平？</div>
+        <div class="qa-a">
+          <div class="qa-answer">标记价格是合约交易中用于衡量合约公平价值的参考价格，以多个主流现货交易所（如 Binance、OKX、Huobi 等）价格加权平均计算得出，比最新成交价更稳定。<br><br>
+          使用标记价格触发强平，可以有效防止大户通过短期操纵成交价来恶意触发他人强平，保护交易者权益。</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，平台使用「标记价格」而非最新成交价来触发强平，是为了防范市场操纵风险。标记价格综合了多个主流现货交易所的价格加权平均值，比单一交易所的成交价更稳定公允。这一机制能有效避免因短时间价格异动导致的不合理强平，保障您的交易权益。</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     Q&A: 强制减仓 ADL
+══════════════════════════════════════════════ -->
+<div id="tab-qa-adl" class="panel">
+<div class="qa-mobile-tabs">
+  <button class="qa-mobile-tab" onclick="switchTab('qa-liq',document.getElementById('sb-qa-liq'))">爆仓/强平</button>
+  <button class="qa-mobile-tab active" onclick="switchTab('qa-adl',this)">强制减仓</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-fee',document.getElementById('sb-qa-fee'))">手续费/资金费</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-margin',document.getElementById('sb-qa-margin'))">保证金/杠杆</button>
+</div>
+<div class="card">
+  <div class="card-head">
+    <div class="card-head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg></div>
+    <div><h2>强制减仓 常见问题</h2><p>客户仓位被系统强制减仓相关问题的标准解答与话术参考</p></div>
+  </div>
+  <div class="card-body">
+    <div class="qa-list">
+
+      <div class="qa-item">
+        <div class="qa-q">Q：什么是强制减仓？和爆仓有什么区别？</div>
+        <div class="qa-a">
+          <div class="qa-answer">
+          <strong>强制减仓：</strong>当仓位名义价值（标记价格 × 数量 × 面值）超过当前风险档位上限时，系统自动将仓位减少至下一档上限以内。触发原因是<strong>仓位规模过大</strong>，与保证金是否充足无关。<br><br>
+          <strong>爆仓（强平）：</strong>当账户保证金率低于维持保证金率 + 手续费率时触发，将仓位全部平掉。触发原因是<strong>保证金不足</strong>。<br><br>
+          两者是完全独立的风控机制，互不影响。</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，您遭遇的是「强制减仓」而非「爆仓」，两者是完全不同的风控机制。强制减仓是因为您的仓位名义价值（标记价格 × 持仓量 × 面值）超过了当前风险档位的上限，系统自动将仓位减少至合规范围内，与您的保证金是否充足无关。您的账户资金并未因此清零，只是持仓数量有所减少。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：为什么会触发强制减仓？我什么都没做。</div>
+        <div class="qa-a">
+          <div class="qa-answer">触发条件：<strong>仓位标记价值 > 当前档位上限</strong><br><br>
+          即使您没有主动加仓，当市场价格大幅上涨时，做多仓位的标记价值会随之增加，可能突破当前档位上限，从而触发强制减仓。<br><br>
+          例如：您持有 248,888 张 TRUMP 合约（面值 0.01），当标记价格从 10 USDT 涨至 40 USDT，仓位价值从约 24,889 USDT 增至约 99,555 USDT，超过 Level 2 档位上限（25,000 USDT），触发减仓。</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，强制减仓的触发与您是否主动操作无关，而是由仓位的标记价值决定。当市场价格大幅波动导致您的持仓名义价值超过当前风险档位上限时，系统会自动执行减仓操作。这是平台正常的风险控制机制，执行价格为触发时的标记价格，公平透明。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：强制减仓减了多少？计算方式是什么？</div>
+        <div class="qa-a">
+          <div class="qa-answer">官方计算公式：<br>
+          ① 减少的仓位价值 = 标记价值 − 阶梯最小仓位价值<br>
+          ② 基础减仓数量 = 减少仓位价值 ÷ 标记价格 ÷ 面值<br>
+          ③ <strong>最终减仓数量 = 基础减仓数量 + MAX(10, 阶梯最小仓位价值 × 0.001 ÷ 标记价格 ÷ 面值)</strong><br><br>
+          可使用「强制减仓分析」工具，输入持仓数据自动核算理论减仓数量并与实际对比。</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，我已使用系统工具按官方公式核算了您的理论减仓数量，与实际减仓数量基本一致，属正常执行范围。强制减仓数量的计算包含基础减仓量和一个附加量（取 10 张与千分之一档位最小价值换算张数中的较大值），确保减仓后仓位落在下一档位的合规范围内。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：强制减仓是以什么价格执行的？会有滑点吗？</div>
+        <div class="qa-a">
+          <div class="qa-answer">强制减仓以触发时的<strong>标记价格</strong>执行，不是市价单，因此不存在滑点问题。标记价格由多个主流现货交易所价格加权平均得出，公平公正。<br><br>
+          您可以在历史订单中找到「强制减仓」那条订单，查看其成交价格，应与触发时刻的标记价格一致。</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，强制减仓以触发时的标记价格执行，价格公平透明，不存在滑点问题。您可以在「历史委托」中找到标注为「强制减仓」的订单，核对其成交价格。如成交价格与触发时标记价格存在明显差异，请提供订单截图，我们将为您进一步核查。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：减仓后仓位还是很大，系统还会继续减仓吗？</div>
+        <div class="qa-a">
+          <div class="qa-answer">强制减仓每次只将仓位降至「下一档位」的上限范围内，并非全部平仓。减仓完成后，若市场价格继续大幅波动，导致仓位价值再次超过档位上限，系统可能会再次触发减仓。<br><br>
+          这是分级风控的正常运作方式，每次减仓后仓位均满足该档位的合规要求。</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，强制减仓每次仅将仓位减少至下一档位上限范围，并非全部平仓，因此减仓后您仍持有一定仓位。如果后续市场价格继续大幅波动使仓位价值再次超限，系统可能会再次执行减仓。这是平台分级风控机制的正常运作，每次减仓后仓位均符合对应档位要求。</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     Q&A: 手续费 / 资金费率
+══════════════════════════════════════════════ -->
+<div id="tab-qa-fee" class="panel">
+<div class="qa-mobile-tabs">
+  <button class="qa-mobile-tab" onclick="switchTab('qa-liq',document.getElementById('sb-qa-liq'))">爆仓/强平</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-adl',document.getElementById('sb-qa-adl'))">强制减仓</button>
+  <button class="qa-mobile-tab active" onclick="switchTab('qa-fee',this)">手续费/资金费</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-margin',document.getElementById('sb-qa-margin'))">保证金/杠杆</button>
+</div>
+<div class="card">
+  <div class="card-head">
+    <div class="card-head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+    <div><h2>手续费 / 资金费率 常见问题</h2><p>客户投诉手续费和资金费率相关问题的标准解答与话术参考</p></div>
+  </div>
+  <div class="card-body">
+    <div class="qa-list">
+
+      <div class="qa-item">
+        <div class="qa-q">Q：合约手续费是怎么计算的？</div>
+        <div class="qa-a">
+          <div class="qa-answer">
+          <strong>按张数下单：</strong><br>
+          手续费 = 成交均价 × 合约面值 × 合约张数 × 手续费率<br><br>
+          <strong>按币种下单：</strong><br>
+          手续费 = 成交均价 × 成交数量 × 手续费率<br><br>
+          注意：每开仓或平仓一次都会计算一次手续费，手续费率分为 Maker（挂单）和 Taker（吃单）两档。</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，合约手续费按「成交名义价值 × 手续费率」计算。我已为您核算了本次交易的理论手续费，与系统实际扣除金额一致，属正常扣费。如您对费率档位有疑问，请在历史成交记录中确认本次交易的成交角色（Maker 或 Taker），对应费率有所不同。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：Maker（挂单）和 Taker（吃单）的区别是什么？</div>
+        <div class="qa-a">
+          <div class="qa-answer">
+          <strong>挂单（Maker）：</strong>用户设定目标价格，将委托单挂在交易系统中，等待市场价格达到时再成交，属于「被动等待成交」，费率较低。<br><br>
+          <strong>吃单（Taker）：</strong>用户直接以市场上已有挂单的价格下单，立即成交，属于「主动促成成交」，费率较高。<br><br>
+          下市价单一定是 Taker；下限价单视情况而定，若与现有挂单立即撮合则为 Taker，若进入订单簿等待则为 Maker。</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，Maker（挂单方）是指您下限价单后挂在订单簿中等待成交，费率较低；Taker（吃单方）是指您的订单与市场现有挂单立即撮合成交，费率较高。您可以在历史成交记录中查看本笔交易标注的成交角色，以确认适用的费率。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：资金费率是什么？为什么会扣费？</div>
+        <div class="qa-a">
+          <div class="qa-answer">资金费率是永续合约特有的机制，每 8 小时结算一次（00:00、08:00、16:00 UTC），用于维持合约价格与现货价格的锚定。<br><br>
+          <strong>正费率：</strong>多方向空方支付资金费用（市场看涨时）<br>
+          <strong>负费率：</strong>空方向多方支付资金费用（市场看跌时）<br><br>
+          <strong>计算公式：</strong>资金费用 = 标记价格 × 合约面值 × 合约张数 × 资金费率<br><br>
+          注意：本平台仅作为资金费用在多空之间的传递渠道，<strong>平台不收取任何服务费</strong>。</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，资金费率是永续合约的正常机制，平台仅作为多空双方资金费用的传递渠道，不收取任何服务费。资金费用按结算时刻的标记价格 × 持仓量 × 资金费率计算，我已为您核算，扣费金额与系统一致，属正常结算。如需查看历史资金费率，可在「合约信息 → 资金费率 → 历史费率」中查询。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：资金费率何时结算？结算前平仓可以免除吗？</div>
+        <div class="qa-a">
+          <div class="qa-answer">资金费率每 8 小时结算一次，结算时间为 00:00、08:00、16:00（UTC），对应北京时间 08:00、16:00、00:00。<br><br>
+          <strong>只有在结算时刻仍持有仓位的用户才会被收取/支付资金费用。</strong>若您在结算时刻前已平仓，则不会产生该次资金费用。<br><br>
+          您可以在 K 线图上方查看当前资金费率及下次结算倒计时。</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，资金费率每天结算三次，分别在 00:00、08:00、16:00（UTC 时间）。只有在结算时刻仍持有仓位才会产生资金费用，如果您在结算前已平仓，则不会被收取该次费用。您可以在合约交易页面查看距下次结算的倒计时，合理规划持仓时间以控制资金费用支出。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：如何查询资金费用历史记录？</div>
+        <div class="qa-a">
+          <div class="qa-answer">
+          <strong>Web 端：</strong>【资产】→【账单记录】→【合约账单】→【交易】→【全部交易】→【资金费用】<br><br>
+          <strong>手机 App：</strong>【资产】→【合约】→【合约账单】→【全部类型】→【资金费用】<br><br>
+          历史资金费率查询：【合约信息】→【资金费率】→【历史费率】→选择交易对</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，您可以通过以下路径查询资金费用历史记录：Web 端请进入【资产 → 账单记录 → 合约账单 → 资金费用】；手机 App 请进入【资产 → 合约 → 合约账单 → 资金费用】。如需查询历史资金费率，可在【合约信息 → 资金费率 → 历史费率】中按交易对查询。如仍有疑问欢迎进一步联系我们。</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     Q&A: 保证金 / 杠杆
+══════════════════════════════════════════════ -->
+<div id="tab-qa-margin" class="panel">
+<div class="qa-mobile-tabs">
+  <button class="qa-mobile-tab" onclick="switchTab('qa-liq',document.getElementById('sb-qa-liq'))">爆仓/强平</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-adl',document.getElementById('sb-qa-adl'))">强制减仓</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-fee',document.getElementById('sb-qa-fee'))">手续费/资金费</button>
+  <button class="qa-mobile-tab active" onclick="switchTab('qa-margin',this)">保证金/杠杆</button>
+</div>
+<div class="card">
+  <div class="card-head">
+    <div class="card-head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2"/></svg></div>
+    <div><h2>保证金 / 杠杆 常见问题</h2><p>客户投诉保证金和杠杆相关问题的标准解答与话术参考</p></div>
+  </div>
+  <div class="card-body">
+    <div class="qa-list">
+
+      <div class="qa-item">
+        <div class="qa-q">Q：什么是维持保证金和维持保证金率？</div>
+        <div class="qa-a">
+          <div class="qa-answer">维持保证金是用户必须在账户中维持的最低保证金金额，低于此金额仓位将被强平。<br><br>
+          <strong>计算公式（按张）：</strong><br>
+          维持保证金 = 单张面值 × 合约张数 × 标记价格 × 维持保证金率 − 维持保证金扣减额<br><br>
+          维持保证金率根据仓位名义价值所在档位而定，仓位越大档位越高，MMR 越高。仓位金额越大，维持保证金比率也会越高。</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，维持保证金是系统要求账户必须维持的最低保证金水平，当账户保证金率降至维持保证金率 + 平仓手续费率以下时，会触发强制平仓。维持保证金率根据您的仓位名义价值所在档位而定，仓位越大所在档位越高，MMR 也越高。您可以在「保证金参数」页面查询对应合约各档位的 MMR。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：什么是初始保证金？开仓需要多少？</div>
+        <div class="qa-a">
+          <div class="qa-answer">初始保证金是开仓建立仓位时必须缴纳的最低保证金，是开仓的「入场门槛」。<br><br>
+          <strong>计算公式（按张）：</strong><br>
+          初始保证金 = 单张合约面值 × 合约张数 × 标记价格 ÷ 杠杆倍数<br><br>
+          示例：开仓 10 BTC 合约（面值 0.0001 BTC/张），标记价 120,000 USDT，20 倍杠杆：<br>
+          初始保证金 = 0.0001 × 10 × 120,000 ÷ 20 = 6 USDT</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，初始保证金是开仓所需的最低资金，计算公式为：持仓名义价值 ÷ 杠杆倍数。杠杆倍数越高，所需初始保证金越少，但同时爆仓风险也越高。建议根据您的资金规模和风险承受能力合理选择杠杆倍数。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：为什么我调高杠杆后反而更容易爆仓？</div>
+        <div class="qa-a">
+          <div class="qa-answer">杠杆倍数代表「用户的本金能撬动多少倍的交易规模」。<br><br>
+          • 10 倍杠杆：价格逆向波动约 10% 亏完本金<br>
+          • 50 倍杠杆：价格逆向波动约 2% 亏完本金<br>
+          • 125 倍杠杆：价格逆向波动约 0.8% 亏完本金<br><br>
+          杠杆越高，初始保证金越少，账户抵御价格波动的能力越弱，触发强平所需的价格变动幅度越小。</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，杠杆倍数越高，您用于开仓的初始保证金比例越小，账户抵御市场波动的空间也越窄。以 100 倍杠杆为例，价格仅需逆向波动约 1% 就可能触发强平。建议您根据自身风险承受能力选择合适的杠杆倍数，并严格控制仓位规模。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：我的可用余额为什么突然减少了？</div>
+        <div class="qa-a">
+          <div class="qa-answer">常见原因：<br>
+          ① <strong>未实现亏损：</strong>全仓模式下，持仓的浮亏会直接影响账户权益和可用余额<br>
+          ② <strong>委托冻结：</strong>挂出的未成交委托单（限价单、计划委托等）会冻结对应保证金<br>
+          ③ <strong>资金费用扣除：</strong>每 8 小时结算一次的资金费用<br><br>
+          建议检查：当前持仓的未实现盈亏、未成交的委托单列表、合约账单中的资金费用记录。</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，全仓模式下可用余额减少通常有以下几个原因：一是当前持仓出现浮亏；二是有未成交的委托单冻结了部分保证金；三是资金费率结算扣费。建议您分别检查「当前持仓」的未实现盈亏、「当前委托」中的未成交挂单，以及「合约账单」中的资金费用记录，通常可以找到答案。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q：什么是档位？为什么仓位大了杠杆上限会降低？</div>
+        <div class="qa-a">
+          <div class="qa-answer">档位是按仓位名义价值划分的风险等级，不同档位对应不同的最大杠杆倍数和维持保证金率（MMR）。<br><br>
+          仓位名义价值越大，风险越高，平台要求更高的维持保证金率并限制最大杠杆倍数，以控制市场系统性风险。<br><br>
+          仓位名义价值等级提高，并不会造成此前等级的仓位改变杠杆倍数，只影响超出部分对应的要求。</div>
+          <div class="qa-script-label">📋 参考话术</div>
+          <div class="qa-script">您好，平台对不同规模的仓位设有分级的风险档位。当您的仓位名义价值增大进入更高档位后，系统会相应调低最大可用杠杆倍数并提高维持保证金率要求，这是控制市场系统性风险的必要机制。您可以在「保证金参数」页面查看各合约的完整档位信息及对应的 MMR 和最大杠杆。</div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </div>
 </div>
@@ -2541,7 +3134,7 @@ const S = {
   liq:  { ct:'linear', dir:'long', lev:10, marginData:null },
   open: { ct:'linear', lev:10, marginData:null },
   fund: { ct:'linear', dir:'long' },
-  adl:  { dir:'long', marginData:null },
+  adl:  { dir:'long', marginData:null, face:null },
   cc:   { dir:'long' },
 };
 const FEES = { 'pnl-open':0.014,'pnl-close':0.014,'liq-fee':0.014,'open-fee':0.014,'tf-open':0.014,'tf-close':0.014,'chk-fee-sel':0.0375,'cc-fee':0.014 };
@@ -2569,7 +3162,12 @@ function showModal(title, body, type='warn') {
   icon.innerHTML = svgs[type]||svgs.warn;
   document.getElementById('modal-overlay').classList.add('show');
 }
-function closeModal() { document.getElementById('modal-overlay').classList.remove('show'); }
+function closeModal() {
+  const overlay = document.getElementById('modal-overlay');
+  if (!overlay) return;
+  overlay.classList.add('closing');
+  setTimeout(() => { overlay.classList.remove('show', 'closing'); }, 220);
+}
 document.getElementById('modal-overlay').addEventListener('click', e => { if(e.target===document.getElementById('modal-overlay')) closeModal(); });
 
 // ═══════════════════════════════════════════════════════════
@@ -2595,7 +3193,7 @@ function drawerNav(name) {
     document.querySelectorAll('.topnav-btn').forEach(b => b.classList.remove('active'));
     const tnBtn = document.getElementById('tn-' + group);
     if (tnBtn) tnBtn.classList.add('active');
-    ['basic','margin','fee','check'].forEach(g => {
+    ['basic','margin','fee','check','qa'].forEach(g => {
       const el = document.getElementById('sg-' + g);
       if (el) el.style.display = g === group ? '' : 'none';
     });
@@ -2619,20 +3217,17 @@ function addOtherPosition() {
   otherPosFace[idx] = null;
   const row  = document.createElement('div');
   row.id = `other-pos-${idx}`;
-  row.style.cssText = 'background:#fafbfc;border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;display:flex;flex-direction:column;gap:8px;overflow:hidden;min-width:0;position:relative';
+  row.style.cssText = 'background:#fafbfc;border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;display:flex;flex-direction:column;gap:8px;min-width:0;position:relative';
 
   row.innerHTML = `
     <div class="pos-row-grid">
       <!-- 币种选择 -->
       <div class="field pos-sym-col">
         <div class="field-label">币种</div>
-        <div style="position:relative;z-index:10">
-          <div class="mp-sel-box" id="other-pos-${idx}-sel-box" onclick="toggleDrop('other-pos-${idx}')" style="padding:8px 10px;font-size:13px">
-            <img id="other-pos-${idx}-sel-icon" class="sel-coin-icon" src="" alt="" onerror="this.classList.remove('loaded')">
-            <span id="other-pos-${idx}-sel-txt" style="flex:1;font-size:12px;color:var(--text3)">选择币种</span>
-            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-          <div class="mp-dropdown" id="other-pos-${idx}-drop" style="min-width:220px;right:auto"></div>
+        <div class="mp-sel-box" id="other-pos-${idx}-sel-box" onclick="openCoinPicker(c=>{setSelCoin('other-pos-${idx}',c.sym);onOtherPosSymChangeDirect(${idx},c.id,c.sym)})" style="padding:8px 10px;font-size:13px">
+          <img id="other-pos-${idx}-sel-icon" class="sel-coin-icon" src="" alt="" onerror="this.classList.remove('loaded')">
+          <span id="other-pos-${idx}-sel-txt" style="flex:1;font-size:12px;color:var(--text3)">选择币种</span>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
       </div>
       <!-- 标记价格 -->
@@ -2682,11 +3277,6 @@ function addOtherPosition() {
   document.getElementById('other-positions-total-wrap').style.display = 'flex';
   const clearBtn = document.getElementById('clear-other-pos-btn');
   if (clearBtn) clearBtn.style.display = 'flex';
-  // wire up coin dropdown for this row — defer to next tick so DOM is ready
-  setTimeout(() => buildDrop(`other-pos-${idx}-drop`, c => {
-    setSelCoin(`other-pos-${idx}`, c.sym);
-    onOtherPosSymChangeDirect(idx, c.id, c.sym);
-  }), 0);
 }
 
 function setOtherPosMode(idx, mode) {
@@ -2749,7 +3339,7 @@ function calcOtherPosMaint(idx) {
     updateOtherPositionsTotal(); return;
   }
   if (mark && qty) {
-    const coinQty = mode === 'zhang' ? qty * face : qty;
+    const coinQty = mode === 'zhang' ? mulSafe(qty, face) : qty;
     const maint   = mark * coinQty * mmr;
     if (resEl) resEl.textContent = maint.toFixed(6) + ' USDT';
   } else {
@@ -2795,7 +3385,7 @@ function updateOtherPositionsTotal() {
     const mmr   = otherPosMmr[idNum]  || 0;
     const mode  = otherPosMode[idNum] || 'coin';
     const face  = otherPosFace[idNum] || 1;
-    const coinQty = mode === 'zhang' ? qty * face : qty;
+    const coinQty = mode === 'zhang' ? mulSafe(qty, face) : qty;
     total += mark * coinQty * mmr;
   });
   const hidden = document.getElementById('liq-other-maint');
@@ -2817,18 +3407,15 @@ function addChkPosition() {
   chkPosFace[idx] = null;
   const row = document.createElement('div');
   row.id = `chk-pos-${idx}`;
-  row.style.cssText = 'background:#fafbfc;border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;display:flex;flex-direction:column;gap:8px;overflow:hidden;min-width:0;position:relative';
+  row.style.cssText = 'background:#fafbfc;border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;display:flex;flex-direction:column;gap:8px;overflow:visible;min-width:0;position:relative';
   row.innerHTML = `
     <div class="pos-row-grid">
       <div class="field pos-sym-col">
         <div class="field-label">币种</div>
-        <div style="position:relative;z-index:10">
-          <div class="mp-sel-box" id="chk-pos-${idx}-sel-box" onclick="toggleDrop('chk-pos-${idx}')" style="padding:8px 10px;font-size:13px">
-            <img id="chk-pos-${idx}-sel-icon" class="sel-coin-icon" src="" alt="" onerror="this.classList.remove('loaded')">
-            <span id="chk-pos-${idx}-sel-txt" style="flex:1;font-size:12px;color:var(--text3)">选择币种</span>
-            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-          <div class="mp-dropdown" id="chk-pos-${idx}-drop" style="min-width:220px;right:auto"></div>
+        <div class="mp-sel-box" id="chk-pos-${idx}-sel-box" onclick="openCoinPicker(c=>{setSelCoin('chk-pos-${idx}',c.sym);onChkPosSymChange(${idx},c.id,c.sym)})" style="padding:8px 10px;font-size:13px">
+          <img id="chk-pos-${idx}-sel-icon" class="sel-coin-icon" src="" alt="" onerror="this.classList.remove('loaded')">
+          <span id="chk-pos-${idx}-sel-txt" style="flex:1;font-size:12px;color:var(--text3)">选择币种</span>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
       </div>
       <div class="field">
@@ -2863,10 +3450,6 @@ function addChkPosition() {
   document.getElementById('chk-positions-total-wrap').style.display = 'flex';
   const clearBtn = document.getElementById('clear-chk-pos-btn');
   if (clearBtn) clearBtn.style.display = 'flex';
-  setTimeout(() => buildDrop(`chk-pos-${idx}-drop`, c => {
-    setSelCoin(`chk-pos-${idx}`, c.sym);
-    onChkPosSymChange(idx, c.id, c.sym);
-  }), 0);
 }
 
 function setChkPosMode(idx, mode) {
@@ -2925,7 +3508,7 @@ function calcChkPosMaint(idx) {
     updateChkPositionsTotal(); return;
   }
   if (mark && qty) {
-    const coinQty = mode === 'zhang' ? qty * face : qty;
+    const coinQty = mode === 'zhang' ? mulSafe(qty, face) : qty;
     const maint   = mark * coinQty * mmr;
     if (resEl) resEl.textContent = maint.toFixed(6) + ' USDT';
   } else {
@@ -2948,6 +3531,8 @@ function removeChkPosition(idx) {
 
 function clearAllChkPositions() {
   document.getElementById('chk-positions-list').innerHTML = '';
+  // 清除所有挂在 body 上的下拉框
+  document.querySelectorAll('[id^="chk-pos-"][id$="-drop"]').forEach(d => d.remove());
   Object.keys(chkPosMmr).forEach(k => delete chkPosMmr[k]);
   Object.keys(chkPosMode).forEach(k => delete chkPosMode[k]);
   Object.keys(chkPosFace).forEach(k => delete chkPosFace[k]);
@@ -2968,7 +3553,7 @@ function updateChkPositionsTotal() {
     const mmr    = chkPosMmr[idNum]  || 0;
     const mode   = chkPosMode[idNum] || 'coin';
     const face   = chkPosFace[idNum] || 1;
-    const coinQty = mode === 'zhang' ? qty * face : qty;
+    const coinQty = mode === 'zhang' ? mulSafe(qty, face) : qty;
     total += mark * coinQty * mmr;
   });
   const hidden  = document.getElementById('chk-other-maint');
@@ -2982,12 +3567,13 @@ const GROUP_TABS = {
   basic:  { tabs:['pnl','liq','open'],       first:'pnl'         },
   margin: { tabs:['margin','contract-rules'],  first:'margin'      },
   fee:    { tabs:['tradefee','fund'],         first:'tradefee'    },
-  check:  { tabs:['adl','closecheck'],        first:'closecheck'  },
+  check:  { tabs:['adl','closecheck'],                    first:'adl'     },
+  qa:     { tabs:['qa-liq','qa-adl','qa-fee','qa-margin'], first:'qa-liq'  },
 };
 function switchGroup(group, btn) {
   document.querySelectorAll('.topnav-btn').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
-  ['basic','margin','fee','check'].forEach(g => {
+  ['basic','margin','fee','check','qa'].forEach(g => {
     const el = document.getElementById('sg-'+g);
     if (el) el.style.display = g === group ? '' : 'none';
   });
@@ -3211,14 +3797,25 @@ function updateFeeDisp(key) {
 // FORMULA TOGGLE
 // ═══════════════════════════════════════════════════════════
 function toggleF(mod) {
-  document.getElementById('ft-'+mod).classList.toggle('open');
-  document.getElementById('fb-'+mod).classList.toggle('show');
+  const toggle = document.getElementById('ft-'+mod);
+  const body   = document.getElementById('fb-'+mod);
+  const isOpen = toggle.classList.contains('open');
+  toggle.classList.toggle('open', !isOpen);
+  if (!isOpen) {
+    body.classList.add('show');
+    body.classList.remove('closing');
+  } else {
+    body.classList.add('closing');
+    setTimeout(() => body.classList.remove('show','closing'), 200);
+  }
 }
 
 // ═══════════════════════════════════════════════════════════
 // HELPERS
 // ═══════════════════════════════════════════════════════════
 function fmt(n,d=2){ if(n===null||n===undefined||isNaN(n)) return '—'; const factor = Math.pow(10, d); const rounded = Math.round(Number(n) * factor * 1e9) / 1e9; const truncated = Math.trunc(rounded) / factor; return truncated.toFixed(d); }
+// 精确乘法，避免浮点误差（如 6 * 0.0001 = 0.0006000...0001）
+function mulSafe(a, b) { return parseFloat((a * b).toPrecision(12)); }
 // Auto-precision for small fee amounts
 function fmtFee(n) {
   if (n === null || n === undefined || isNaN(n)) return '—';
@@ -3349,6 +3946,22 @@ async function loadForAdl(contractId, sym) {
     S.adl.marginData = data;
     S.adl.contractId = contractId;
     S.adl.sym = sym;
+    // 自动填入面值
+    const ct = CONTRACTS.find(c => c.id === contractId);
+    if (ct?.face) {
+      S.adl.face = ct.face;
+      const faceDisp = document.getElementById('adl-face-display');
+      const faceU    = document.getElementById('adl-face-u');
+      const faceHint = document.getElementById('adl-face-hint');
+      const qtyU     = document.getElementById('adl-qty-before-u');
+      const reduceU  = document.getElementById('adl-reduce-qty-u');
+      if (faceDisp) faceDisp.textContent = ct.face;
+      if (faceU)    faceU.textContent    = sym;
+      // 只有张模式才显示面值提示
+      if (faceHint) faceHint.style.display = adlQtyMode === 'zhang' ? '' : 'none';
+      if (adlQtyMode    === 'coin' && qtyU)    qtyU.textContent    = sym;
+      if (adlReduceMode === 'coin' && reduceU) reduceU.textContent = sym;
+    }
     setApiStatus('adl-api-status','ok',`${sym} 参数已加载`);
   } catch(e) {
     setApiStatus('adl-api-status','err','加载失败');
@@ -3366,13 +3979,24 @@ function calcLiqPrice(entry, imr, mmr, feeRate, isLong) {
 // CALC 6: ADL — 强制减仓分析（从交易记录反推）
 // ═══════════════════════════════════════════════════════════
 function doAdl() {
-  const entry      = +document.getElementById('adl-entry').value;
-  const qtyBefore  = +document.getElementById('adl-qty-before').value;
-  const reducePrice= +document.getElementById('adl-reduce-price').value;
-  const reduceQty  = +document.getElementById('adl-reduce-qty').value;
+  const qtyRaw      = +document.getElementById('adl-qty-before').value;
+  const markPrice   = +document.getElementById('adl-mark-price').value;
+  const face        = S.adl.face || 1;
+  const reduceQtyRaw= +document.getElementById('adl-reduce-qty').value;
+  const entry       = +document.getElementById('adl-entry').value;
+  const reducePrice = +document.getElementById('adl-reduce-price').value;
 
-  if (!entry || !qtyBefore || !reducePrice || !reduceQty) {
-    showModal('缺少输入','请填写开仓均价、开仓数量、强制减仓价格和减仓数量'); return;
+  // 币模式时换算成张数
+  const qtyBefore = adlQtyMode    === 'coin' ? reduceQtyRaw / face : qtyRaw;
+  const reduceQty = adlReduceMode === 'coin' ? reduceQtyRaw / face : reduceQtyRaw;
+  // 重新取持仓张数（避免变量混用）
+  const qtyBeforeFinal = adlQtyMode === 'coin' ? qtyRaw / face : qtyRaw;
+
+  if (!qtyRaw || !markPrice) {
+    showModal('缺少输入','请填写持仓数量和标记价格'); return;
+  }
+  if (!reduceQtyRaw) {
+    showModal('缺少输入','请填写实际减仓数量'); return;
   }
   if (!S.adl.marginData) { showModal('未加载参数','请先选择合约，等待参数加载完成'); return; }
 
@@ -3382,21 +4006,42 @@ function doAdl() {
   const levers  = [...(S.adl.marginData?.leverList?.leverList || [])].reverse();
   if (!ladders.length) { showModal('数据异常','保证金参数数据为空'); return; }
 
-  // 开仓时名义价值（用开仓均价×数量）
-  const notionalBefore = entry * qtyBefore;
+  // ① 标记价值 = 标记价格 × 张数 × 面值
+  const markValue = mulSafe(markPrice * qtyBeforeFinal, face);
 
-  // 找开仓时所在档位（哪个档位上限 < 名义价值，就是从这个档触发）
+  // ② 找当前所在档位（标记价值超过哪个档）
   let tierBeforeIdx = ladders.length - 1;
   for (let i = 0; i < ladders.length; i++) {
-    if (notionalBefore <= ladders[i].maxPositionValue) { tierBeforeIdx = i; break; }
+    if (markValue <= ladders[i].maxPositionValue) { tierBeforeIdx = i; break; }
   }
-  // 如果超过所有档位上限，说明在最高档
   const tierBefore  = ladders[tierBeforeIdx];
   const leverBefore = levers[tierBeforeIdx];
 
-  // 减仓后剩余数量和名义价值
-  const qtyAfter       = qtyBefore - reduceQty;
-  const notionalAfter  = reducePrice * qtyAfter;
+  // ③ 阶梯最小仓位价值 = 上一档上限（即当前档的起始值）
+  // 第1档没有上一档，用0；否则用上一档上限
+  const tierMinValue = tierBeforeIdx > 0
+    ? +ladders[tierBeforeIdx - 1].maxPositionValue
+    : 0;
+
+  // ④ 超出档位上限
+  const exceeded = markValue - tierMinValue;
+
+  // ⑤ 减少的仓位价值 = 标记价值 - 阶梯最小仓位价值
+  const reduceValue = markValue - tierMinValue;
+
+  // ⑥ 基础减仓数量 = 减少的仓位价值 ÷ 标记价格 ÷ 面值
+  const baseReduceQty = reduceValue / markPrice / face;
+
+  // ⑦ MAX附加量 = MAX(10, 阶梯最小仓位价值 × 0.001 ÷ 标记价格 ÷ 面值)
+  const addon1000 = tierMinValue * 0.001 / markPrice / face;
+  const maxAddon  = Math.max(10, addon1000);
+
+  // ⑧ 理论最终减仓数量 = 基础减仓数量 + MAX附加量
+  const theoryReduceQty = baseReduceQty + maxAddon;
+
+  // ⑨ 剩余张数 = 持仓张数 - 实际减仓张数
+  const qtyAfter      = qtyBeforeFinal - reduceQty;
+  const notionalAfter = markPrice * mulSafe(qtyAfter, face);
 
   // 找减仓后所在档位
   let tierAfterIdx = ladders.length - 1;
@@ -3406,71 +4051,86 @@ function doAdl() {
   const tierAfter  = ladders[tierAfterIdx];
   const leverAfter = levers[tierAfterIdx];
 
-  // 触发档位上限（触发减仓的那个档的上限）
-  // 如果开仓时超过某档，那个档的上限就是触发线
-  // 找出是哪个档被超过了
-  let triggerLimit = 0;
-  let triggerTierIdx = tierBeforeIdx;
-  // 如果开仓时处于最高档，那就是整体名义价值超过前一档上限触发
-  if (tierBeforeIdx > 0) {
-    // 超过了上一档的上限
-    triggerLimit = ladders[tierBeforeIdx - 1].maxPositionValue;
-    triggerTierIdx = tierBeforeIdx - 1;
-  } else {
-    triggerLimit = ladders[0].maxPositionValue;
-    triggerTierIdx = 0;
-  }
-  const exceeded = notionalBefore - triggerLimit;
+  // ⑩ 核查结论：实际减仓 vs 理论减仓（允许±10张误差）
+  const diff    = reduceQty - theoryReduceQty;
+  const absDiff = Math.abs(diff);
+  const isNormal = absDiff <= 10;
 
-  // 减仓部分盈亏（线性合约）
-  const pnlPerCoin = long ? (reducePrice - entry) : (entry - reducePrice);
-  const pnl = pnlPerCoin * reduceQty;
+  // 盈亏（选填）
+  const hasPnl = entry && reducePrice;
+  if (hasPnl) {
+    const pnlPerCoin = long ? (reducePrice - entry) : (entry - reducePrice);
+    const pnl = pnlPerCoin * mulSafe(reduceQty, face);
+    setT('ra-pnl-entry', fmt(entry, 6));
+    setT('ra-pnl-exit',  fmt(reducePrice, 6));
+    setT('ra-pnl', (pnl>=0?'+':'') + fmt(pnl,6) + ' USDT', pnl>=0?'green':'red');
+    document.getElementById('ra-pnl-card').className = 'ri ' + (pnl>=0?'ri-green':'ri-red');
+    document.getElementById('ra-pnl-section').style.display = '';
+  } else {
+    document.getElementById('ra-pnl-section').style.display = 'none';
+  }
 
   // 填入结果
-  setT('ra-notional-before', fmt(notionalBefore, 2));
-  setT('ra-trigger-limit',   fmt(triggerLimit, 2));
-  setT('ra-exceed',          '+' + fmt(exceeded, 2), 'red');
-  setT('ra-tier-before',     `第 ${tierBefore.level} 档`, 'orange');
+  setT('ra-notional-before',   fmt(markValue, 2));
+  setT('ra-trigger-limit',     fmt(tierMinValue, 2));
+  setT('ra-exceed',            '+' + fmt(exceeded, 2), 'red');
+  setT('ra-tier-before',       `第 ${tierBefore.level} 档`, 'orange');
   document.getElementById('ra-tier-before-mmr').textContent = `MMR ${(tierBefore.minMarginRate*100).toFixed(2)}%  最大${leverBefore?.maxLever||'—'}x`;
-  setT('ra-tier-after',      `第 ${tierAfter.level} 档`, 'amber');
+  setT('ra-tier-after',        `第 ${tierAfter.level} 档`, 'amber');
   document.getElementById('ra-tier-after-mmr').textContent  = `MMR ${(tierAfter.minMarginRate*100).toFixed(2)}%  最大${leverAfter?.maxLever||'—'}x`;
-  setT('ra-notional-after',  fmt(notionalAfter, 2));
+  setT('ra-notional-after',    fmt(notionalAfter, 2));
 
-  setT('ra-pnl-entry', fmt(entry, 6));
-  setT('ra-pnl-exit',  fmt(reducePrice, 6));
-  setT('ra-pnl',       (pnl >= 0 ? '+' : '') + fmt(pnl, 6) + ' USDT', pnl >= 0 ? 'green' : 'red');
-  document.getElementById('ra-pnl-card').className = 'ri ' + (pnl >= 0 ? 'ri-green' : 'ri-red');
+  setT('ra-reduce-value',      fmt(reduceValue, 4));
+  setT('ra-base-reduce-qty',   fmt(baseReduceQty, 4));
+  setT('ra-max-addon',         `MAX(10, ${fmt(addon1000,4)}) = ${fmt(maxAddon,4)}`);
+  setT('ra-theory-reduce-qty', fmt(theoryReduceQty, 2), 'orange');
+  setT('ra-actual-reduce-qty', fmt(reduceQty, 0));
 
-  setT('ra-remain-qty',      fmt(qtyAfter, 6));
-  document.getElementById('ra-remain-u').textContent = sym;
+  const verdictEl   = document.getElementById('ra-verdict');
+  const verdictSubEl= document.getElementById('ra-verdict-sub');
+  const verdictCard = document.getElementById('ra-verdict-card');
+  if (isNormal) {
+    verdictEl.textContent  = '✓ 减仓数量正常';
+    verdictEl.className    = 'ri-val green';
+    verdictSubEl.textContent = `误差 ${fmt(absDiff,2)} 张，属正常范围`;
+    verdictCard.className  = 'ri ri-green';
+  } else {
+    verdictEl.textContent  = '⚠ 减仓数量异常';
+    verdictEl.className    = 'ri-val red';
+    verdictSubEl.textContent = `实际比理论${diff>0?'多':'少'} ${fmt(absDiff,2)} 张`;
+    verdictCard.className  = 'ri ri-red';
+  }
+
+  setT('ra-remain-qty',      fmt(qtyAfter, 0));
+  document.getElementById('ra-remain-u').textContent = '张';
   setT('ra-remain-notional', fmt(notionalAfter, 2));
   setT('ra-remain-tier',     `第 ${tierAfter.level} 档`, 'amber');
   document.getElementById('ra-remain-mmr').textContent = `MMR ${(tierAfter.minMarginRate*100).toFixed(2)}%`;
 
   // 公式说明
   setFB('adl', [
-    fCmt('═══ 强制减仓触发逻辑 ═══'),
-    fCmt(`合约：${sym}-USDT 永续  方向：${long?'做多':'做空'}`),
-    fLine('① 开仓名义价值', `开仓均价 ${fmt(entry, 6)} × 数量 ${fmt(qtyBefore, 6)}`, fmt(notionalBefore,2) + ' USDT'),
-    fLine('② 档位上限（触发线）', `第 ${tierBefore.level} 档上限`, fmt(triggerLimit,2) + ' USDT'),
-    fLine('③ 超出档位上限', `${fmt(notionalBefore,2)} − ${fmt(triggerLimit,2)}`, '+' + fmt(exceeded,2) + ' USDT ← 触发强制减仓'),
+    fCmt(`强制减仓分析 · ${sym}-USDT · ${long?'做多':'做空'}`),
     fCmt(''),
-    fCmt('═══ 强制减仓执行过程 ═══'),
-    fLine('④ 强制平仓价格', '系统以当时标记价格强制减仓', fmt(reducePrice, 6) + ' USDT'),
-    fLine('⑤ 强制减仓数量', '将仓位从触发档降至合规范围', fmt(reduceQty, 6) + ' ' + sym),
-    fLine('⑥ 减仓后剩余数量', `${fmt(qtyBefore, 6)} − ${fmt(reduceQty, 6)}`, fmt(qtyAfter, 6) + ' ' + sym),
-    fLine('⑦ 减仓后名义价值', `减仓价 ${fmt(reducePrice, 6)} × 剩余 ${fmt(qtyAfter, 6)}`, fmt(notionalAfter,2) + ' USDT'),
-    fLine('⑧ 减仓后所在档位', `名义价值 ${fmt(notionalAfter,2)} ≤ 第${tierAfter.level}档上限 ${fmt(+tierAfter.maxPositionValue,2)}`, `第 ${tierAfter.level} 档 ✓`),
+    fCmt('═══ 触发原因 ═══'),
+    fLine('① 标记价值',       `标记价 ${markPrice} × ${qtyBeforeFinal}张 × 面值${face}`,        fmt(markValue,4)+' USDT'),
+    fLine('② 阶梯最小仓位价值', tierBeforeIdx>0?`第${tierBefore.level}档起始值（第${tierBefore.level-1}档上限）`:'第1档，最小为0', fmt(tierMinValue,2)+' USDT'),
+    fLine('③ 超出档位上限',    `${fmt(markValue,4)} − ${fmt(tierMinValue,2)}`,              '+'+fmt(exceeded,4)+' USDT → 触发强制减仓'),
     fCmt(''),
-    fCmt('═══ 强制减仓盈亏 ═══'),
-    fLine('⑨ 减仓部分盈亏', long
-      ? `(减仓价 ${fmt(reducePrice, 6)} − 开仓价 ${fmt(entry, 6)}) × ${fmt(reduceQty, 6)}`
-      : `(开仓价 ${fmt(entry, 6)} − 减仓价 ${fmt(reducePrice, 6)}) × ${fmt(reduceQty, 6)}`,
-      (pnl>=0?'+':'') + fmt(pnl, 6) + ' USDT'),
+    fCmt('═══ 理论减仓数量计算 ═══'),
+    fCmt('公式：最终减少张数 = 减少张数 + MAX（10，阶梯最小仓位价值 × 0.001 ÷ 标记价格 ÷ 面值）'),
     fCmt(''),
-    fCmt('★ 强制减仓是系统风控机制，并非人工干预。'),
-    fCmt('★ 当仓位名义价值超过当前档位上限时自动触发，'),
-    fCmt('★ 系统将仓位强制减至符合档位要求的数量。'),
+    fLine('④ 减少的仓位价值',  `标记价值 ${fmt(markValue,4)} − 阶梯最小 ${fmt(tierMinValue,2)}`, fmt(reduceValue,4)+' USDT'),
+    fLine('⑤ 基础减仓数量',   `减少仓位价值 ${fmt(reduceValue,4)} ÷ 标记价 ${markPrice} ÷ 面值 ${face}`, fmt(baseReduceQty,4)+' 张'),
+    fLine('⑥ 1/1000附加候选', `阶梯最小 ${fmt(tierMinValue,2)} × 0.001 ÷ ${markPrice} ÷ ${face}`, fmt(addon1000,4)+' 张'),
+    fLine('⑦ MAX附加量',      `MAX(10, ${fmt(addon1000,4)})`,                               fmt(maxAddon,4)+' 张（取较大值）'),
+    fLine('⑧ 理论最终减仓',   `基础 ${fmt(baseReduceQty,4)} + 附加 ${fmt(maxAddon,4)}`,    fmt(theoryReduceQty,2)+' 张'),
+    fCmt(''),
+    fCmt('═══ 核查结论 ═══'),
+    fLine('⑨ 实际减仓张数',   '客户订单记录',                                              fmt(reduceQty,0)+' 张'),
+    fLine('⑩ 与理论值误差',   `|${fmt(reduceQty,0)} − ${fmt(theoryReduceQty,2)}|`,         fmt(absDiff,2)+' 张'),
+    fCmt(isNormal
+      ? `✓ 误差在合理范围内（≤10张），减仓数量正常`
+      : `⚠ 实际减仓比理论值${diff>0?'多':'少'} ${fmt(absDiff,2)} 张，请进一步核查`),
   ].join(''));
 
   // 档位总览
@@ -3495,6 +4155,11 @@ function doAdl() {
   }).join('');
 
   showRS('adl');
+  // 参考话术
+  const adlDir = long ? '做多' : '做空';
+  if (isNormal) {
+  } else {
+  }
 }
 async function loadForOpen(contractId, sym) {
   setApiStatus('open-api-status','loading','加载中...');
@@ -3557,6 +4222,54 @@ async function loadForOpen(contractId, sym) {
 }
 
 // ═══════════════════════════════════════════════════════════
+// COIN PICKER MODAL (for chk-pos, avoids overflow issues)
+// ═══════════════════════════════════════════════════════════
+let coinPickerCallback = null;
+
+function openCoinPicker(onSelect) {
+  coinPickerCallback = onSelect;
+  const overlay = document.getElementById('coin-picker-overlay');
+  const inp     = document.getElementById('coin-picker-input');
+  if (!overlay) return;
+  overlay.classList.add('open');
+  inp.value = '';
+  filterCoinPicker('');
+  setTimeout(() => inp.focus(), 100);
+}
+
+function closeCoinPicker() {
+  const overlay = document.getElementById('coin-picker-overlay');
+  if (!overlay) return;
+  overlay.classList.add('closing');
+  setTimeout(() => {
+    overlay.classList.remove('open', 'closing');
+  }, 220);
+  coinPickerCallback = null;
+}
+
+function filterCoinPicker(q) {
+  const list = document.getElementById('coin-picker-list');
+  if (!list) return;
+  const filtered = q ? CONTRACTS.filter(c => c.sym.toLowerCase().includes(q.toLowerCase())) : CONTRACTS;
+  if (!filtered.length) {
+    list.innerHTML = '<div class="coin-picker-empty">没有找到匹配的币种</div>';
+    return;
+  }
+  list.innerHTML = '';
+  filtered.forEach(c => {
+    const d = document.createElement('div');
+    d.className = 'coin-picker-opt';
+    const iconUrl = getCoinIcon(c.sym);
+    d.innerHTML = `<img class="coin-icon" src="${iconUrl}" onerror="this.src='${COIN_ICON_FALLBACK}'" alt="${c.sym}"><span style="font-weight:600;color:var(--text1)">${c.sym}-USDT</span><span style="font-size:11px;color:var(--text3);margin-left:4px">永续</span>`;
+    d.onclick = () => {
+      if (coinPickerCallback) coinPickerCallback(c);
+      closeCoinPicker();
+    };
+    list.appendChild(d);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
 // DROPDOWN (contract selector)
 // ═══════════════════════════════════════════════════════════
 const dropState = {};
@@ -3607,31 +4320,51 @@ function filterDrop(dropId, query) {
   renderDropList(dropId, filtered, drop_callbacks[dropId]);
 }
 
+function animateClose(el, removeCls, delay=180) {
+  if (!el) return;
+  el.classList.add('closing');
+  setTimeout(() => { el.classList.remove(...removeCls, 'closing'); }, delay);
+}
+
 function toggleDrop(prefix) {
   const boxId=prefix+'-sel-box', dropId=prefix+'-drop';
   const box=document.getElementById(boxId), drop=document.getElementById(dropId);
   if(!box||!drop) return;
   const isOpen=drop.classList.contains('open');
-  // close all
-  document.querySelectorAll('.mp-dropdown').forEach(d=>d.classList.remove('open'));
+  // close all with exit animation
+  document.querySelectorAll('.mp-dropdown.open, .mp-dropdown-fixed.open').forEach(d=>{
+    if(d !== drop) {
+      d.classList.add('closing');
+      setTimeout(() => d.classList.remove('open','closing'), 180);
+    }
+  });
   document.querySelectorAll('.mp-sel-box').forEach(b=>b.classList.remove('open'));
   if(!isOpen){
-    drop.classList.add('open'); box.classList.add('open');
-    // auto-focus search input
+    box.classList.add('open');
+    if(drop.classList.contains('mp-dropdown-fixed')) {
+      const rect = box.getBoundingClientRect();
+      drop.style.top   = (rect.bottom + 4) + 'px';
+      drop.style.left  = rect.left + 'px';
+      drop.style.width = Math.max(rect.width, 220) + 'px';
+    }
+    drop.classList.add('open');
     setTimeout(() => {
       const inp = drop.querySelector('.mp-drop-search input');
       if (inp) inp.focus();
     }, 50);
+  } else {
+    drop.classList.add('closing');
+    setTimeout(() => drop.classList.remove('open','closing'), 180);
   }
 }
 function closeDrop(dropId, prefix) {
   const drop=document.getElementById(dropId), box=document.getElementById(prefix+'-sel-box');
-  if(drop) drop.classList.remove('open');
+  if(drop) { drop.classList.add('closing'); setTimeout(()=>drop.classList.remove('open','closing'),180); }
   if(box)  box.classList.remove('open');
 }
 document.addEventListener('click', e => {
-  if(!e.target.closest('.mp-sel-box')&&!e.target.closest('.mp-dropdown')) {
-    document.querySelectorAll('.mp-dropdown').forEach(d=>d.classList.remove('open'));
+  if(!e.target.closest('.mp-sel-box')&&!e.target.closest('.mp-dropdown')&&!e.target.closest('.mp-dropdown-fixed')) {
+    document.querySelectorAll('.mp-dropdown, .mp-dropdown-fixed').forEach(d=>d.classList.remove('open'));
     document.querySelectorAll('.mp-sel-box').forEach(b=>b.classList.remove('open'));
   }
   if (!e.target.closest('.lev-display')) {
@@ -3745,8 +4478,6 @@ buildDrop('open-drop', c => {
 });
 buildDrop('adl-drop', c => {
   setSelCoin('adl', c.sym);
-  document.getElementById('adl-qty-u').textContent = c.sym;
-  document.getElementById('adl-reduce-u').textContent = c.sym;
   loadForAdl(c.id, c.sym);
 });
 buildDrop('mp-drop', c => {
@@ -3981,7 +4712,7 @@ function doPnl() {
   const exit =+document.getElementById('pnl-exit').value;
   const qtyRaw =+document.getElementById('pnl-qty').value;
   const face = pnlQtyMode === 'zhang' ? (+document.getElementById('pnl-face')?.value || 1) : 1;
-  const qty  = S.pnl.ct === 'linear' && pnlQtyMode === 'zhang' ? qtyRaw * face : qtyRaw;
+  const qty  = S.pnl.ct === 'linear' && pnlQtyMode === 'zhang' ? mulSafe(qtyRaw, face) : qtyRaw;
   const lev  =S.pnl.lev;
   const isLiq = document.getElementById('pnl-liq-toggle')?.checked;
   const ofr  =(FEES['pnl-open']||0)/100;
@@ -4026,6 +4757,10 @@ function doPnl() {
     fLine('回报率ROE', '原始盈亏÷初始保证金×100', fmt(roe,5)+'%'),
   ].join(''));
   showRS('pnl');
+  // 参考话术
+  const pnlDir = long ? '做多' : '做空';
+  const pnlResult = netPnl >= 0 ? `盈利 ${fmt(netPnl,5)} USDT` : `亏损 ${fmt(Math.abs(netPnl),5)} USDT`;
+  const pnlROE = roe >= 0 ? `+${fmt(roe,2)}%` : `${fmt(roe,2)}%`;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -4064,7 +4799,7 @@ function updateChkPosValue() {
   const el   = document.getElementById('chk-pos-value');
   if (mark && qty) {
     // 张模式: 标记价 × 张数 × 面值；币模式: 标记价 × 币数
-    const posVal = chkQtyMode === 'zhang' ? mark * qty * face : mark * qty;
+    const posVal = chkQtyMode === 'zhang' ? mark * mulSafe(qty, face) : mark * qty;
     el.value = posVal.toFixed(4);
     el.style.color = 'var(--text1)';
   } else {
@@ -4110,7 +4845,7 @@ function doLiqCheck() {
   const qty        = +document.getElementById('chk-qty').value;
   const face       = +document.getElementById('chk-face').value || 1;
   // recalc posValue from inputs (don't rely on readonly field)
-  const posValue   = mark && qty ? (chkQtyMode === 'zhang' ? mark * qty * face : mark * qty) : +document.getElementById('chk-pos-value').value;
+  const posValue   = mark && qty ? (chkQtyMode === 'zhang' ? mark * mulSafe(qty, face) : mark * qty) : +document.getElementById('chk-pos-value').value;
 
   if (!equity || !posValue) { showModal('缺少输入','请填写账户权益，以及标记价格和数量（用于计算仓位价值）'); return; }
 
@@ -4192,6 +4927,10 @@ function doLiqCheck() {
   // auto-expand formula
   const fbEl = document.getElementById('fb-liqcheck');
   if (fbEl && fbEl.parentElement) fbEl.parentElement.style.display = 'block';
+  // 参考话术
+  if (triggered) {
+  } else {
+  }
 }
 let liqMode = 'cross'; // 'cross' | 'isolated'
 
@@ -4419,6 +5158,9 @@ function doLiq() {
   setT('rl-fee',   fmt(fee*100,3)+' %');
   setFB('liq', formulaLines.join(''));
   showRS('liq');
+  // 参考话术
+  const liqMode2 = liqMode === 'cross' ? '全仓' : '逐仓';
+  const liqDir   = long ? '做多' : '做空';
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -4460,7 +5202,7 @@ function updateOpenCurPos() {
   const hint   = document.getElementById('open-cur-pos-hint');
   const ct     = S.open.contractId ? CONTRACTS.find(c => c.id === S.open.contractId) : null;
   const face   = (openCurQtyMode === 'zhang' && ct) ? ct.face : 1;
-  const qty    = qtyRaw * face;
+  const qty    = mulSafe(qtyRaw, face);
   if (!disp) return;
   if (qtyRaw && mark) {
     const val = qty * mark;
@@ -4687,7 +5429,7 @@ function doFund() {
   const mark   = +document.getElementById('fund-mark').value;
   const qtyRaw = +document.getElementById('fund-qty').value;
   const face   = fundQtyMode === 'zhang' ? (S.fund?.face || 1) : 1;
-  const qty    = qtyRaw * face; // 张模式：张数 × 面值 = 币数
+  const qty    = mulSafe(qtyRaw, face); // 张模式：张数 × 面值 = 币数
   if (!mark || !qtyRaw) { showModal('缺少输入','请填写标记价格和仓位数量'); return; }
 
   const lin  = S.fund.ct === 'linear';
@@ -4775,6 +5517,11 @@ function doFund() {
   ];
   setFB('fund', fLines.join(''));
   showRS('fund');
+  // 参考话术
+  const fundDir  = long ? '做多' : '做空';
+  const fundResult = netTotal >= 0
+    ? `净收入 <strong>+${fmt(netTotal,d)} ${unit}</strong>`
+    : `净支出 <strong>${fmt(netTotal,d)} ${unit}</strong>`;
 }
 
 
@@ -4914,7 +5661,88 @@ function mpChangePage(delta){
 // ═══════════════════════════════════════════════════════════
 // INIT: Auto-load BTC on startup
 // ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+// Q&A 交互
+// ═══════════════════════════════════════════════════════════
+document.addEventListener('click', e => {
+  const q = e.target.closest('.qa-q');
+  if (q) {
+    const item = q.closest('.qa-item');
+    const a    = item?.querySelector('.qa-a');
+    const isOpen = q.classList.contains('open');
+    // 收起同组其他（带出场动画）
+    q.closest('.qa-list')?.querySelectorAll('.qa-q.open').forEach(oq => {
+      if (oq !== q) {
+        oq.classList.remove('open');
+        const oa = oq.closest('.qa-item')?.querySelector('.qa-a');
+        if (oa) {
+          oa.classList.add('closing');
+          setTimeout(() => oa.classList.remove('show','closing'), 200);
+        }
+      }
+    });
+    q.classList.toggle('open', !isOpen);
+    if (!isOpen) {
+      a?.classList.add('show');
+      a?.classList.remove('closing');
+    } else {
+      if (a) {
+        a.classList.add('closing');
+        setTimeout(() => a.classList.remove('show','closing'), 200);
+      }
+    }
+  }
+  // 复制话术
+  const btn = e.target.closest('.qa-copy-btn');
+  if (btn) {
+    const script = btn.closest('.qa-a')?.querySelector('.qa-script');
+    if (script) {
+      navigator.clipboard.writeText(script.innerText).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = '✓ 已复制';
+        btn.style.background = 'var(--green)';
+        btn.style.borderColor = 'var(--green)';
+        btn.style.color = '#fff';
+        setTimeout(() => {
+          btn.textContent = orig;
+          btn.style.background = '';
+          btn.style.borderColor = '';
+          btn.style.color = '';
+        }, 1500);
+      });
+    }
+  }
+});
+
 window.addEventListener('DOMContentLoaded', () => {
+  // 计算按钮点击波纹效果
+  document.querySelectorAll('.calc-btn').forEach(btn => {
+    btn.style.position = 'relative';
+    btn.style.overflow = 'hidden';
+    btn.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height) * 2;
+      ripple.style.cssText = `
+        position:absolute; border-radius:50%;
+        width:${size}px; height:${size}px;
+        left:${e.clientX - rect.left - size/2}px;
+        top:${e.clientY - rect.top - size/2}px;
+        background:rgba(255,255,255,0.35);
+        transform:scale(0); pointer-events:none;
+        animation:ripple-anim 0.55s cubic-bezier(0.22,1,0.36,1) forwards;
+      `;
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    });
+  });
+  // 给每个话术加复制按钮
+  document.querySelectorAll('.qa-script').forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'qa-copy-btn';
+    btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制话术';
+    s.after(btn);
+  });
   // update all fee displays to match initial FEES values
   ['pnl-open','pnl-close','liq-fee','open-fee'].forEach(k => updateFeeDisp(k));
   // init range slider fills + ticks
@@ -4930,8 +5758,6 @@ window.addEventListener('DOMContentLoaded', () => {
   setSelCoin('open', btc.sym);
   setSelCoin('mp', btc.sym);
   setSelCoin('adl', btc.sym);
-  document.getElementById('adl-qty-u').textContent = btc.sym;
-  document.getElementById('adl-reduce-u').textContent = btc.sym;
   // default BTC for pnl
   setSelCoin('pnl', btc.sym);
   const pnlFaceEl  = document.getElementById('pnl-face');
@@ -4956,6 +5782,14 @@ window.addEventListener('DOMContentLoaded', () => {
   // init chk selector with BTC
   setSelCoin('chk', btc.sym);
   loadForChk(btc.id, btc.sym);
+  // init adl with BTC face value immediately (before async)
+  S.adl.face = btc.face;
+  const adlFaceDisp = document.getElementById('adl-face-display');
+  const adlFaceU    = document.getElementById('adl-face-u');
+  const adlFaceHint = document.getElementById('adl-face-hint');
+  if (adlFaceDisp) adlFaceDisp.textContent = btc.face;
+  if (adlFaceU)    adlFaceU.textContent    = btc.sym;
+  if (adlFaceHint) adlFaceHint.style.display = adlQtyMode === 'zhang' ? '' : 'none';
   loadForAdl(btc.id, btc.sym);
   mpLoadContract(btc.id, btc.sym);
   // init tf fee displays
@@ -5077,7 +5911,7 @@ function doCloseCheck() {
 
   // 仓位名义价值（用爆仓前1分钟标记价）
   // 张模式: 标记价 × 张数 × 面值；币模式: 标记价 × 币数
-  const coinQty      = ccQtyMode === 'zhang' ? qty * face : qty;
+  const coinQty      = ccQtyMode === 'zhang' ? mulSafe(qty, face) : qty;
   const posValue     = liqPrevMark * coinQty;
   const upnl         = long
     ? (closeMark - liqPrevMark) * coinQty
@@ -5093,7 +5927,7 @@ function doCloseCheck() {
   const wouldLiq     = theoryEquity <= minEquity;
   // 爆仓时实际盈亏
   const actualUpnl   = liqMark
-    ? (long ? (liqMark - liqPrevMark) * qty * face : (liqPrevMark - liqMark) * qty * face)
+    ? (long ? (liqMark - liqPrevMark) * mulSafe(qty, face) : (liqPrevMark - liqMark) * mulSafe(qty, face))
     : null;
   const actualEquity = liqMark ? margin + actualUpnl : null;
 
@@ -5144,7 +5978,51 @@ function doCloseCheck() {
 
   const rs = document.getElementById('closecheck-rs');
   if (rs) { rs.style.display = 'block'; setTimeout(()=>rs.scrollIntoView({behavior:'smooth',block:'nearest'}),50); }
+  // 参考话术
+  if (!wouldLiq) {
+  } else {
+  }
 }
+let adlQtyMode    = 'coin'; // 'coin' | 'zhang'
+let adlReduceMode = 'coin';
+
+function setAdlQtyMode(mode) {
+  adlQtyMode = mode;
+  const coinBtn  = document.getElementById('adl-qty-coin');
+  const zhangBtn = document.getElementById('adl-qty-zhang');
+  const qtyU     = document.getElementById('adl-qty-before-u');
+  const faceHint = document.getElementById('adl-face-hint');
+  const sym      = S.adl?.sym || 'BTC';
+  if (mode === 'coin') {
+    if (coinBtn)  { coinBtn.style.background  = 'var(--orange)'; coinBtn.style.color  = '#fff'; }
+    if (zhangBtn) { zhangBtn.style.background = '#fff';          zhangBtn.style.color = 'var(--text3)'; }
+    if (qtyU)     qtyU.textContent = sym;
+    if (faceHint) faceHint.style.display = 'none';
+  } else {
+    if (coinBtn)  { coinBtn.style.background  = '#fff';          coinBtn.style.color  = 'var(--text3)'; }
+    if (zhangBtn) { zhangBtn.style.background = 'var(--orange)'; zhangBtn.style.color = '#fff'; }
+    if (qtyU)     qtyU.textContent = '张';
+    if (faceHint) faceHint.style.display = S.adl?.face ? '' : 'none';
+  }
+}
+
+function setAdlReduceMode(mode) {
+  adlReduceMode = mode;
+  const coinBtn = document.getElementById('adl-reduce-coin');
+  const zhangBtn= document.getElementById('adl-reduce-zhang');
+  const qtyU    = document.getElementById('adl-reduce-qty-u');
+  const sym     = document.getElementById('adl-face-u')?.textContent?.replace(' / 张','') || '';
+  if (mode === 'coin') {
+    if (coinBtn)  { coinBtn.style.background  = 'var(--orange)'; coinBtn.style.color  = '#fff'; }
+    if (zhangBtn) { zhangBtn.style.background = '#fff';          zhangBtn.style.color = 'var(--text3)'; }
+    if (qtyU) qtyU.textContent = sym || '币';
+  } else {
+    if (coinBtn)  { coinBtn.style.background  = '#fff';          coinBtn.style.color  = 'var(--text3)'; }
+    if (zhangBtn) { zhangBtn.style.background = 'var(--orange)'; zhangBtn.style.color = '#fff'; }
+    if (qtyU) qtyU.textContent = '张';
+  }
+}
+
 let fundQtyMode = 'coin'; // 'coin' | 'zhang'
 
 function setFundQtyMode(mode) {
@@ -5198,8 +6076,8 @@ function doTradeFee() {
   const face       = tfQtyMode === 'zhang' ? (S.tf && S.tf.face ? S.tf.face : 1) : 1;
 
   // 张模式：数量 × 面值 = 币数
-  const openQty  = openQtyRaw  * face;
-  const closeQty = closeQtyRaw * face;
+  const openQty  = mulSafe(openQtyRaw, face);
+  const closeQty = mulSafe(closeQtyRaw, face);
 
   const hasOpen  = openPrice  && openQtyRaw;
   const hasClose = closePrice && closeQtyRaw;
@@ -5244,7 +6122,28 @@ function doTradeFee() {
 
   setFB('tradefee', lines.join(''));
   showRS('tradefee');
+  // 参考话术
+  const tfParts = [];
+  if (hasOpen)  tfParts.push(`开仓手续费：${fmtFee(openFee)} USDT（${fmt(openRate*100,4)}%）`);
+  if (hasClose) tfParts.push(`平仓手续费：${fmtFee(closeFee)} USDT（${fmt(closeRate*100,4)}%）`);
 }
 </script>
+<!-- 币种选择器模态框 -->
+<div class="coin-picker-overlay" id="coin-picker-overlay" onclick="if(event.target===this)closeCoinPicker()">
+  <div class="coin-picker-modal">
+    <div class="coin-picker-head">
+      <span>选择币种</span>
+      <button class="coin-picker-close" onclick="closeCoinPicker()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="coin-picker-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="coin-picker-input" placeholder="搜索币种..." autocomplete="off" oninput="filterCoinPicker(this.value)">
+    </div>
+    <div class="coin-picker-list" id="coin-picker-list"></div>
+  </div>
+</div>
+
 </body>
 </html>
