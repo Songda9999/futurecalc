@@ -160,8 +160,8 @@ input  { font-family:inherit; }
 .mob-drawer-list { flex:1; overflow-y:auto; padding:8px 0; }
 .mob-drawer-item {
   display:flex; align-items:center; gap:12px;
-  padding:13px 16px; cursor:pointer;
-  color:var(--text2); font-size:14px; font-weight:600;
+  padding:13px 18px 13px 28px; cursor:pointer;
+  color:var(--text2); font-size:14px; font-weight:500;
   border:none; background:none; width:100%; text-align:left;
   transition:background 0.15s, color 0.15s;
   border-left:3px solid transparent;
@@ -174,24 +174,25 @@ input  { font-family:inherit; }
   border-left-color:var(--orange);
 }
 .mob-drawer-item.active svg { color:var(--orange); }
-.mob-drawer-item-sub { font-size:11px; font-weight:400; color:var(--text3); margin-left:auto; }
+.mob-drawer-item-sub { font-size:12px; font-weight:400; color:var(--text3); margin-left:auto; }
 .mob-drawer-item.active .mob-drawer-item-sub { color:var(--orange); opacity:0.7; }
 
 /* 抽屉分组 */
 .mob-drawer-group-head {
   display:flex; align-items:center; justify-content:space-between;
-  padding:10px 16px 8px;
-  font-size:10px; font-weight:700; color:var(--text3);
-  text-transform:uppercase; letter-spacing:0.1em;
-  border-top:1px solid rgba(255,255,255,0.08);
+  padding:14px 18px 12px;
+  font-size:15px; font-weight:600; color:var(--text1);
+  letter-spacing:0;
+  border-top:1px solid rgba(0,0,0,0.06);
   cursor:pointer; user-select:none;
-  margin-top:4px;
+  margin-top:0;
 }
-.mob-drawer-group-head:first-child { border-top:none; margin-top:0; }
-.mob-drawer-group-head svg { width:14px; height:14px; transition:transform 0.2s; }
-.mob-drawer-group-head.open svg { transform:rotate(180deg); }
+.mob-drawer-group-head:first-child { border-top:none; }
+.mob-drawer-group-head svg { width:16px; height:16px; transition:transform 0.25s cubic-bezier(0.22,1,0.36,1); color:var(--text3); }
+.mob-drawer-group-head.open { color:var(--orange-dark); }
+.mob-drawer-group-head.open svg { transform:rotate(180deg); color:var(--orange); }
 .mob-drawer-group-items { display:none; }
-.mob-drawer-group-items.open { display:block; }
+.mob-drawer-group-items.open { display:block; animation:fadein 0.2s ease; }
 
 .mob-drawer-footer {
   padding:14px 16px;
@@ -968,10 +969,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
         ADL 强制减仓<span class="mob-drawer-item-sub">Auto-Deleverage</span>
       </button>
-      <button class="mob-drawer-item" id="md-closecheck" onclick="drawerNav('closecheck')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 8 12 12 16"/><line x1="16" y1="12" x2="8" y2="12"/></svg>
-        平仓异常核查<span class="mob-drawer-item-sub">Close Check</span>
-      </button>
+
       <button class="mob-drawer-item" id="md-sharecheck" onclick="drawerNav('sharecheck')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         分摊核查<span class="mob-drawer-item-sub">Share Check</span>
@@ -1062,10 +1060,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
         <div><div class="sb-label">ADL 档位分析</div><div class="sb-sub">Auto-Deleveraging</div></div>
       </button>
-      <button class="side-btn" id="sb-closecheck" onclick="switchTab('closecheck',this)">
-        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 8 12 12 16"/><line x1="16" y1="12" x2="8" y2="12"/></svg>
-        <div><div class="sb-label">平仓异常核查</div><div class="sb-sub">Close Order Check</div></div>
-      </button>
+
       <button class="side-btn" id="sb-sharecheck" onclick="switchTab('sharecheck',this)">
         <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         <div><div class="sb-label">分摊核查</div><div class="sb-sub">Socialized Loss Check</div></div>
@@ -2066,7 +2061,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
 <div class="card">
   <div class="card-head">
     <div class="card-head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></div>
-    <div><h2>保证金参数查询</h2><p>用于查询各合约的仓位档位、维持保证金率及最大可用杠杆，解答用户关于保证金要求和杠杆上限的疑问</p></div>
+    <div><h2>保证金参数查询</h2><p>用于查询各合约的仓位档位、维持保证金率及最大可用杠杆，解答用户关于保证金要求和杠杆上限的疑问 &nbsp;<span class="api-status loading" id="mp-api-status"><span class="api-dot"></span>加载中</span></p></div>
   </div>
   <div class="card-body">
     <div style="margin-bottom:16px">
@@ -2433,138 +2428,6 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
 </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     TAB 8: 平仓异常核查
-══════════════════════════════════════════════ -->
-<div id="tab-closecheck" class="panel">
-<div class="card">
-  <div class="card-head">
-    <div class="card-head-icon" style="background:#fef2f2"><svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 8 12 12 16"/><line x1="16" y1="12" x2="8" y2="12"/></svg></div>
-    <div><h2>平仓异常核查</h2><p>用于核实用户投诉「已挂平仓单但仍被爆仓」的情况，判断平仓指令即使成功执行是否仍会触发强平，区分系统问题还是正常强平</p></div>
-  </div>
-  <div class="card-body">
-
-    <div class="info-chip" style="border-color:#fca5a5;background:#fff5f5">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg>
-      <span>当时理论权益 = (平仓时标记价 − 触发爆仓前1分钟标记价) × 张数 × 面值 + 持仓保证金<br>
-      若理论权益 > 最低所需权益，说明平仓如正常执行用户不会爆仓</span>
-    </div>
-
-    <!-- 合约选择 + 方向 -->
-    <div class="form-grid" style="margin-bottom:16px;margin-top:20px">
-      <div class="field">
-        <div class="field-label">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
-          选择合约（自动填入参数）
-        </div>
-        <div style="position:relative">
-          <div class="mp-sel-box" id="cc-sel-box" onclick="toggleDrop('cc')">
-            <img id="cc-sel-icon" class="sel-coin-icon" src="" alt="" onerror="this.classList.remove('loaded')">
-            <span id="cc-sel-txt">选择合约...</span>
-            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-          <div class="mp-dropdown" id="cc-drop"></div>
-        </div>
-      </div>
-      <div class="field">
-        <div class="field-label">交易方向</div>
-        <div class="seg">
-          <button class="seg-btn active-long" id="cc-dlong" onclick="setDir('cc','long')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>做多 Long
-          </button>
-          <button class="seg-btn" id="cc-dshort" onclick="setDir('cc','short')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>做空 Short
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 合约信息 -->
-    <div class="form-grid" style="margin-bottom:16px" id="cc-main-grid">
-      <div class="field">
-        <div class="field-label">维持保证金率 MMR<span style="font-size:10px;color:var(--orange);font-weight:600" id="cc-mmr-src"> ✦ 自动填入</span></div>
-        <div class="fi" id="cc-mmr-fi"><input type="number" id="cc-mmr" placeholder="0.50" step="any"><span class="fi-unit">%</span></div>
-      </div>
-      <div class="field">
-        <div class="field-label">
-          数量 &nbsp;
-          <span style="display:inline-flex;border:1px solid #e5e7eb;border-radius:5px;overflow:hidden;vertical-align:middle">
-            <button id="cc-qty-mode-zhang" onclick="setCCQtyMode('zhang')" style="padding:1px 8px;font-size:11px;font-weight:600;border:none;background:var(--orange);color:#fff;cursor:pointer">张</button>
-            <button id="cc-qty-mode-coin" onclick="setCCQtyMode('coin')" style="padding:1px 8px;font-size:11px;font-weight:600;border:none;background:#fff;color:var(--text3);cursor:pointer">币</button>
-          </span>
-          <span style="font-size:10px;color:var(--text3);font-weight:400"> 持仓页「数量」</span>
-        </div>
-        <div class="fi"><input type="number" id="cc-qty" placeholder="0" step="any"><span class="fi-unit" id="cc-qty-u">张</span></div>
-      </div>
-      <div class="field" id="cc-face-field">
-        <div class="field-label">合约面值<span style="font-size:10px;color:var(--orange);font-weight:600" id="cc-face-src"> ✦ 自动填入</span></div>
-        <div class="fi" id="cc-face-fi"><input type="number" id="cc-face" placeholder="0.01" step="any"><span class="fi-unit" id="cc-face-u">ETH</span></div>
-      </div>
-      <div class="field" id="cc-margin-field">
-        <div class="field-label">持仓保证金<span style="font-size:10px;color:var(--text3);font-weight:400"> 持仓页「保证金」</span></div>
-        <div class="fi"><input type="number" id="cc-margin" placeholder="0.00" step="any"><span class="fi-unit">USDT</span></div>
-      </div>
-    </div>
-
-    <!-- 价格信息 -->
-    <div class="form-grid" style="margin-bottom:16px">
-      <div class="field">
-        <div class="field-label">用户点击平仓时标记价<span style="font-size:10px;color:var(--text3);font-weight:400"> 平仓指令发出时</span></div>
-        <div class="fi"><input type="number" id="cc-close-mark" placeholder="0.00" step="any"><span class="fi-unit">USDT</span></div>
-      </div>
-      <div class="field">
-        <div class="field-label">触发爆仓前1分钟标记价<span style="font-size:10px;color:var(--text3);font-weight:400"> 爆仓前最后一分钟</span></div>
-        <div class="fi"><input type="number" id="cc-liq-prev-mark" placeholder="0.00" step="any"><span class="fi-unit">USDT</span></div>
-      </div>
-      <div class="field">
-        <div class="field-label">爆仓时标记价<span style="font-size:10px;color:var(--text3);font-weight:400"> 实际爆仓触发时（选填）</span></div>
-        <div class="fi"><input type="number" id="cc-liq-mark" placeholder="0.00" step="any"><span class="fi-unit">USDT</span></div>
-      </div>
-      <div class="field form-full">
-        <div class="field-label">平仓手续费类型</div>
-        <div class="fee-selector" style="margin-top:4px">
-          <div class="fee-tabs">
-            <button class="fee-tab active" onclick="setFeeTab('cc-fee','maker',this)">Maker</button>
-            <button class="fee-tab" onclick="setFeeTab('cc-fee','taker',this)">Taker</button>
-          </div>
-          <div class="fee-panel show" id="cc-fee-maker">
-            <div class="fee-opts"><button class="fee-opt active" onclick="selFee('cc-fee',0.014,this)">0.014%</button></div>
-          </div>
-          <div class="fee-panel" id="cc-fee-taker">
-            <div class="fee-opts"><button class="fee-opt active" onclick="selFee('cc-fee',0.0375,this)">0.0375%</button></div>
-          </div>
-          <div class="fee-footer"><span>当前费率</span><strong id="cc-fee-disp">0.014 %</strong></div>
-        </div>
-      </div>
-    </div>
-
-    <button class="calc-btn" onclick="doCloseCheck()">核 查 平 仓 异 常</button>
-
-    <div class="result-section" id="closecheck-rs" style="display:none">
-      <div class="result-divider"></div>
-      <div class="result-label">核查结果</div>
-      <div class="result-grid" style="margin-bottom:20px">
-        <div class="ri"><div class="ri-lbl">平仓时理论盈亏</div><div class="ri-val" id="rcc-upnl">—</div><div class="ri-sub">USDT</div></div>
-        <div class="ri ri-amber"><div class="ri-lbl">如平仓成功理论权益</div><div class="ri-val amber" id="rcc-theory-equity">—</div><div class="ri-sub">USDT</div></div>
-        <div class="ri ri-red"><div class="ri-lbl">最低所需权益</div><div class="ri-val red" id="rcc-min-equity">—</div><div class="ri-sub">维持保证金 + 手续费</div></div>
-        <div class="ri"><div class="ri-lbl">爆仓时实际权益</div><div class="ri-val" id="rcc-actual-equity">—</div><div class="ri-sub">USDT</div></div>
-        <div class="ri"><div class="ri-lbl">理论 vs 最低所需</div><div class="ri-val" id="rcc-gap">—</div><div class="ri-sub">USDT</div></div>
-        <div class="ri" id="rcc-verdict-card"><div class="ri-lbl">结论</div><div class="ri-val" id="rcc-verdict" style="font-size:12px;line-height:1.4">—</div></div>
-      </div>
-      <div class="formula-wrap">
-        <div class="formula-toggle" id="ft-closecheck" onclick="toggleF('closecheck')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          查看完整核查公式
-          <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:auto"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="formula-body" id="fb-closecheck"></div>
-      </div>
-      <!-- 参考话术 -->
-    </div>
-
-  </div>
-</div>
-</div>
 
 <!-- ══════════════════════════════════════════════
      TAB: 分摊核查
@@ -2575,7 +2438,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
     <div class="card-head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
     <div>
       <h2>分摊核查</h2>
-      <p>输入用户持仓信息与分摊触发时间，自动抓取该分钟标记价格区间，判断分摊是否合理</p>
+      <p>输入用户持仓信息与分摊触发时间，自动抓取该分钟标记价格区间，判断分摊是否合理 &nbsp;<span class="api-status" id="sc-api-status" style="display:none"><span class="api-dot"></span></span></p>
     </div>
   </div>
   <div class="card-body">
@@ -2585,61 +2448,23 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
       分摊只扣取<strong>分摊时刻仍持仓且周期内盈利</strong>的用户。填入持仓信息和分摊触发时间（<strong>北京时间 UTC+8</strong>，精确到分钟），系统自动换算为 UTC 查询标记价格 K 线，计算浮盈判断分摊是否正常。标记价格数据仅供参考，最终以技术核查为准。
     </div>
 
-    <!-- 合约 + 方向 -->
-    <div class="form-grid" style="margin-bottom:16px">
-      <div class="field">
-        <div class="field-label">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
-          选择合约
-        </div>
-        <div style="position:relative">
-          <div class="mp-sel-box" id="sc-sel-box" onclick="toggleDrop('sc')">
-            <img id="sc-sel-icon" class="sel-coin-icon" src="" alt="" onerror="this.classList.remove('loaded')">
-            <span id="sc-sel-txt">选择合约...</span>
-            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-          <div class="mp-dropdown" id="sc-drop"></div>
-        </div>
-      </div>
-      <div class="field">
-        <div class="field-label">仓位方向</div>
-        <div class="seg">
-          <button class="seg-btn active-long" id="sc-dlong" onclick="setDir('sc','long')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>做多 Long
-          </button>
-          <button class="seg-btn" id="sc-dshort" onclick="setDir('sc','short')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>做空 Short
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 持仓信息 + 添加时间按钮 -->
-    <div class="field-label" style="margin-bottom:8px;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;font-weight:700">持仓信息</div>
-    <div class="form-grid" style="margin-bottom:8px">
-      <div class="field">
-        <div class="field-label">
-          持仓数量
-          &nbsp;<span style="display:inline-flex;border:1px solid #e5e7eb;border-radius:5px;overflow:hidden;vertical-align:middle">
-            <button id="sc-qty-coin" onclick="setScQtyMode('coin')" style="padding:1px 8px;font-size:11px;font-weight:600;border:none;background:var(--orange);color:#fff;cursor:pointer">币</button>
-            <button id="sc-qty-zhang" onclick="setScQtyMode('zhang')" style="padding:1px 8px;font-size:11px;font-weight:600;border:none;background:#fff;color:var(--text3);cursor:pointer">张</button>
-          </span>
-        </div>
-        <div class="fi"><input type="number" id="sc-qty" placeholder="0.00" step="any"><span class="fi-unit" id="sc-qty-u">BTC</span></div>
-        <div id="sc-face-hint" style="display:none;font-size:12px;color:var(--text2);margin-top:4px">
-          合约面值：<span id="sc-face-display" style="font-weight:700;color:var(--orange-dark);font-family:'Inter',-apple-system,sans-serif">—</span>
-          <span id="sc-face-u" style="color:var(--text3)"></span> / 张
-        </div>
-      </div>
-      <div class="field">
-        <div class="field-label">分摊触发时间</div>
-        <div id="sc-times-list" style="display:flex;flex-direction:column;gap:6px"></div>
-        <button id="sc-add-btn" onclick="addShareTime()" style="margin-top:6px;display:flex;align-items:center;gap:4px;padding:6px 14px;border:1.5px dashed var(--border);border-radius:var(--r-sm);background:transparent;color:var(--text3);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.18s;width:100%;justify-content:center" onmouseover="this.style.borderColor='var(--orange)';this.style.color='var(--orange-dark)';this.style.background='var(--orange-light)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text3)';this.style.background='transparent'">
+    <!-- 仓位列表 -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <span style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;font-weight:700">仓位列表（每个仓位独立设置方向和分摊时间）</span>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button onclick="addScPosition()" style="display:flex;align-items:center;gap:4px;padding:4px 12px;border:1.5px solid var(--orange);border-radius:6px;background:var(--orange-light);color:var(--orange-dark);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          添加时间
+          添加仓位
+        </button>
+        <button onclick="clearAllScPositions()" id="clear-sc-pos-btn" style="display:none;align-items:center;gap:4px;padding:4px 12px;border:1.5px solid #e5e7eb;border-radius:6px;background:#fff;color:var(--text3);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all 0.15s"
+          onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)';this.style.background='#fef2f2'"
+          onmouseout="this.style.borderColor='#e5e7eb';this.style.color='var(--text3)';this.style.background='#fff'">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+          清空全部
         </button>
       </div>
     </div>
+    <div id="sc-positions-list" style="display:flex;flex-direction:column;gap:12px;margin-bottom:4px"></div>
 
     <button class="calc-btn" onclick="doShareCheck()">核 查 分 摊 是 否 正 常</button>
 
@@ -3301,6 +3126,720 @@ const CONTRACT_RULES = {
     maxOrders:     10,
     maxCondOrders: 10,
   },
+  10: {
+    sym:           'LINK',
+    face:          0.1,
+    minQty:        1,
+    minOrderAmt:   0.1,
+    tickSize:      0.001,
+    pricePrecision:3,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  200000,
+    limitMaxQty:   2000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  11: {
+    sym:           'LTC',
+    face:          0.1,
+    minQty:        1,
+    minOrderAmt:   0.1,
+    tickSize:      0.01,
+    pricePrecision:2,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  50000,
+    limitMaxQty:   100000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  12: {
+    sym:           'AXS',
+    face:          0.1,
+    minQty:        1,
+    minOrderAmt:   0.1,
+    tickSize:      0.001,
+    pricePrecision:3,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  200000,
+    limitMaxQty:   10000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  13: {
+    sym:           'ETC',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.1,
+    tickSize:      0.001,
+    pricePrecision:3,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  10000,
+    limitMaxQty:   100000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  14: {
+    sym:           'COMP',
+    face:          0.01,
+    minQty:        1,
+    minOrderAmt:   0.1,
+    tickSize:      0.01,
+    pricePrecision:2,
+    priceUpperPct: 0.2,
+    priceLowerPct: 0.2,
+    marketMaxQty:  140000,
+    limitMaxQty:   1000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  15: {
+    sym:           'UNI',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.1,
+    tickSize:      0.001,
+    pricePrecision:3,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  25000,
+    limitMaxQty:   10000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  16: {
+    sym:           'SUSHI',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.1,
+    tickSize:      0.0001,
+    pricePrecision:4,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  90000,
+    limitMaxQty:   10000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  17: {
+    sym:           'CHZ',
+    face:          10,
+    minQty:        1,
+    minOrderAmt:   0.1,
+    tickSize:      0.00001,
+    pricePrecision:5,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  150000,
+    limitMaxQty:   1000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  18: {
+    sym:           'BNB',
+    face:          0.1,
+    minQty:        1,
+    minOrderAmt:   0.1,
+    tickSize:      0.01,
+    pricePrecision:2,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  20000,
+    limitMaxQty:   1000000,
+    maxOrders:     30,
+    maxCondOrders: 30,
+  },
+  19: {
+    sym:           'MANA',
+    face:          10,
+    minQty:        1,
+    minOrderAmt:   0.1,
+    tickSize:      0.0001,
+    pricePrecision:4,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  20000,
+    limitMaxQty:   100000,
+    maxOrders:     20,
+    maxCondOrders: 20,
+  },
+  20: {
+    sym:           'OP',
+    face:          0.1,
+    minQty:        1,
+    minOrderAmt:   0.1,
+    tickSize:      0.0001,
+    pricePrecision:4,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  1000000,
+    limitMaxQty:   10000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  21: {
+    sym:           'ZEC',
+    face:          0.001,
+    minQty:        1,
+    minOrderAmt:   0.01,
+    tickSize:      0.01,
+    pricePrecision:2,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  2000000,
+    limitMaxQty:   6000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  22: {
+    sym:           'INJ',
+    face:          0.1,
+    minQty:        1,
+    minOrderAmt:   0.1,
+    tickSize:      0.001,
+    pricePrecision:3,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  250000,
+    limitMaxQty:   10000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  23: {
+    sym:           'SOL',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.001,
+    tickSize:      0.01,
+    pricePrecision:2,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  5000,
+    limitMaxQty:   1000000,
+    maxOrders:     30,
+    maxCondOrders: 30,
+  },
+  24: {
+    sym:           'WLD',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.0001,
+    tickSize:      0.0001,
+    pricePrecision:4,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  60000,
+    limitMaxQty:   1250000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  25: {
+    sym:           'DOGS',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.0000001,
+    tickSize:      0.0000001,
+    pricePrecision:7,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  50000000,
+    limitMaxQty:   80000000,
+    maxOrders:     20,
+    maxCondOrders: 20,
+  },
+  26: {
+    sym:           'GOAT',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.001,
+    tickSize:      0.00001,
+    pricePrecision:5,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  1000000,
+    limitMaxQty:   1500000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  27: {
+    sym:           'MOODENG',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.00001,
+    tickSize:      0.00001,
+    pricePrecision:5,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  3000000,
+    limitMaxQty:   8000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  28: {
+    sym:           'SHIB',
+    face:          1000000,
+    minQty:        1,
+    minOrderAmt:   0.000000001,
+    tickSize:      0.000000001,
+    pricePrecision:9,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  50000,
+    limitMaxQty:   800000,
+    maxOrders:     30,
+    maxCondOrders: 30,
+  },
+  29: {
+    sym:           'SUI',
+    face:          0.1,
+    minQty:        1,
+    minOrderAmt:   0.0001,
+    tickSize:      0.0001,
+    pricePrecision:4,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  6000000,
+    limitMaxQty:   10000000,
+    maxOrders:     20,
+    maxCondOrders: 20,
+  },
+  30: {
+    sym:           'ACT',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.00001,
+    tickSize:      0.00001,
+    pricePrecision:5,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  1000000,
+    limitMaxQty:   3000000,
+    maxOrders:     20,
+    maxCondOrders: 20,
+  },
+  31: {
+    sym:           'BONK',
+    face:          100000,
+    minQty:        1,
+    minOrderAmt:   0.000000001,
+    tickSize:      0.000000001,
+    pricePrecision:9,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  60000,
+    limitMaxQty:   400000,
+    maxOrders:     20,
+    maxCondOrders: 20,
+  },
+  32: {
+    sym:           'GRASS',
+    face:          0.1,
+    minQty:        1,
+    minOrderAmt:   0.0001,
+    tickSize:      0.0001,
+    pricePrecision:4,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  350000,
+    limitMaxQty:   2000000,
+    maxOrders:     20,
+    maxCondOrders: 20,
+  },
+  33: {
+    sym:           'NEIRO',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.0000001,
+    tickSize:      0.0000001,
+    pricePrecision:7,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  30000000,
+    limitMaxQty:   20000000,
+    maxOrders:     20,
+    maxCondOrders: 20,
+  },
+  34: {
+    sym:           'PEOPLE',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.00001,
+    tickSize:      0.00001,
+    pricePrecision:5,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  4000000,
+    limitMaxQty:   10000000,
+    maxOrders:     20,
+    maxCondOrders: 20,
+  },
+  35: {
+    sym:           'PEPE',
+    face:          10000000,
+    minQty:        1,
+    minOrderAmt:   0.0000001,
+    tickSize:      0.000000001,
+    pricePrecision:9,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  10000,
+    limitMaxQty:   80000,
+    maxOrders:     20,
+    maxCondOrders: 20,
+  },
+  36: {
+    sym:           'PNUT',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.00001,
+    tickSize:      0.00001,
+    pricePrecision:5,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  400000,
+    limitMaxQty:   3000000,
+    maxOrders:     20,
+    maxCondOrders: 20,
+  },
+  37: {
+    sym:           'TIA',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.0001,
+    tickSize:      0.0001,
+    pricePrecision:4,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  25000,
+    limitMaxQty:   1000000,
+    maxOrders:     20,
+    maxCondOrders: 20,
+  },
+  60: {
+    sym:           'WIF',
+    face:          0.1,
+    minQty:        1,
+    minOrderAmt:   0.0001,
+    tickSize:      0.0001,
+    pricePrecision:4,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  2000000,
+    limitMaxQty:   10000000,
+    maxOrders:     20,
+    maxCondOrders: 20,
+  },
+  38: {
+    sym:           'TRUMP',
+    face:          0.01,
+    minQty:        1,
+    minOrderAmt:   0.01,
+    tickSize:      0.001,
+    pricePrecision:3,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  5000000,
+    limitMaxQty:   5000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  39: {
+    sym:           'ENS',
+    face:          0.1,
+    minQty:        1,
+    minOrderAmt:   0.001,
+    tickSize:      0.001,
+    pricePrecision:3,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  100000,
+    limitMaxQty:   10000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  40: {
+    sym:           'PYTH',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.00001,
+    tickSize:      0.00001,
+    pricePrecision:5,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  400000,
+    limitMaxQty:   600000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  41: {
+    sym:           'FET',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.0001,
+    tickSize:      0.0001,
+    pricePrecision:4,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  250000,
+    limitMaxQty:   10000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  42: {
+    sym:           'VIRTUAL',
+    face:          0.1,
+    minQty:        1,
+    minOrderAmt:   0.0001,
+    tickSize:      0.00001,
+    pricePrecision:5,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  800000,
+    limitMaxQty:   6000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  43: {
+    sym:           'FARTCOIN',
+    face:          0.1,
+    minQty:        1,
+    minOrderAmt:   0.0001,
+    tickSize:      0.00001,
+    pricePrecision:5,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  1000000,
+    limitMaxQty:   9000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  44: {
+    sym:           'AIXBT',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.00001,
+    tickSize:      0.00001,
+    pricePrecision:5,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  700000,
+    limitMaxQty:   4000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  45: {
+    sym:           'GRIFFAIN',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.00001,
+    tickSize:      0.00001,
+    pricePrecision:5,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  500000,
+    limitMaxQty:   4000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  46: {
+    sym:           'ARC',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.00001,
+    tickSize:      0.00001,
+    pricePrecision:5,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  2000000,
+    limitMaxQty:   6000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  47: {
+    sym:           'SWARMS',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.0001,
+    tickSize:      0.00001,
+    pricePrecision:5,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  3000000,
+    limitMaxQty:   4000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  48: {
+    sym:           'TAO',
+    face:          0.001,
+    minQty:        1,
+    minOrderAmt:   0.01,
+    tickSize:      0.01,
+    pricePrecision:2,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  300000,
+    limitMaxQty:   500000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  49: {
+    sym:           'TST',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.0001,
+    tickSize:      0.00001,
+    pricePrecision:5,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  800000,
+    limitMaxQty:   2000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  50: {
+    sym:           'APT',
+    face:          0.1,
+    minQty:        1,
+    minOrderAmt:   0.0001,
+    tickSize:      0.0001,
+    pricePrecision:4,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  200000,
+    limitMaxQty:   10000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  51: {
+    sym:           'AXL',
+    face:          0.1,
+    minQty:        1,
+    minOrderAmt:   0.0001,
+    tickSize:      0.0001,
+    pricePrecision:4,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  2000000,
+    limitMaxQty:   10000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  52: {
+    sym:           'KAITO',
+    face:          0.1,
+    minQty:        1,
+    minOrderAmt:   0.0001,
+    tickSize:      0.0001,
+    pricePrecision:4,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  5000000,
+    limitMaxQty:   10000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  53: {
+    sym:           'SIGN',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.00001,
+    tickSize:      0.00001,
+    pricePrecision:5,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  3000000,
+    limitMaxQty:   10000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  57: {
+    sym:           'OPEN',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   1,
+    tickSize:      0.0001,
+    pricePrecision:4,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  30000,
+    limitMaxQty:   200000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  56: {
+    sym:           'XVG',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.000001,
+    tickSize:      0.000001,
+    pricePrecision:6,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  5000000,
+    limitMaxQty:   8000000,
+    maxOrders:     20,
+    maxCondOrders: 20,
+  },
+  58: {
+    sym:           'ZKC',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   1,
+    tickSize:      0.0001,
+    pricePrecision:4,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  30000,
+    limitMaxQty:   200000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  54: {
+    sym:           'A',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.00001,
+    tickSize:      0.00001,
+    pricePrecision:5,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  100000,
+    limitMaxQty:   1000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  55: {
+    sym:           'WLFI',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.1,
+    tickSize:      0.0001,
+    pricePrecision:4,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  30000,
+    limitMaxQty:   200000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
+  59: {
+    sym:           'ASTER',
+    face:          1,
+    minQty:        1,
+    minOrderAmt:   0.1,
+    tickSize:      0.0001,
+    pricePrecision:4,
+    priceUpperPct: 0.15,
+    priceLowerPct: 0.15,
+    marketMaxQty:  200000,
+    limitMaxQty:   1000000,
+    maxOrders:     10,
+    maxCondOrders: 10,
+  },
   // ── 在此继续添加其他币种 ──
   // 格式参考上方，key 为合约 ID（见 CONTRACTS 数组）
 };
@@ -3329,21 +3868,21 @@ function renderOpenRules(contractId, sym) {
       <!-- 行1 -->
       <div style="padding:8px 12px;background:rgba(249,115,22,0.04);border-bottom:1px solid rgba(249,115,22,0.12)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:2px">合约面值</div>
-        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${r.face} ${sym}</div>
+        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${fmtNum(r.face)} ${sym}</div>
       </div>
       <div style="padding:8px 12px;background:rgba(249,115,22,0.04);border-bottom:1px solid rgba(249,115,22,0.12);border-left:1px solid rgba(249,115,22,0.12)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:2px">最小下单金额</div>
-        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${r.minOrderAmt} USDT</div>
+        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${fmtNum(r.minOrderAmt)} USDT</div>
       </div>
 
       <!-- 行2 -->
       <div style="padding:8px 12px;border-bottom:1px solid rgba(249,115,22,0.12)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:2px">最小下单数量</div>
-        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${r.minQty} ${sym}</div>
+        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${fmtNum(r.minQty)} ${sym}</div>
       </div>
       <div style="padding:8px 12px;border-bottom:1px solid rgba(249,115,22,0.12);border-left:1px solid rgba(249,115,22,0.12)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:2px">价格精度（小数位）</div>
-        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${r.pricePrecision} 位 / ${r.tickSize} USDT</div>
+        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${r.pricePrecision} 位 / ${fmtNum(r.tickSize)} USDT</div>
       </div>
 
       <!-- 行3 -->
@@ -3361,11 +3900,11 @@ function renderOpenRules(contractId, sym) {
       <!-- 行4 -->
       <div style="padding:8px 12px;border-bottom:1px solid rgba(249,115,22,0.12)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:2px">市价单单笔最大数量</div>
-        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums;color:var(--red)">${r.marketMaxQty} ${sym}</div>
+        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums;color:var(--red)">${fmtNum(r.marketMaxQty)} ${sym}</div>
       </div>
       <div style="padding:8px 12px;border-bottom:1px solid rgba(249,115,22,0.12);border-left:1px solid rgba(249,115,22,0.12)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:2px">限价单单笔最大数量</div>
-        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums;color:var(--amber)">${r.limitMaxQty} ${sym}</div>
+        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums;color:var(--amber)">${fmtNum(r.limitMaxQty)} ${sym}</div>
       </div>
 
       <!-- 行5 -->
@@ -3393,11 +3932,11 @@ function checkOpenQtyLimits(contractId, qtyInCoin, sym) {
 
   const warns = [];
   if (qtyInCoin < r.minQty)
-    warns.push(`数量 ${qtyInCoin.toFixed(6)} ${sym} 低于最小下单量 ${r.minQty} ${sym}，无法开仓`);
+    warns.push(`数量 ${qtyInCoin.toFixed(6)} ${sym} 低于最小下单量 ${fmtNum(r.minQty)} ${sym}，无法开仓`);
   if (qtyInCoin > r.marketMaxQty)
-    warns.push(`超过市价单上限 ${r.marketMaxQty} ${sym}，需拆成约 ${Math.ceil(qtyInCoin / r.marketMaxQty)} 笔市价单`);
+    warns.push(`超过市价单上限 ${fmtNum(r.marketMaxQty)} ${sym}，需拆成约 ${Math.ceil(qtyInCoin / r.marketMaxQty)} 笔市价单`);
   else if (qtyInCoin > r.limitMaxQty)
-    warns.push(`超过限价单上限 ${r.limitMaxQty} ${sym}，需拆成约 ${Math.ceil(qtyInCoin / r.limitMaxQty)} 笔限价单`);
+    warns.push(`超过限价单上限 ${fmtNum(r.limitMaxQty)} ${sym}，需拆成约 ${Math.ceil(qtyInCoin / r.limitMaxQty)} 笔限价单`);
 
   if (warns.length) {
     warnEl.style.display = 'flex';
@@ -3855,7 +4394,7 @@ const GROUP_TABS = {
   basic:  { tabs:['pnl','liq','open'],       first:'pnl'         },
   margin: { tabs:['margin','contract-rules'],  first:'margin'      },
   fee:    { tabs:['tradefee','fund'],         first:'tradefee'    },
-  check:  { tabs:['adl','closecheck','sharecheck'], first:'adl' },
+  check:  { tabs:['adl','sharecheck'], first:'adl' },
   qa:     { tabs:['qa-liq','qa-adl','qa-fee','qa-margin','qa-share'], first:'qa-liq'  },
 };
 function switchGroup(group, btn) {
@@ -4102,10 +4641,33 @@ function toggleF(mod) {
 // ═══════════════════════════════════════════════════════════
 // HELPERS
 // ═══════════════════════════════════════════════════════════
-function fmt(n,d=2){ if(n===null||n===undefined||isNaN(n)) return '—'; const factor = Math.pow(10, d); const rounded = Math.round(Number(n) * factor * 1e9) / 1e9; const truncated = Math.trunc(rounded) / factor; return truncated.toFixed(d); }
+function fmt(n,d=2){
+  if(n===null||n===undefined||isNaN(n)) return '—';
+  const factor = Math.pow(10, d);
+  const rounded = Math.round(Number(n) * factor * 1e9) / 1e9;
+  const truncated = Math.trunc(rounded) / factor;
+  // 避免科学计数法：用 toFixed 后再处理 e 号
+  let s = truncated.toFixed(d);
+  if (s.includes('e') || s.includes('E')) {
+    // 转成普通小数字符串
+    s = Number(truncated).toLocaleString('fullwide', {maximumFractionDigits: 20, useGrouping: false});
+    // 截到 d 位小数
+    const dot = s.indexOf('.');
+    if (dot === -1) s = s + '.' + '0'.repeat(d);
+    else s = s.slice(0, dot + d + 1).padEnd(dot + d + 1, '0');
+  }
+  return s;
+}
 // 精确乘法，避免浮点误差（如 6 * 0.0001 = 0.0006000...0001）
 function mulSafe(a, b) { return parseFloat((a * b).toPrecision(12)); }
 // Auto-precision for small fee amounts
+function fmtNum(n) {
+  // 把任意数字转成普通小数字符串，不用科学计数法
+  if (n === null || n === undefined || isNaN(n)) return '—';
+  const s = Number(n).toLocaleString('fullwide', { maximumFractionDigits: 20, useGrouping: false });
+  return s;
+}
+
 function fmtFee(n) {
   if (n === null || n === undefined || isNaN(n)) return '—';
   return fmt(n, 5);
@@ -4769,17 +5331,7 @@ buildDrop('adl-drop', c => {
   setSelCoin('adl', c.sym);
   loadForAdl(c.id, c.sym);
 });
-buildDrop('sc-drop', c => {
-  setSelCoin('sc', c.sym);
-  scContractId = c.id;
-  scFace = c.face || 1;
-  scSym  = c.sym;
-  document.getElementById('sc-qty-u').textContent = scQtyMode === 'zhang' ? '张' : c.sym;
-  const faceDisp = document.getElementById('sc-face-display');
-  const faceU    = document.getElementById('sc-face-u');
-  if (faceDisp) faceDisp.textContent = c.face;
-  if (faceU)    faceU.textContent    = c.sym;
-});
+
 buildDrop('mp-drop', c => {
   setSelCoin('mp', c.sym);
   mpLoadContract(c.id, c.sym);
@@ -4879,19 +5431,19 @@ function crRenderRules(contractId, sym) {
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border2);border-radius:var(--r-sm);overflow:hidden;font-size:12px;">
       <div style="padding:12px 16px;background:#fafbfc;border-bottom:1px solid var(--border2)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:4px">合约面值</div>
-        <div style="font-weight:700;font-size:14px;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${r.face} ${sym}</div>
+        <div style="font-weight:700;font-size:14px;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${fmtNum(r.face)} ${sym}</div>
       </div>
       <div style="padding:12px 16px;background:#fafbfc;border-bottom:1px solid var(--border2);border-left:1px solid var(--border2)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:4px">最小下单金额</div>
-        <div style="font-weight:700;font-size:14px;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${r.minOrderAmt} USDT</div>
+        <div style="font-weight:700;font-size:14px;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${fmtNum(r.minOrderAmt)} USDT</div>
       </div>
       <div style="padding:12px 16px;border-bottom:1px solid var(--border2)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:4px">最小下单数量</div>
-        <div style="font-weight:700;font-size:14px;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${r.minQty} ${sym}</div>
+        <div style="font-weight:700;font-size:14px;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${fmtNum(r.minQty)} ${sym}</div>
       </div>
       <div style="padding:12px 16px;border-bottom:1px solid var(--border2);border-left:1px solid var(--border2)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:4px">价格精度 / 最小价格变动</div>
-        <div style="font-weight:700;font-size:14px;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${r.pricePrecision} 位 / ${r.tickSize} USDT</div>
+        <div style="font-weight:700;font-size:14px;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${r.pricePrecision} 位 / ${fmtNum(r.tickSize)} USDT</div>
       </div>
       <div style="padding:12px 16px;background:#fafbfc;border-bottom:1px solid var(--border2)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:4px">限价单价格上限比例</div>
@@ -4905,11 +5457,11 @@ function crRenderRules(contractId, sym) {
       </div>
       <div style="padding:12px 16px;border-bottom:1px solid var(--border2)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:4px">市价单单笔最大数量</div>
-        <div style="font-weight:700;font-size:14px;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums;color:var(--red)">${r.marketMaxQty} ${sym}</div>
+        <div style="font-weight:700;font-size:14px;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums;color:var(--red)">${fmtNum(r.marketMaxQty)} ${sym}</div>
       </div>
       <div style="padding:12px 16px;border-bottom:1px solid var(--border2);border-left:1px solid var(--border2)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:4px">限价单单笔最大数量</div>
-        <div style="font-weight:700;font-size:14px;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums;color:var(--amber)">${r.limitMaxQty} ${sym}</div>
+        <div style="font-weight:700;font-size:14px;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums;color:var(--amber)">${fmtNum(r.limitMaxQty)} ${sym}</div>
       </div>
       <div style="padding:12px 16px;background:#fafbfc">
         <div style="color:var(--text3);font-size:11px;margin-bottom:4px">各仓位挂单上限</div>
@@ -5638,19 +6190,19 @@ function doOpen() {
       rulesLines.push(fCmt(''));
       rulesLines.push(fCmt('═══ 下单数量合规检查 ═══'));
       if (qty < r.minQty) {
-        rulesLines.push(fCmt(`⚠ 数量 ${fmt(qty,6)} ${sym} < 最小下单量 ${r.minQty} ${sym} → 无法开仓`));
+        rulesLines.push(fCmt(`⚠ 数量 ${fmt(qty,6)} ${sym} < 最小下单量 ${fmtNum(r.minQty)} ${sym} → 无法开仓`));
       } else {
-        rulesLines.push(fCmt(`✓ 满足最小下单量要求 (≥ ${r.minQty} ${sym})`));
+        rulesLines.push(fCmt(`✓ 满足最小下单量要求 (≥ ${fmtNum(r.minQty)} ${sym})`));
       }
       if (qty > r.marketMaxQty) {
-        rulesLines.push(fCmt(`⚠ 超过市价单单笔上限 ${r.marketMaxQty} ${sym}，需拆成约 ${Math.ceil(qty/r.marketMaxQty)} 笔`));
+        rulesLines.push(fCmt(`⚠ 超过市价单单笔上限 ${fmtNum(r.marketMaxQty)} ${sym}，需拆成约 ${Math.ceil(qty/r.marketMaxQty)} 笔`));
       } else {
-        rulesLines.push(fCmt(`✓ 市价单单笔可行 (≤ ${r.marketMaxQty} ${sym})`));
+        rulesLines.push(fCmt(`✓ 市价单单笔可行 (≤ ${fmtNum(r.marketMaxQty)} ${sym})`));
       }
       if (qty > r.limitMaxQty) {
-        rulesLines.push(fCmt(`⚠ 超过限价单单笔上限 ${r.limitMaxQty} ${sym}，需拆成约 ${Math.ceil(qty/r.limitMaxQty)} 笔`));
+        rulesLines.push(fCmt(`⚠ 超过限价单单笔上限 ${fmtNum(r.limitMaxQty)} ${sym}，需拆成约 ${Math.ceil(qty/r.limitMaxQty)} 笔`));
       } else {
-        rulesLines.push(fCmt(`✓ 限价单单笔可行 (≤ ${r.limitMaxQty} ${sym})`));
+        rulesLines.push(fCmt(`✓ 限价单单笔可行 (≤ ${fmtNum(r.limitMaxQty)} ${sym})`));
       }
     }
   } else {
@@ -5837,6 +6389,7 @@ function mpStamp(){
 
 async function mpLoadContract(contractId, sym) {
   mpContractId=contractId; mpPage=1;
+  setApiStatus('mp-api-status','loading','加载中...');
   document.getElementById('mp-state-loading').style.display='flex';
   document.getElementById('mp-state-error').style.display='none';
   document.getElementById('mp-state-results').style.display='none';
@@ -5844,10 +6397,12 @@ async function mpLoadContract(contractId, sym) {
   try {
     mpData = await fetchMarginData(contractId);
     mpRender();
+    setApiStatus('mp-api-status','ok',`${sym} 参数已加载`);
   } catch(e) {
     document.getElementById('mp-state-loading').style.display='none';
     document.getElementById('mp-state-error').style.display='block';
     document.getElementById('mp-state-error').textContent='加载失败：'+e.message;
+    setApiStatus('mp-api-status','err','加载失败');
   }
 }
 
@@ -5863,19 +6418,19 @@ function mpRenderContractRules(contractId, sym) {
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border2);border-radius:var(--r-sm);overflow:hidden;font-size:12px;">
       <div style="padding:10px 14px;background:#fafbfc;border-bottom:1px solid var(--border2)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:3px">合约面值</div>
-        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${r.face} ${sym}</div>
+        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${fmtNum(r.face)} ${sym}</div>
       </div>
       <div style="padding:10px 14px;background:#fafbfc;border-bottom:1px solid var(--border2);border-left:1px solid var(--border2)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:3px">最小下单金额</div>
-        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${r.minOrderAmt} USDT</div>
+        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${fmtNum(r.minOrderAmt)} USDT</div>
       </div>
       <div style="padding:10px 14px;border-bottom:1px solid var(--border2)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:3px">最小下单数量</div>
-        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${r.minQty} ${sym}</div>
+        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${fmtNum(r.minQty)} ${sym}</div>
       </div>
       <div style="padding:10px 14px;border-bottom:1px solid var(--border2);border-left:1px solid var(--border2)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:3px">价格精度（小数位 / 最小变动）</div>
-        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${r.pricePrecision} 位 / ${r.tickSize} USDT</div>
+        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">${r.pricePrecision} 位 / ${fmtNum(r.tickSize)} USDT</div>
       </div>
       <div style="padding:10px 14px;background:#fafbfc;border-bottom:1px solid var(--border2)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:3px">限价单价格上限比例</div>
@@ -5889,11 +6444,11 @@ function mpRenderContractRules(contractId, sym) {
       </div>
       <div style="padding:10px 14px;border-bottom:1px solid var(--border2)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:3px">市价单单笔最大数量</div>
-        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums;color:var(--red)">${r.marketMaxQty} ${sym}</div>
+        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums;color:var(--red)">${fmtNum(r.marketMaxQty)} ${sym}</div>
       </div>
       <div style="padding:10px 14px;border-bottom:1px solid var(--border2);border-left:1px solid var(--border2)">
         <div style="color:var(--text3);font-size:11px;margin-bottom:3px">限价单单笔最大数量</div>
-        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums;color:var(--amber)">${r.limitMaxQty} ${sym}</div>
+        <div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums;color:var(--amber)">${fmtNum(r.limitMaxQty)} ${sym}</div>
       </div>
       <div style="padding:10px 14px;background:#fafbfc">
         <div style="color:var(--text3);font-size:11px;margin-bottom:3px">各仓位挂单上限</div>
@@ -6115,267 +6670,265 @@ window.addEventListener('DOMContentLoaded', () => {
   const tfFaceU    = document.getElementById('tf-face-u');
   if (tfFaceDisp) tfFaceDisp.textContent = btc.face;
   if (tfFaceU)    tfFaceU.textContent    = btc.sym;
-  // 分摊核查默认 BTC
-  setSelCoin('sc', btc.sym);
-  scContractId = btc.id;
-  scFace = btc.face;
-  scSym  = btc.sym;
-  const scQtyU     = document.getElementById('sc-qty-u');
-  const scFaceDisp = document.getElementById('sc-face-display');
-  const scFaceU2   = document.getElementById('sc-face-u');
-  if (scQtyU)     scQtyU.textContent     = btc.sym;
-  if (scFaceDisp) scFaceDisp.textContent = btc.face;
-  if (scFaceU2)   scFaceU2.textContent   = btc.sym;
-  // 默认添加第一条时间行
-  addShareTime();
+  // 分摊核查默认添加一条仓位行并预填 BTC
+  addScPosition();
+  // 预填 BTC
+  const scBtc = CONTRACTS[0];
+  setSelCoin('sc-pos-1', scBtc.sym);
+  onScPosSymChange(1, scBtc.id, scBtc.sym, scBtc.face);
   // chk-fee-sel fixed to Taker 0.0375
   updateFeeDisp('cc-fee');
-  buildDrop('cc-drop', c => {
-    const ct = CONTRACTS.find(x=>x.id===c.id);
-    const faceEl = document.getElementById('cc-face');
-    const faceFi = document.getElementById('cc-face-fi');
-    const faceU  = document.getElementById('cc-face-u');
-    if (faceEl && ct?.face) { faceEl.value = ct.face; if(faceFi) faceFi.classList.add('auto-filled'); }
-    if (faceU) { faceU.textContent = c.sym; faceU.dataset.sym = c.sym; }
-    document.getElementById('cc-face-src').textContent = '✦ 自动填入';
-    setSelCoin('cc', c.sym);
-    loadForCC(c.id, c.sym);
-  });
-  // default BTC for cc
-  const ccBtc = CONTRACTS[0];
-  setSelCoin('cc', ccBtc.sym);
-  const ccFaceEl = document.getElementById('cc-face');
-  const ccFaceU  = document.getElementById('cc-face-u');
-  if (ccFaceEl) ccFaceEl.value = ccBtc.face;
-  if (ccFaceU)  ccFaceU.textContent = ccBtc.sym;
-  loadForCC(ccBtc.id, ccBtc.sym);
+
 });
 
-// ═══════════════════════════════════════════════════════════
-// CALC 8: 平仓异常核查
-// ═══════════════════════════════════════════════════════════
-let ccQtyMode = 'zhang';
 
-function setCCQtyMode(mode) {
-  ccQtyMode = mode;
-  const zhangBtn  = document.getElementById('cc-qty-mode-zhang');
-  const coinBtn   = document.getElementById('cc-qty-mode-coin');
-  const faceField = document.getElementById('cc-face-field');
-  const qtyU      = document.getElementById('cc-qty-u');
-  const sym       = document.getElementById('cc-face-u')?.dataset?.sym || '币';
-  if (mode === 'zhang') {
-    zhangBtn.style.background = 'var(--orange)'; zhangBtn.style.color = '#fff';
-    coinBtn.style.background  = '#fff';           coinBtn.style.color  = 'var(--text3)';
-    if (faceField) { faceField.style.display = ''; faceField.style.gridColumn = ''; }
-    const marginField = document.getElementById('cc-margin-field');
-    if (marginField) marginField.style.gridColumn = '';
-    if (qtyU) qtyU.textContent = '张';
-  } else {
-    zhangBtn.style.background = '#fff';           zhangBtn.style.color = 'var(--text3)';
-    coinBtn.style.background  = 'var(--orange)';  coinBtn.style.color  = '#fff';
-    // hide face but keep it in DOM so grid doesn't gap — make it invisible & zero height
-    if (faceField) {
-      faceField.style.display = 'none';
-    }
-    // span margin full width to fill the gap
-    const marginField = document.getElementById('cc-margin-field');
-    if (marginField) marginField.style.gridColumn = '1 / -1';
-    if (qtyU) qtyU.textContent = sym;
-  }
-}
-
-async function loadForCC(contractId, sym) {
-  try {
-    const data = await fetchMarginData(contractId);
-    const ladders = data?.ladderList?.ladderList || [];
-    if (!ladders.length) return;
-    const mmr = ladders[0].minMarginRate * 100;
-    const mmrEl = document.getElementById('cc-mmr');
-    const mmrFi = document.getElementById('cc-mmr-fi');
-    if (mmrEl) mmrEl.value = mmr.toFixed(2);
-    if (mmrFi) mmrFi.classList.add('auto-filled');
-    document.getElementById('cc-mmr-src').textContent = '✦ 自动填入';
-    // sync coin unit label if in coin mode
-    if (ccQtyMode === 'coin') {
-      const ccQtyU = document.getElementById('cc-qty-u');
-      if (ccQtyU) ccQtyU.textContent = sym;
-    }
-  } catch(e) {}
-}
-
-function doCloseCheck() {
-  const qty          = +document.getElementById('cc-qty').value;
-  const face         = +document.getElementById('cc-face').value || 1;
-  const margin       = +document.getElementById('cc-margin').value;
-  const closeMark    = +document.getElementById('cc-close-mark').value;
-  const liqPrevMark  = +document.getElementById('cc-liq-prev-mark').value;
-  const liqMark      = +document.getElementById('cc-liq-mark').value;
-
-  if (!qty || !margin || !closeMark || !liqPrevMark) {
-    showModal('缺少输入','请填写张数、持仓保证金、平仓时标记价、触发爆仓前1分钟标记价');
-    return;
-  }
-
-  const mmrVal  = +document.getElementById('cc-mmr').value || 0.5;
-  const feeVal  = FEES['cc-fee'] || 0.014;
-  const mmr     = mmrVal / 100;
-  const fee     = feeVal / 100;
-  const long    = S.cc.dir === 'long';
-
-  // 仓位名义价值（用爆仓前1分钟标记价）
-  // 张模式: 标记价 × 张数 × 面值；币模式: 标记价 × 币数
-  const coinQty      = ccQtyMode === 'zhang' ? mulSafe(qty, face) : qty;
-  const posValue     = liqPrevMark * coinQty;
-  const upnl         = long
-    ? (closeMark - liqPrevMark) * coinQty
-    : (liqPrevMark - closeMark) * coinQty;
-  // 如平仓成功，理论权益
-  const theoryEquity = margin + upnl;
-  // 最低所需权益（基于爆仓前1分钟仓位价值）
-  const minMaint     = posValue * mmr;
-  const minFee       = posValue * fee;
-  const minEquity    = minMaint + minFee;
-  // 理论权益 vs 最低所需
-  const gap          = theoryEquity - minEquity;
-  const wouldLiq     = theoryEquity <= minEquity;
-  // 爆仓时实际盈亏
-  const actualUpnl   = liqMark
-    ? (long ? (liqMark - liqPrevMark) * mulSafe(qty, face) : (liqPrevMark - liqMark) * mulSafe(qty, face))
-    : null;
-  const actualEquity = liqMark ? margin + actualUpnl : null;
-
-  setT('rcc-upnl',          (upnl>=0?'+':'')+fmt(upnl,6)+' USDT', upnl>=0?'green':'red');
-  setT('rcc-theory-equity', fmt(theoryEquity,6)+' USDT', 'amber');
-  setT('rcc-min-equity',    fmt(minEquity,6)+' USDT', 'red');
-  setT('rcc-actual-equity', actualEquity!==null ? fmt(actualEquity,6)+' USDT' : '未填爆仓价');
-  setT('rcc-gap',           (gap>=0?'+':'')+fmt(gap,6)+' USDT', gap>=0?'green':'red');
-
-  const verdictEl   = document.getElementById('rcc-verdict');
-  const verdictCard = document.getElementById('rcc-verdict-card');
-  if (!wouldLiq) {
-    verdictEl.textContent = '⚠ 平仓若成功不会爆仓，疑似系统问题';
-    verdictEl.className   = 'ri-val red';
-    verdictCard.className = 'ri ri-red';
-  } else {
-    verdictEl.textContent = '✓ 即使平仓成功也会触发强平，属正常';
-    verdictEl.className   = 'ri-val green';
-    verdictCard.className = 'ri ri-green';
-  }
-
-  setFB('closecheck', [
-    fCmt(`平仓异常核查 · ${long?'做多':'做空'} · ${qty}张 × 面值${face}`),
-    fCmt(''),
-    fCmt('【公式】平仓理论盈亏 = (平仓时标记价 − 爆仓前1分钟标记价) × 张数 × 面值'),
-    fCmt('【公式】理论权益 = 持仓保证金 + 平仓理论盈亏'),
-    fCmt('【触发条件】理论权益 ≤ 最低维持保证金 + 平仓手续费 → 即使平仓也会爆仓'),
-    fCmt(''),
-    fLine('① 爆仓前1分钟仓位价值',
-      ccQtyMode === 'zhang' ? `${liqPrevMark} × ${qty}张 × 面值${face}` : `${liqPrevMark} × ${qty}币`,
-      fmt(posValue,6)+' USDT'),
-    fLine('② 平仓时理论盈亏',
-      long ? `(平仓标记价 ${closeMark} − 前1分钟标记价 ${liqPrevMark}) × ${qty} × ${face}`
-           : `(前1分钟标记价 ${liqPrevMark} − 平仓标记价 ${closeMark}) × ${qty} × ${face}`,
-      (upnl>=0?'+':'')+fmt(upnl,6)+' USDT'),
-    fLine('③ 如平仓成功，理论权益', `持仓保证金 ${margin} + 理论盈亏 ${fmt(upnl,6)}`, fmt(theoryEquity,6)+' USDT'),
-    fCmt(''),
-    fLine('④ 最低维持保证金', `仓位价值 ${fmt(posValue,6)} × MMR ${mmrVal}%`, fmt(minMaint,6)+' USDT'),
-    fLine('⑤ 最低平仓手续费', `仓位价值 ${fmt(posValue,6)} × ${feeVal}%`, fmtFee(minFee)+' USDT'),
-    fLine('⑥ 最低所需权益',   '维持保证金 + 手续费', fmt(minEquity,6)+' USDT'),
-    fCmt(''),
-    fLine('⑦ 理论权益 vs 最低所需', `${fmt(theoryEquity,6)} − ${fmt(minEquity,6)}`, (gap>=0?'+':'')+fmt(gap,6)+' USDT'),
-    fCmt(''),
-    fCmt(wouldLiq
-      ? `✓ 理论权益 ${fmt(theoryEquity,6)} ≤ 最低所需 ${fmt(minEquity,6)}  →  即使平仓成功也会强平，属正常`
-      : `⚠ 理论权益 ${fmt(theoryEquity,6)} > 最低所需 ${fmt(minEquity,6)}  →  平仓若成功不应爆仓，疑似系统未执行平仓指令`),
-  ].join(''));
-
-  const rs = document.getElementById('closecheck-rs');
-  if (rs) { rs.style.display = 'block'; setTimeout(()=>rs.scrollIntoView({behavior:'smooth',block:'nearest'}),50); }
-  // 参考话术
-  if (!wouldLiq) {
-  } else {
-  }
-}
 // ═══════════════════════════════════════════════════════════
 // SHARE CHECK (分摊核查)
 // ═══════════════════════════════════════════════════════════
 const MARK_KLINE_URL = 'https://futures.crabx.com/fe-co-api/v1/common/tag-price-kline';
-let scContractId = null;
-let scFace       = 1;
-let scSym        = 'BTC';
 let scTimeCount  = 0;
-let scQtyMode    = 'coin';
-const S_sc = { dir: 'long' };
+const S_sc = { dir: 'long' }; // 保留兼容，实际方向在每条仓位里
 
-function setScQtyMode(mode) {
-  scQtyMode = mode;
-  const coinBtn  = document.getElementById('sc-qty-coin');
-  const zhangBtn = document.getElementById('sc-qty-zhang');
-  const qtyU     = document.getElementById('sc-qty-u');
-  const faceHint = document.getElementById('sc-face-hint');
+// ── 多仓位管理（每个仓位有独立方向 + 分摊时间列表） ──
+let scPosCount = 0;
+const scPosData = {}; // {idx: {contractId, sym, face, qtyMode, dir, times: []}}
+
+function addScPosition() {
+  const list = document.getElementById('sc-positions-list');
+  const idx  = ++scPosCount;
+  scPosData[idx] = { contractId: null, sym: '', face: 1, qtyMode: 'coin', dir: 'long', times: [] };
+
+  const card = document.createElement('div');
+  card.id = `sc-pos-${idx}`;
+  card.style.cssText = 'background:#fafbfc;border:1px solid var(--border2);border-radius:var(--r-sm);padding:14px;position:relative;';
+  card.innerHTML = `
+    <!-- 卡片头：合约选择 + 删除按钮 -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+      <div style="flex:1;position:relative">
+        <div class="mp-sel-box" id="sc-pos-${idx}-sel-box" onclick="toggleDrop('sc-pos-${idx}')" style="padding:8px 12px;font-size:13px">
+          <img id="sc-pos-${idx}-sel-icon" class="sel-coin-icon" src="" alt="" onerror="this.classList.remove('loaded')">
+          <span id="sc-pos-${idx}-sel-txt" style="flex:1;font-size:13px;color:var(--text3)">选择合约...</span>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="mp-dropdown" id="sc-pos-${idx}-drop"></div>
+      </div>
+      <button onclick="removeScPosition(${idx})" style="width:34px;height:34px;border:none;background:#f3f4f6;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);flex-shrink:0;transition:all 0.15s" onmouseover="this.style.background='#fef2f2';this.style.color='var(--red)'" onmouseout="this.style.background='#f3f4f6';this.style.color='var(--text3)'">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <!-- 数量 + 方向 -->
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+      <div class="field" style="flex:1;min-width:140px">
+        <div class="field-label" style="font-size:11px">
+          持仓数量 &nbsp;<span style="display:inline-flex;border:1px solid #e5e7eb;border-radius:5px;overflow:hidden;vertical-align:middle">
+            <button id="sc-pos-coin-${idx}" onclick="setScPosQtyMode(${idx},'coin')" style="padding:1px 7px;font-size:10px;font-weight:600;border:none;background:var(--orange);color:#fff;cursor:pointer">币</button>
+            <button id="sc-pos-zhang-${idx}" onclick="setScPosQtyMode(${idx},'zhang')" style="padding:1px 7px;font-size:10px;font-weight:600;border:none;background:#fff;color:var(--text3);cursor:pointer">张</button>
+          </span>
+        </div>
+        <div class="fi"><input type="number" id="sc-pos-qty-${idx}" placeholder="0.00" step="any"><span class="fi-unit" style="font-size:11px" id="sc-pos-unit-${idx}">币</span></div>
+        <div id="sc-pos-face-row-${idx}" style="display:none;font-size:11px;color:var(--text2);margin-top:3px">
+          面值：<span id="sc-pos-face-val-${idx}" style="font-weight:700;color:var(--orange-dark)">—</span>
+          <span id="sc-pos-face-unit-${idx}" style="color:var(--text3)"></span>/张
+        </div>
+      </div>
+      <div class="field" style="flex:1;min-width:140px">
+        <div class="field-label" style="font-size:11px">仓位方向</div>
+        <div class="seg" style="height:42px">
+          <button class="seg-btn active-long" id="sc-pos-long-${idx}" onclick="setScPosDir(${idx},'long')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px"><polyline points="18 15 12 9 6 15"/></svg>做多
+          </button>
+          <button class="seg-btn" id="sc-pos-short-${idx}" onclick="setScPosDir(${idx},'short')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px"><polyline points="6 9 12 15 18 9"/></svg>做空
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- 分摊触发时间 -->
+    <div class="field-label" style="font-size:11px;margin-bottom:6px">分摊触发时间</div>
+    <div id="sc-pos-times-${idx}" style="display:flex;flex-direction:column;gap:6px"></div>
+    <div style="display:flex;gap:8px;margin-top:6px">
+      <button onclick="addScPosTime(${idx})" style="display:flex;align-items:center;gap:4px;padding:5px 12px;border:1.5px dashed var(--border);border-radius:var(--r-sm);background:transparent;color:var(--text3);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.18s;flex:1;justify-content:center" onmouseover="this.style.borderColor='var(--orange)';this.style.color='var(--orange-dark)';this.style.background='var(--orange-light)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text3)';this.style.background='transparent'">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        添加时间
+      </button>
+      <button id="sc-pos-clear-times-${idx}" onclick="clearScPosTimes(${idx})" style="display:none;align-items:center;gap:4px;padding:5px 10px;border:1.5px solid #e5e7eb;border-radius:6px;background:#fff;color:var(--text3);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all 0.15s" onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)';this.style.background='#fef2f2'" onmouseout="this.style.borderColor='#e5e7eb';this.style.color='var(--text3)';this.style.background='#fff'">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+        清空时间
+      </button>
+    </div>
+  `;
+  list.appendChild(card);
+  // 建立该仓位的下拉列表
+  buildDrop(`sc-pos-${idx}-drop`, c => {
+    setSelCoin(`sc-pos-${idx}`, c.sym);
+    onScPosSymChange(idx, c.id, c.sym, c.face);
+    closeDrop(`sc-pos-${idx}-drop`, `sc-pos-${idx}`);
+  });
+  // 显示清空按钮
+  const clearBtn = document.getElementById('clear-sc-pos-btn');
+  if (clearBtn && list.children.length > 1) clearBtn.style.display = 'flex';
+  // 默认添加一条时间行
+  addScPosTime(idx);
+}
+
+function setScPosDir(idx, dir) {
+  if (scPosData[idx]) scPosData[idx].dir = dir;
+  const longBtn  = document.getElementById(`sc-pos-long-${idx}`);
+  const shortBtn = document.getElementById(`sc-pos-short-${idx}`);
+  if (longBtn)  longBtn.className  = 'seg-btn' + (dir === 'long'  ? ' active-long'  : '');
+  if (shortBtn) shortBtn.className = 'seg-btn' + (dir === 'short' ? ' active-short' : '');
+}
+
+function onScPosSymChange(idx, contractId, sym, face) {
+  const d = scPosData[idx];
+  if (!d) return;
+  d.contractId = contractId; d.sym = sym; d.face = face || 1;
+  const faceValEl  = document.getElementById(`sc-pos-face-val-${idx}`);
+  const faceUnitEl = document.getElementById(`sc-pos-face-unit-${idx}`);
+  const faceRow    = document.getElementById(`sc-pos-face-row-${idx}`);
+  const unitEl     = document.getElementById(`sc-pos-unit-${idx}`);
+  if (faceValEl)  faceValEl.textContent  = d.face;
+  if (faceUnitEl) faceUnitEl.textContent = sym;
+  if (unitEl) unitEl.textContent = d.qtyMode === 'zhang' ? '张' : sym;
+  if (faceRow) faceRow.style.display = d.qtyMode === 'zhang' ? '' : 'none';
+}
+
+function setScPosQtyMode(idx, mode) {
+  const d = scPosData[idx];
+  if (!d) return;
+  d.qtyMode = mode;
+  const coinBtn  = document.getElementById(`sc-pos-coin-${idx}`);
+  const zhangBtn = document.getElementById(`sc-pos-zhang-${idx}`);
+  const faceRow  = document.getElementById(`sc-pos-face-row-${idx}`);
+  const unitEl   = document.getElementById(`sc-pos-unit-${idx}`);
   if (mode === 'coin') {
-    if (coinBtn)  { coinBtn.style.background  = 'var(--orange)'; coinBtn.style.color = '#fff'; }
+    if (coinBtn)  { coinBtn.style.background = 'var(--orange)'; coinBtn.style.color = '#fff'; }
     if (zhangBtn) { zhangBtn.style.background = '#fff'; zhangBtn.style.color = 'var(--text3)'; }
-    if (qtyU)     qtyU.textContent = scSym;
-    if (faceHint) faceHint.style.display = 'none';
+    if (faceRow)  faceRow.style.display = 'none';
+    if (unitEl)   unitEl.textContent = d.sym || '币';
   } else {
-    if (coinBtn)  { coinBtn.style.background  = '#fff'; coinBtn.style.color = 'var(--text3)'; }
+    if (coinBtn)  { coinBtn.style.background = '#fff'; coinBtn.style.color = 'var(--text3)'; }
     if (zhangBtn) { zhangBtn.style.background = 'var(--orange)'; zhangBtn.style.color = '#fff'; }
-    if (qtyU)     qtyU.textContent = '张';
-    if (faceHint) faceHint.style.display = '';
+    if (faceRow)  faceRow.style.display = d.sym ? '' : 'none';
+    if (unitEl)   unitEl.textContent = '张';
   }
+}
+
+// ── 每个仓位独立的时间管理（复用 openScPicker/addShareTime 核心逻辑） ──
+function addScPosTime(posIdx) {
+  const container = document.getElementById(`sc-pos-times-${posIdx}`);
+  if (!container) return;
+  const uid  = Date.now() + '_' + posIdx + '_' + Math.random().toString(36).slice(2,6);
+  const count = container.children.length;
+  const bj  = new Date(new Date().getTime() + 8 * 3600 * 1000);
+  const pad = n => String(n).padStart(2,'0');
+  const dateStr = `${bj.getUTCFullYear()}-${pad(bj.getUTCMonth()+1)}-${pad(bj.getUTCDate())}`;
+  const timeStr = `${pad(bj.getUTCHours())}:${pad(bj.getUTCMinutes())}:${pad(bj.getUTCSeconds())}`;
+
+  const row = document.createElement('div');
+  row.id = `sc-time-${uid}`;
+  row.dataset.y  = bj.getUTCFullYear();
+  row.dataset.mo = bj.getUTCMonth() + 1;
+  row.dataset.d  = bj.getUTCDate();
+  row.dataset.h  = bj.getUTCHours();
+  row.dataset.m  = bj.getUTCMinutes();
+  row.dataset.s  = bj.getUTCSeconds();
+  row.style.cssText = 'display:flex;align-items:center;gap:8px;position:relative;';
+  row.innerHTML = `
+    ${count > 0 ? `<span style="font-size:11px;font-weight:700;color:var(--text3);min-width:18px;text-align:right;flex-shrink:0">#${count+1}</span>` : ''}
+    <div style="flex:1;display:flex;align-items:center;border:1.5px solid var(--border);border-radius:var(--r-sm);background:var(--white);cursor:pointer;min-height:38px;transition:border-color 0.2s"
+      onclick="openScPicker('${uid}',this)" id="sc-display-${uid}">
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:7px 12px">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" style="flex-shrink:0"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span id="sc-date-label-${uid}" style="font-size:12px;font-weight:600;color:var(--text1)">${dateStr}</span>
+        <span style="color:var(--border2)">|</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span id="sc-time-label-${uid}" style="font-size:12px;font-weight:600;color:var(--orange-dark)">${timeStr}</span>
+      </div>
+      <div style="padding:0 6px;font-size:12px" id="sc-time-status-${uid}"></div>
+    </div>
+    ${count > 0 ? `<button onclick="removeScPosTime('${uid}',${posIdx})" style="width:28px;height:28px;border:none;background:#f3f4f6;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);flex-shrink:0;transition:all 0.15s" onmouseover="this.style.background='#fef2f2';this.style.color='var(--red)'" onmouseout="this.style.background='#f3f4f6';this.style.color='var(--text3)'">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>` : ''}
+  `;
+  container.appendChild(row);
+  const clearBtn = document.getElementById(`sc-pos-clear-times-${posIdx}`);
+  if (clearBtn && container.children.length > 1) clearBtn.style.display = 'flex';
+}
+
+function removeScPosTime(uid, posIdx) {
+  const row = document.getElementById(`sc-time-${uid}`);
+  if (row) row.remove();
+  const container = document.getElementById(`sc-pos-times-${posIdx}`);
+  const clearBtn  = document.getElementById(`sc-pos-clear-times-${posIdx}`);
+  if (clearBtn) clearBtn.style.display = container && container.children.length > 1 ? 'flex' : 'none';
+  // 重新编号
+  if (container) {
+    Array.from(container.children).forEach((r, i) => {
+      const numEl = r.querySelector('span[style*="min-width:18px"]');
+      if (numEl) numEl.textContent = `#${i+1}`;
+    });
+  }
+}
+
+function clearScPosTimes(posIdx) {
+  const container = document.getElementById(`sc-pos-times-${posIdx}`);
+  if (!container) return;
+  if (scPickerUid && container.querySelector(`#sc-time-${scPickerUid}`)) closeScPicker();
+  container.innerHTML = '';
+  const clearBtn = document.getElementById(`sc-pos-clear-times-${posIdx}`);
+  if (clearBtn) clearBtn.style.display = 'none';
+  addScPosTime(posIdx);
+}
+
+function removeScPosition(idx) {
+  if (scPickerUid) closeScPicker();
+  const row = document.getElementById(`sc-pos-${idx}`);
+  if (row) row.remove();
+  delete scPosData[idx];
+  const list = document.getElementById('sc-positions-list');
+  const clearBtn = document.getElementById('clear-sc-pos-btn');
+  if (clearBtn) clearBtn.style.display = list && list.children.length > 1 ? 'flex' : 'none';
+}
+
+function clearAllScPositions() {
+  if (scPickerUid) closeScPicker();
+  const list = document.getElementById('sc-positions-list');
+  if (list) list.innerHTML = '';
+  Object.keys(scPosData).forEach(k => delete scPosData[k]);
+  scPosCount = 0;
+  const clearBtn = document.getElementById('clear-sc-pos-btn');
+  if (clearBtn) clearBtn.style.display = 'none';
+  addScPosition();
+}
+
+// 读取所有仓位数据（含各自方向和时间列表）
+function getScPositions() {
+  const list = document.getElementById('sc-positions-list');
+  if (!list) return [];
+  return Array.from(list.children).map(card => {
+    const idx  = card.id.replace('sc-pos-', '');
+    const d    = scPosData[idx];
+    const qty  = +document.getElementById(`sc-pos-qty-${idx}`)?.value || 0;
+    if (!d || !d.contractId || !qty) return null;
+    const coinQty = d.qtyMode === 'zhang' ? mulSafe(qty, d.face) : qty;
+    // 读取该仓位的所有时间行
+    const timesContainer = document.getElementById(`sc-pos-times-${idx}`);
+    const timeRows = timesContainer ? Array.from(timesContainer.children) : [];
+    const times = timeRows.map(r => {
+      const y=r.dataset.y, mo=r.dataset.mo, dv=r.dataset.d, h=r.dataset.h||'0', m=r.dataset.m||'0', s=r.dataset.s||'0';
+      if (!y) return null;
+      const pad2 = n => String(n).padStart(2,'0');
+      return { uid: r.id.replace('sc-time-',''), timeStr: `${y}-${pad2(mo)}-${pad2(dv)} ${pad2(h)}:${pad2(m)}:${pad2(s)}`, statusEl: document.getElementById(`sc-time-status-${r.id.replace('sc-time-','')}`) };
+    }).filter(Boolean);
+    return { idx, contractId: d.contractId, sym: d.sym, face: d.face, qty: coinQty, qtyRaw: qty, qtyMode: d.qtyMode, dir: d.dir, times };
+  }).filter(Boolean);
 }
 
 
 // ─── 自定义日期时间选择器 ───
 let scPickerUid = null; // 当前打开的 picker 对应的 uid
 
-function addShareTime() {
-  const list = document.getElementById('sc-times-list');
-  const uid  = Date.now();
-  const count = list.children.length;
-  const isFirst = count === 0;
-  const displayNum = count + 1;
-
-  const bj  = new Date(new Date().getTime() + 8 * 3600 * 1000);
-  const pad = n => String(n).padStart(2,'0');
-
-  const row = document.createElement('div');
-  row.id = `sc-time-${uid}`;
-  row.dataset.y = bj.getUTCFullYear();
-  row.dataset.mo = bj.getUTCMonth() + 1;
-  row.dataset.d  = bj.getUTCDate();
-  row.dataset.h  = bj.getUTCHours();
-  row.dataset.m  = bj.getUTCMinutes();
-  row.dataset.s  = bj.getUTCSeconds();
-  row.style.cssText = 'display:flex;align-items:center;gap:10px;position:relative;' + (isFirst?'':'animation:fadein 0.25s cubic-bezier(0.22,1,0.36,1);');
-
-  const dateStr = `${bj.getUTCFullYear()}-${pad(bj.getUTCMonth()+1)}-${pad(bj.getUTCDate())}`;
-  const timeStr = `${pad(bj.getUTCHours())}:${pad(bj.getUTCMinutes())}:${pad(bj.getUTCSeconds())}`;
-
-  row.innerHTML = `
-    ${!isFirst ? `<span class="sc-time-num" style="font-size:11px;font-weight:700;color:var(--text3);min-width:20px;text-align:right;flex-shrink:0">#${displayNum}</span>` : ''}
-    <div style="flex:1;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--border);border-radius:var(--r-sm);background:var(--white);cursor:pointer;transition:border-color 0.2s;min-height:44px"
-      onclick="openScPicker('${uid}',this)"
-      id="sc-display-${uid}">
-      <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:10px;padding:9px 14px">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" style="flex-shrink:0"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        <span id="sc-date-label-${uid}" style="font-size:13px;font-weight:600;color:var(--text1);font-family:'Inter',-apple-system,sans-serif">${dateStr}</span>
-        <span style="color:var(--border2);font-size:13px">|</span>
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span id="sc-time-label-${uid}" style="font-size:13px;font-weight:600;color:var(--orange-dark);font-family:'Inter',-apple-system,sans-serif;letter-spacing:0.02em">${timeStr}</span>
-      </div>
-      <div style="padding:0 8px;min-width:24px;text-align:center;font-size:13px" id="sc-time-status-${uid}"></div>
-    </div>
-    ${!isFirst ? `<button class="sc-del-btn" onclick="removeShareTime('${uid}')"
-      style="width:32px;height:32px;border:none;background:#f3f4f6;border-radius:var(--r-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);flex-shrink:0;transition:all 0.18s"
-      onmouseover="this.style.background='#fef2f2';this.style.color='var(--red)'"
-      onmouseout="this.style.background='#f3f4f6';this.style.color='var(--text3)'">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>` : ''}
-  `;
-  list.appendChild(row);
-}
 
 function openScPicker(uid, anchor) {
   // 关闭已有
@@ -6568,25 +7121,6 @@ function confirmScPicker() {
   closeScPicker();
 }
 
-function removeShareTime(uid) {
-  const list = document.getElementById('sc-times-list');
-  if (list.children.length <= 1) return;
-  if (scPickerUid === uid) closeScPicker();
-  const row = document.getElementById(`sc-time-${uid}`);
-  if (row) row.remove();
-  const rows = Array.from(list.children);
-  const onlyOne = rows.length === 1;
-  rows.forEach((r, i) => {
-    const numEl  = r.querySelector('.sc-time-num');
-    const delBtn = r.querySelector('.sc-del-btn');
-    if (onlyOne) {
-      if (numEl)  numEl.remove();
-      if (delBtn) delBtn.remove();
-    } else {
-      if (numEl) numEl.textContent = `#${i+1}`;
-    }
-  });
-}
 
 async function fetchMarkKline(contractId, localMinuteStr) {
   // localMinuteStr 格式: "YYYY-MM-DD HH:mm:ss"（北京时间）
@@ -6642,24 +7176,17 @@ function getSeconds(timeStr) {
 }
 
 async function doShareCheck() {
-  const qtyRaw = +document.getElementById('sc-qty').value;
-  const long   = S_sc.dir === 'long';
-
-  if (!qtyRaw)       { showModal('缺少输入', '请填写持仓数量'); return; }
-  if (!scContractId) { showModal('缺少输入', '请先选择合约'); return; }
-
-  const qty      = scQtyMode === 'zhang' ? mulSafe(qtyRaw, scFace) : qtyRaw;
-  const qtyLabel = scQtyMode === 'zhang'
-    ? `${qtyRaw}张 × 面值${scFace} = ${fmt(qty,6)} ${scSym}`
-    : `${fmt(qty,6)} ${scSym}`;
-
-  // 读取所有时间行（直接取 list 子元素）
-  const list2 = document.getElementById('sc-times-list');
-  const timeRowEls = list2 ? Array.from(list2.children) : [];
-  if (!timeRowEls.length) { showModal('缺少输入', '请至少添加一条分摊触发时间'); return; }
+  const positions = getScPositions();
+  if (!positions.length) { showModal('缺少输入', '请至少填写一条仓位信息（选合约 + 数量 + 时间）'); return; }
+  // 检查每个仓位是否有时间
+  for (const p of positions) {
+    if (!p.times.length) { showModal('缺少输入', `${p.sym} 仓位没有填写分摊触发时间`); return; }
+  }
 
   const btn = document.querySelector('#tab-sharecheck .calc-btn');
   if (btn) { btn.textContent = '查 询 中...'; btn.disabled = true; }
+  setApiStatus('sc-api-status','loading','查询标记价格中...');
+  document.getElementById('sc-api-status').style.display='';
 
   const resultsList = document.getElementById('sc-results-list');
   resultsList.innerHTML = '';
@@ -6667,125 +7194,122 @@ async function doShareCheck() {
   let allNormal = true;
   let hasError  = false;
   const formulaLines = [
-    fCmt(`分摊核查 · ${scSym}-USDT · ${long?'做多':'做空'}`),
-    fCmt(`持仓数量：${qtyLabel}`),
-    fCmt('浮盈公式：(本次分钟 Close - 前次分钟 Close) × 数量(币) × 方向'),
-    fCmt('分钟判断：秒=0 → 本次=该分钟；秒>0 → 本次=下一分钟（该分钟K线未结束）'),
+    fCmt('分摊核查 · 每个仓位独立方向与触发时间'),
+    fCmt('浮盈公式：(本次分钟Close - 前次分钟Close) × 数量(币) × 方向(多=+1/空=-1)'),
     fCmt(''),
   ];
 
-  for (const rowEl of timeRowEls) {
-    const uid      = rowEl.id.replace('sc-time-','');
-    const statusEl = document.getElementById(`sc-time-status-${uid}`);
-    const y  = rowEl.dataset.y  || '';
-    const mo = rowEl.dataset.mo || '';
-    const d  = rowEl.dataset.d  || '';
-    const h  = rowEl.dataset.h  || '0';
-    const m  = rowEl.dataset.m  || '0';
-    const s  = rowEl.dataset.s  || '0';
-    if (!y) continue;
+  // 按仓位分组输出结果
+  for (const pos of positions) {
+    const posDir = pos.dir === 'long' ? '做多' : '做空';
+    const posQtyLabel = pos.qtyMode === 'zhang'
+      ? `${pos.qtyRaw}张 = ${fmt(pos.qty,6)}币`
+      : `${fmt(pos.qty,6)}币`;
 
-    const pad2 = n => String(n).padStart(2,'0');
-    const timeStr = `${y}-${pad2(mo)}-${pad2(d)} ${pad2(h)}:${pad2(m)}:${pad2(s)}`;
+    // 仓位标题卡
+    const posHeader = document.createElement('div');
+    posHeader.style.cssText = 'background:var(--orange-light);border:1px solid var(--orange-mid);border-radius:var(--r-sm);padding:10px 14px;display:flex;align-items:center;gap:10px;margin-top:8px';
+    const iconUrl = getCoinIcon(pos.sym);
+    posHeader.innerHTML = `
+      <img src="${iconUrl}" width="22" height="22" style="border-radius:50%" onerror="this.src='${COIN_ICON_FALLBACK}'">
+      <span style="font-size:13px;font-weight:700;color:var(--orange-dark)">${pos.sym}-USDT</span>
+      <span style="font-size:12px;color:var(--text2)">${posQtyLabel}</span>
+      <span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;background:${pos.dir==='long'?'#dcfce7':'#fee2e2'};color:${pos.dir==='long'?'var(--green)':'var(--red)'}">${posDir}</span>
+    `;
+    resultsList.appendChild(posHeader);
 
-    if (statusEl) statusEl.textContent = '查询中...';
-    try {
-      const seconds    = getSeconds(timeStr);
-      const thisMinStr = normalizeToMinuteBJ(timeStr);
+    formulaLines.push(fCmt(`══ ${pos.sym} · ${posDir} · ${posQtyLabel} ══`));
 
-      // 关键逻辑：
-      // 秒数 = 0 → 本次分钟 = 该分钟，前次 = 上一分钟
-      // 秒数 > 0 → 该分钟K线未结束，本次分钟 = 下一分钟，前次 = 该分钟
-      let currMinStr, prevMinStr, logicNote;
-      if (seconds === 0) {
-        currMinStr = thisMinStr;                    // 21:44
-        prevMinStr = prevMinuteBJ(thisMinStr);      // 21:43
-        logicNote  = `秒=0，本次=${currMinStr.slice(11,16)}，前次=${prevMinStr.slice(11,16)}`;
-      } else {
-        currMinStr = nextMinuteBJ(thisMinStr);      // 21:45（44分钟K线结束后）
-        prevMinStr = prevMinuteBJ(thisMinStr);      // 21:43（永远是输入分钟的上一分钟）
-        logicNote  = `秒=${seconds}>0，本次=${currMinStr.slice(11,16)}，前次=${prevMinStr.slice(11,16)}`;
-      }
+    for (const t of pos.times) {
+      const { uid, timeStr, statusEl } = t;
+      if (statusEl) statusEl.textContent = '查询中...';
+      try {
+        const seconds    = getSeconds(timeStr);
+        const thisMinStr = normalizeToMinuteBJ(timeStr);
+        let currMinStr, prevMinStr, logicNote;
+        if (seconds === 0) {
+          currMinStr = thisMinStr;
+          prevMinStr = prevMinuteBJ(thisMinStr);
+          logicNote  = `秒=0，本次=${currMinStr.slice(11,16)}，前次=${prevMinStr.slice(11,16)}`;
+        } else {
+          currMinStr = nextMinuteBJ(thisMinStr);
+          prevMinStr = prevMinuteBJ(thisMinStr);
+          logicNote  = `秒=${seconds}>0，本次=${currMinStr.slice(11,16)}，前次=${prevMinStr.slice(11,16)}`;
+        }
 
-      const [kline, klinePrev] = await Promise.all([
-        fetchMarkKline(scContractId, currMinStr),
-        fetchMarkKline(scContractId, prevMinStr)
-      ]);
+        const [kline, klinePrev] = await Promise.all([
+          fetchMarkKline(pos.contractId, currMinStr),
+          fetchMarkKline(pos.contractId, prevMinStr)
+        ]);
 
-      const timeLabel = currMinStr.slice(0,16);
-      const prevLabel = prevMinStr.slice(0,16);
-      const card = document.createElement('div');
-      card.style.cssText = 'border:1px solid var(--border2);border-radius:var(--r-sm);overflow:hidden;';
+        const card = document.createElement('div');
+        card.style.cssText = 'border:1px solid var(--border2);border-radius:var(--r-sm);overflow:hidden;';
 
-      if (!kline || !klinePrev) {
-        card.innerHTML = `
-          <div style="background:#fef2f2;padding:12px 16px;display:flex;align-items:center;gap:10px">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-            <div>
-              <div style="font-size:13px;font-weight:700;color:var(--red)">⚠ API 查询失败</div>
-              <div style="font-size:12px;color:var(--text3);margin-top:2px">${timeLabel}</div>
+        if (!kline || !klinePrev) {
+          card.innerHTML = `
+            <div style="background:#fef2f2;padding:10px 14px;display:flex;align-items:center;gap:10px">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              <div style="font-size:12px;font-weight:700;color:var(--red)">⚠ 查询失败 · ${timeStr.slice(0,16)}</div>
+            </div>`;
+          hasError = true; allNormal = false;
+          if (statusEl) statusEl.textContent = '❌';
+          formulaLines.push(fCmt(`[${currMinStr.slice(11,16)}] ⚠ 查询失败`));
+        } else {
+          const curClose  = kline.close;
+          const prevClose = klinePrev.close;
+          const dir       = pos.dir === 'long' ? 1 : -1;
+          const pnl       = (curClose - prevClose) * pos.qty * dir;
+          const isNormal  = pnl > 0;
+          if (!isNormal) allNormal = false;
+          const sc = isNormal ? 'var(--green)' : 'var(--red)';
+          const sb = isNormal ? '#f0fdf4' : '#fef2f2';
+
+          card.innerHTML = `
+            <div style="background:${sb};padding:10px 14px;border-bottom:1px solid var(--border2)">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+                <div>
+                  <div style="font-size:13px;font-weight:700;color:${sc}">${isNormal?'✅ 正常（有浮盈）':'❌ 异常（无浮盈）'}</div>
+                  <div style="font-size:11px;color:var(--text3);margin-top:2px">${timeStr.slice(0,16)}:${String(seconds).padStart(2,'0')} · ${logicNote}</div>
+                </div>
+                <div style="text-align:right">
+                  <div style="font-size:11px;color:var(--text3)">浮盈</div>
+                  <div style="font-size:14px;font-weight:700;font-family:'Inter',sans-serif;color:${sc}">${pnl>0?'+':''}${fmt(pnl,4)} USDT</div>
+                </div>
+              </div>
             </div>
-          </div>`;
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:9px 14px;gap:8px;font-size:12px">
+              <div><div style="color:var(--text3);margin-bottom:2px">前次Close（${prevMinStr.slice(11,16)}）</div><div style="font-weight:700;font-family:'Inter',sans-serif">${fmt(prevClose,6)}</div></div>
+              <div><div style="color:var(--text3);margin-bottom:2px">本次Close（${currMinStr.slice(11,16)}）</div><div style="font-weight:700;font-family:'Inter',sans-serif">${fmt(curClose,6)}</div></div>
+              <div><div style="color:var(--text3);margin-bottom:2px">计算</div><div style="font-size:11px;font-weight:600;color:${sc}">(${fmt(curClose,4)}-${fmt(prevClose,4)})×${fmt(pos.qty,4)}×${dir}</div></div>
+            </div>
+            ${!isNormal?`<div style="background:#fef2f2;padding:7px 14px;font-size:12px;color:var(--red);border-top:1px solid #fecaca">⚠ 浮盈 ≤ 0，不应被分摊，建议提交技术核查</div>`:''}
+          `;
+          if (statusEl) statusEl.textContent = isNormal ? '✅' : '❌';
+
+          formulaLines.push(
+            fCmt(`  [${timeStr.slice(0,19)} ${logicNote}]`),
+            fLine('  前次Close', '标记价K线', fmt(prevClose,6)+' USDT'),
+            fLine('  本次Close', '标记价K线', fmt(curClose,6)+' USDT'),
+            fLine('  浮盈', `(${fmt(curClose,4)}-${fmt(prevClose,4)})×${fmt(pos.qty,4)}×${dir}`, (pnl>0?'+':'')+fmt(pnl,4)+' USDT'),
+            fCmt(isNormal ? '  → 正常 ✅' : '  → 异常 ❌'),
+          );
+        }
+        resultsList.appendChild(card);
+      } catch(e) {
         hasError = true; allNormal = false;
         if (statusEl) statusEl.textContent = '❌';
-        formulaLines.push(fCmt(`[${timeLabel}] ⚠ 查询失败`));
-      } else {
-        const curClose  = kline.close;
-        const prevClose = klinePrev.close;
-        const dir       = long ? 1 : -1;
-        const pnl       = (curClose - prevClose) * qty * dir;
-        card.dataset.pnl = pnl;
-        const isNormal  = pnl > 0;
-        if (!isNormal) allNormal = false;
-
-        const statusColor = isNormal ? 'var(--green)' : 'var(--red)';
-        const statusBg    = isNormal ? '#f0fdf4' : '#fef2f2';
-        const verdict     = isNormal ? '✅ 正常（周期内有浮盈）' : '❌ 异常（周期内无浮盈）';
-
-        card.innerHTML = `
-          <div style="background:${statusBg};padding:12px 16px;border-bottom:1px solid var(--border2)">
-            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
-              <div>
-                <div style="font-size:13px;font-weight:700;color:${statusColor}">${verdict}</div>
-                <div style="font-size:11px;color:var(--text3);margin-top:2px">${timeStr.slice(0,16)}:${String(seconds).padStart(2,'0')} · ${logicNote} · ${long?'做多':'做空'} ${scSym}</div>
-              </div>
-              <div style="text-align:right">
-                <div style="font-size:11px;color:var(--text3)">该分钟浮盈</div>
-                <div style="font-size:15px;font-weight:700;font-family:'Inter',-apple-system,sans-serif;color:${pnl>0?'var(--green)':'var(--red)'}">${pnl>0?'+':''}${fmt(pnl,4)} USDT</div>
-              </div>
-            </div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:10px 16px;gap:8px;font-size:12px">
-            <div><div style="color:var(--text3);margin-bottom:2px">前次分钟 Close（${prevMinStr.slice(11,16)}）</div><div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;color:var(--text1)">${fmt(prevClose,6)}</div></div>
-            <div><div style="color:var(--text3);margin-bottom:2px">本次分钟 Close（${currMinStr.slice(11,16)}）</div><div style="font-weight:700;font-family:'Inter',-apple-system,sans-serif;color:var(--text1)">${fmt(curClose,6)}</div></div>
-            <div><div style="color:var(--text3);margin-bottom:2px">浮盈计算</div><div style="font-weight:600;color:${statusColor};font-size:11px">(${fmt(curClose,4)} - ${fmt(prevClose,4)}) × ${fmt(qty,4)} × ${long?'1':'-1'}</div></div>
-          </div>
-          ${!isNormal ? `<div style="background:#fef2f2;padding:8px 16px;font-size:12px;color:var(--red);border-top:1px solid #fecaca">⚠ 该分钟浮盈 ≤ 0，不应被分摊，建议提交技术核查</div>` : ''}
-        `;
-        if (statusEl) statusEl.textContent = isNormal ? '✅' : '❌';
-
-        formulaLines.push(
-          fCmt(`─── ${timeStr.slice(0,19)} → ${logicNote} ───`),
-          fLine(`前次分钟 Close (${prevMinStr.slice(11,16)})`, '标记价 K 线', fmt(prevClose,6)+' USDT'),
-          fLine(`本次分钟 Close (${currMinStr.slice(11,16)})`, '标记价 K 线', fmt(curClose,6)+' USDT'),
-          fLine('价格变动', `${fmt(curClose,6)} - ${fmt(prevClose,6)}`, fmt(curClose-prevClose,6)+' USDT'),
-          fLine('该分钟浮盈', `${fmt(curClose-prevClose,6)} × ${fmt(qty,4)} × ${long?'1（做多）':'-1（做空）'}`, (pnl>0?'+':'')+fmt(pnl,4)+' USDT'),
-          fCmt(isNormal ? '→ 浮盈 > 0，分摊正常 ✅' : '→ 浮盈 ≤ 0，分摊异常 ❌'),
-          fCmt(''),
-        );
       }
-      resultsList.appendChild(card);
-    } catch(e) {
-      hasError = true; allNormal = false;
-      if (statusEl) statusEl.textContent = '❌';
     }
+    formulaLines.push(fCmt(''));
   }
 
-  if (resultsList.children.length > 1) {
+  // 总结
+  const totalCards = resultsList.querySelectorAll('[style*="border:1px solid var(--border2)"]').length;
+  if (totalCards > 0) {
     const summary = document.createElement('div');
-    summary.style.cssText = `padding:12px 16px;border-radius:var(--r-sm);font-size:13px;font-weight:700;text-align:center;background:${allNormal&&!hasError?'#f0fdf4':'#fef2f2'};color:${allNormal&&!hasError?'var(--green)':'var(--red)'}`;
+    summary.style.cssText = `margin-top:4px;padding:12px 16px;border-radius:var(--r-sm);font-size:13px;font-weight:700;text-align:center;background:${allNormal&&!hasError?'#f0fdf4':'#fef2f2'};color:${allNormal&&!hasError?'var(--green)':'var(--red)'}`;
     summary.textContent = allNormal && !hasError
-      ? `✅ 全部 ${resultsList.children.length} 条分摊核查正常`
+      ? `✅ 全部核查正常`
       : `⚠ 存在异常分摊记录，建议提交技术核查`;
     resultsList.appendChild(summary);
   }
@@ -6794,6 +7318,7 @@ async function doShareCheck() {
   setFB('sharecheck', formulaLines.join(''));
 
   if (btn) { btn.textContent = '核 查 分 摊 是 否 正 常'; btn.disabled = false; }
+  setApiStatus('sc-api-status', hasError ? 'err' : 'ok', hasError ? '部分查询失败' : '标记价格已加载');
   showRS('sharecheck');
 }
 let adlQtyMode    = 'coin'; // 'coin' | 'zhang'
