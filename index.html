@@ -4524,7 +4524,38 @@ function syncLev(mod, v, maxLev) {
   if (s2) { s2.max = max; s2.value = v; updateRangeTrack(s2); }
   // update ticks
   updateLevTicks(mod, max);
+  // 可开多少：杠杆变化时自动更新仓位档位上限
+  if (mod === 'open') updateOpenTierByLev(v);
 }
+// 根据杠杆自动更新可开多少模块的仓位档位上限
+function updateOpenTierByLev(lev) {
+  const tierMap = S.open?.tierMap;
+  if (!tierMap || !tierMap.length) return;
+  // tierMap[0] = 最高杠杆第1档（最小上限），tierMap[末尾] = 最低杠杆最大档
+  // 规则：能用的档位 = maxLev >= 当前杠杆 的所有档位里，tierLimit 最大的那个
+  // 即从后往前找第一个 maxLev >= lev 的档位
+  let tierLimit = tierMap[0].tierLimit; // 默认最小档（兜底）
+  for (let i = tierMap.length - 1; i >= 0; i--) {
+    if (tierMap[i].maxLev >= lev) {
+      tierLimit = tierMap[i].tierLimit;
+      break;
+    }
+  }
+  // 更新两个档位上限输入框
+  const ti  = document.getElementById('open-tier-limit');
+  const ti2 = document.getElementById('open-tier-limit2');
+  const tfi  = document.getElementById('open-tier-fi');
+  const tfi2 = document.getElementById('open-tier-fi2');
+  if (ti)  ti.value  = tierLimit;
+  if (ti2) ti2.value = tierLimit;
+  if (tfi)  tfi.classList.add('auto-filled');
+  if (tfi2) tfi2.classList.add('auto-filled');
+  const src  = document.getElementById('open-tier-src');
+  const src2 = document.getElementById('open-tier-src2');
+  if (src)  src.textContent  = '✦ 自动填入';
+  if (src2) src2.textContent = '✦ 自动填入';
+}
+
 function adjLev(mod, delta) {
   const maxLev = S[mod]?.maxLev || 125;
   // close any open edit first
@@ -5024,20 +5055,13 @@ async function loadForOpen(contractId, sym) {
     const tier1 = ladders[0];
     const lev1  = levers[0];
     const maxLev = lev1?.maxLever || 125;
-    const tierLimit = tier1.maxPositionValue;
-    // auto-fill tier limit
-    const ti = document.getElementById('open-tier-limit');
-    if(ti) ti.value = tierLimit;
-    const tfi = document.getElementById('open-tier-fi');
-    if(tfi) tfi.classList.add('auto-filled');
-    document.getElementById('open-tier-src').textContent = '✦ 自动填入';
-    // also fill the reference row shown in balance mode
-    const ti2 = document.getElementById('open-tier-limit2');
-    if(ti2) ti2.value = tierLimit;
-    const tfi2 = document.getElementById('open-tier-fi2');
-    if(tfi2) tfi2.classList.add('auto-filled');
-    const src2 = document.getElementById('open-tier-src2');
-    if(src2) src2.textContent = '✦ 自动填入';
+    // 保存档位映射：levers[i].maxLever → ladders[i].maxPositionValue
+    S.open.tierMap = ladders.map((t, i) => ({
+      maxLev: levers[i]?.maxLever || 1,
+      tierLimit: +t.maxPositionValue
+    }));
+    // 根据当前杠杆填入对应档位上限
+    updateOpenTierByLev(S.open.lev || 10);
     S.open.maxLev = maxLev;
     document.getElementById('open-max-lev-hint').textContent = `当前合约最大 ${maxLev}x`;
     const hint2 = document.getElementById('open-max-lev-hint2');
