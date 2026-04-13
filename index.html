@@ -5916,15 +5916,15 @@ function doLiq() {
 
   if (liqMode === 'cross') {
     // ══ 官方全仓公式 ══
-    // 强平价 = 标记价 - (账户权益 - 平仓手续费 - 所有仓位维持保证金总和 + 当前档位扣减额) / 数量
-    // 简化（单仓位）：平仓手续费 = 标记价 × 数量 × 手续费率
-    //                维持保证金  = 标记价 × 数量 × MMR
-    //                扣减额 来自 API ladderList.deduction
     const equity      = +document.getElementById('liq-equity').value;
-    const qty         = +document.getElementById('liq-qty').value;
+    const qtyRaw      = +document.getElementById('liq-qty').value;
     const mark        = +document.getElementById('liq-mark').value;
     const otherMaint  = +document.getElementById('liq-other-maint').value || 0;
-    if (!equity || !qty) { showModal('缺少输入','全仓模式需要填写账户权益和持仓数量'); return; }
+    if (!equity || !qtyRaw) { showModal('缺少输入','全仓模式需要填写账户权益和持仓数量'); return; }
+    // 张模式需乘合约面值换算成币数
+    const liqFace = liqQtyMode === 'zhang' ? (+document.getElementById('liq-face-display')?.textContent || 1) : 1;
+    const qty     = liqQtyMode === 'zhang' ? mulSafe(qtyRaw, liqFace) : qtyRaw;
+    const qtyDesc = liqQtyMode === 'zhang' ? `${qtyRaw}张 × 面值${liqFace} = ${fmt(qty,6)}币` : `${qty}币`;
 
     const usePrice    = mark || entry;
     const notional    = usePrice * qty;
@@ -5955,7 +5955,7 @@ function doLiq() {
       fCmt(''),
       fCmt('【官方公式】强平价 = 标记价 − (账户权益 − 强平手续费 − 所有仓位维持保证金总和 + 当前仓位档位扣减额) ÷ 数量'),
       fCmt(''),
-      fLine('① 当前仓位名义价值',       `标记价 ${usePrice} × 数量 ${qty}`,                           fmt(notional,2)+' USDT'),
+      fLine('① 当前仓位名义价值',       `标记价 ${usePrice} × ${qtyDesc}`,                           fmt(notional,2)+' USDT'),
       fLine('② 强平手续费',             `名义价值 ${fmt(notional,2)} × ${fmt(fee*100,6)}%`,            fmt(closeFee,6)+' USDT'),
       fLine('③ 当前仓位维持保证金',     `名义价值 ${fmt(notional,2)} × MMR ${mmrVal.toFixed(2)}%`,     fmt(maintMargin,6)+' USDT'),
       fLine('④ 其他仓位维持保证金总和', '用户填入（无其他仓位为 0）',                                  fmt(otherMaint,6)+' USDT'),
@@ -5966,8 +5966,8 @@ function doLiq() {
       fCmt(long ? '做多强平价 = 标记价 − 括号合计 ÷ 数量'
                 : '做空强平价 = 标记价 + 括号合计 ÷ 数量'),
       fLine('⑧ 强平价格',
-        long ? `${usePrice} − ${fmt(bracket,6)} ÷ ${qty}`
-             : `${usePrice} + ${fmt(bracket,6)} ÷ ${qty}`,
+        long ? `${usePrice} − ${fmt(bracket,6)} ÷ ${fmt(qty,6)}`
+             : `${usePrice} + ${fmt(bracket,6)} ÷ ${fmt(qty,6)}`,
         fmt(liqP,2)+' USDT'),
       deduction > 0 ? fCmt(`  ★ 档位扣减额 ${fmt(deduction,2)} USDT 已自动从 API 读取`) : fCmt('  ★ 档位扣减额为 0（第一档或未加载合约参数）'),
     ];
@@ -5979,7 +5979,8 @@ function doLiq() {
     const isolatedMargin = +document.getElementById('liq-isolated-margin').value;
     const qtyRawIso      = +document.getElementById('liq-isolated-qty').value;
     const isoFace        = liqIsoQtyMode === 'zhang' ? (+document.getElementById('liq-iso-face-display')?.textContent || 1) : 1;
-    const qty            = liqIsoQtyMode === 'zhang' ? qtyRawIso * isoFace : qtyRawIso;
+    const qty            = liqIsoQtyMode === 'zhang' ? mulSafe(qtyRawIso, isoFace) : qtyRawIso;
+    const qtyDescIso     = liqIsoQtyMode === 'zhang' ? `${qtyRawIso}张 × 面值${isoFace} = ${fmt(qty,6)}币` : `${qty}币`;
     const mark           = +document.getElementById('liq-isolated-mark').value;
 
     if (!isolatedMargin || !qty || !mark) {
@@ -6013,9 +6014,9 @@ function doLiq() {
       fCmt('【官方公式】强平价 = 标记价 − (逐仓仓位权益 − 强平手续费 − 当前仓位维持保证金 + 档位扣减额) ÷ 数量'),
       fCmt(''),
       fLine('① 逐仓仓位权益',   '逐仓保证金',                                                      fmt(isoEquity,5)+' USDT'),
-      fLine('② 当前仓位维持保证金', `标记价 ${usePrice} × 数量 ${qty} × MMR ${mmrVal}%`,           fmt(maintMargin,5)+' USDT'),
+      fLine('② 当前仓位维持保证金', `标记价 ${usePrice} × ${qtyDescIso} × MMR ${mmrVal}%`,           fmt(maintMargin,5)+' USDT'),
       fLine('③ 档位扣减额',     'API 自动读取',                                                     fmt(deduction,5)+' USDT'),
-      fLine('④ 强平手续费',     `强平价 ${fmt(liqP,2)} × ${qty} × ${fee.toFixed(6)}`,              fmt(closeFee,5)+' USDT'),
+      fLine('④ 强平手续费',     `强平价 ${fmt(liqP,2)} × ${fmt(qty,6)}币 × ${fee.toFixed(6)}`,              fmt(closeFee,5)+' USDT'),
       fLine('⑤ 强平价格',       long
         ? `(标记价 − (逐仓权益 − 维持保证金 + 扣减额) ÷ 数量) ÷ (1 − 手续费率)`
         : `(标记价 + (逐仓权益 − 维持保证金 + 扣减额) ÷ 数量) ÷ (1 + 手续费率)`,
