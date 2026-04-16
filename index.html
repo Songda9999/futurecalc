@@ -1272,28 +1272,85 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
 
     <div class="result-section" id="pnl-rs">
       <div class="result-divider"></div>
+
+      <!-- 层一：核心结果 -->
       <div class="result-label">计算结果</div>
-      <div class="result-grid">
-        <div class="ri"><div class="ri-lbl">初始保证金</div><div class="ri-val" id="rp-margin">—</div><div class="ri-sub" id="rp-margin-u">USDT</div></div>
-        <div class="ri"><div class="ri-lbl">平仓盈亏</div><div class="ri-val" id="rp-rawpnl">—</div><div class="ri-sub" id="rp-rawpnl-u">USDT</div></div>
-        <div class="ri ri-amber"><div class="ri-lbl">开仓手续费</div><div class="ri-val amber" id="rp-ofee">—</div><div class="ri-sub" id="rp-ofee-u">USDT</div></div>
-        <div class="ri ri-amber"><div class="ri-lbl">平仓手续费</div><div class="ri-val amber" id="rp-cfee">—</div><div class="ri-sub" id="rp-cfee-u">USDT</div></div>
-        <div class="ri" id="rp-pnl-card"><div class="ri-lbl">仓位盈亏</div><div class="ri-val" id="rp-pnl">—</div><div class="ri-sub" id="rp-pnl-u">USDT</div></div>
-        <div class="ri" id="rp-roe-card"><div class="ri-lbl">收益率</div><div class="ri-val" id="rp-roe">—</div><div class="ri-sub">%</div></div>
-        <div class="ri"><div class="ri-lbl">仓位名义价值</div><div class="ri-val" id="rp-notional">—</div><div class="ri-sub" id="rp-notional-u">USDT</div></div>
+      <div class="result-grid" style="margin-bottom:12px">
+        <div class="ri" id="rp-pnl-card" style="grid-column:span 1">
+          <div class="ri-lbl">仓位盈亏</div>
+          <div class="ri-val" id="rp-pnl">—</div>
+          <div class="ri-sub" id="rp-pnl-u">USDT</div>
+        </div>
+        <div class="ri" id="rp-roe-card">
+          <div class="ri-lbl">收益率</div>
+          <div class="ri-val" id="rp-roe">—</div>
+          <div class="ri-sub">%</div>
+        </div>
+        <div class="ri">
+          <div class="ri-lbl">初始保证金</div>
+          <div class="ri-val" id="rp-margin">—</div>
+          <div class="ri-sub" id="rp-margin-u">USDT</div>
+        </div>
+        <div class="ri">
+          <div class="ri-lbl">仓位名义价值</div>
+          <div class="ri-val" id="rp-notional">—</div>
+          <div class="ri-sub" id="rp-notional-u">USDT</div>
+        </div>
+        <div class="ri">
+          <div class="ri-lbl">平仓盈亏</div>
+          <div class="ri-val" id="rp-rawpnl">—</div>
+          <div class="ri-sub" id="rp-rawpnl-u">USDT</div>
+        </div>
+        <div class="ri ri-amber">
+          <div class="ri-lbl">总手续费</div>
+          <div class="ri-val amber" id="rp-totalfee">—</div>
+          <div class="ri-sub">USDT</div>
+        </div>
       </div>
-      <!-- 净盈亏公式说明 -->
-      <div id="rp-formula-hint" style="display:none;margin-top:10px;padding:10px 14px;background:#f7f8fa;border-radius:var(--r-sm);font-size:12px;color:var(--text2);line-height:1.8">
-        <span id="rp-formula-hint-text"></span>
+
+      <!-- 层二：费用明细（折叠） -->
+      <div style="margin-bottom:10px">
+        <div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'':'none';this.querySelector('.arr-icon').style.transform=this.nextElementSibling.style.display===''?'rotate(180deg)':''"
+          style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--text3);cursor:pointer;padding:6px 2px;user-select:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          手续费明细
+          <svg class="arr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="margin-left:2px;transition:transform 0.2s"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div style="display:none;background:#f7f8fa;border-radius:var(--r-sm);padding:10px 14px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+            <span>开仓手续费</span><span id="rp-ofee" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif">—</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+            <span>平仓手续费</span><span id="rp-cfee" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif">—</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0 0;border-top:1px solid var(--border2);margin-top:4px;color:var(--text1);font-weight:700">
+            <span>总手续费</span><span id="rp-totalfee2" style="font-family:'Inter',-apple-system,sans-serif;color:var(--amber)">—</span>
+          </div>
+        </div>
       </div>
+
+      <!-- 层三：计算过程（折叠） -->
       <div class="formula-wrap">
         <div class="formula-toggle" id="ft-pnl" onclick="toggleF('pnl')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          查看透明计算公式
+          查看计算过程
           <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:auto"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <div class="formula-body" id="fb-pnl"></div>
       </div>
+
+      <!-- 复制按钮组 -->
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button id="rp-copy-result-btn" onclick="copyPnlResult()"
+          style="flex:1;padding:8px 0;border:1px solid var(--orange);border-radius:var(--r-sm);background:#fff;color:var(--orange);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s">
+          复制结果
+        </button>
+        <button id="rp-copy-formula-btn" onclick="copyPnlFormula()"
+          style="flex:1;padding:8px 0;border:1px solid var(--border2);border-radius:var(--r-sm);background:#fff;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s">
+          复制计算过程
+        </button>
+      </div>
+
       <p class="notice">* 手续费按所选 Maker/Taker 费率估算，实际以交易所结算为准。</p>
     </div>
   </div>
@@ -1502,23 +1559,60 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
 
     <div class="result-section" id="liq-rs">
       <div class="result-divider"></div>
+
+      <!-- 层一：核心结果 -->
       <div class="result-label">计算结果</div>
-      <div class="result-grid">
-        <div class="ri ri-red"><div class="ri-lbl">强平价格</div><div class="ri-val red" id="rl-price">—</div><div class="ri-sub">USDT</div></div>
-        <div class="ri ri-amber"><div class="ri-lbl">距爆仓幅度</div><div class="ri-val amber" id="rl-dist">—</div><div class="ri-sub">%</div></div>
-        <div class="ri"><div class="ri-lbl">维持保证金率 MMR</div><div class="ri-val" id="rl-mmr-r">—</div><div class="ri-sub">%</div></div>
-        <div class="ri"><div class="ri-lbl">手续费率</div><div class="ri-val" id="rl-fee">—</div><div class="ri-sub">%</div></div>
-        <div class="ri" id="rl-margin-rate-card" style="display:none"><div class="ri-lbl">当前保证金率</div><div class="ri-val" id="rl-margin-rate">—</div><div class="ri-sub">%</div></div>
+      <div class="result-grid" style="margin-bottom:12px">
+        <div class="ri ri-red">
+          <div class="ri-lbl">强平价格</div>
+          <div class="ri-val red" id="rl-price">—</div>
+          <div class="ri-sub">USDT</div>
+        </div>
+        <div class="ri ri-amber">
+          <div class="ri-lbl">距离爆仓</div>
+          <div class="ri-val amber" id="rl-dist">—</div>
+          <div class="ri-sub">% <span id="rl-dist-usdt" style="font-size:10px;color:var(--text3);font-weight:400"></span></div>
+        </div>
+        <div class="ri" id="rl-margin-rate-card" style="display:none">
+          <div class="ri-lbl">当前保证金率</div>
+          <div class="ri-val" id="rl-margin-rate">—</div>
+          <div class="ri-sub">%</div>
+        </div>
+        <div class="ri">
+          <div class="ri-lbl">维持保证金率 MMR</div>
+          <div class="ri-val" id="rl-mmr-r">—</div>
+          <div class="ri-sub">%</div>
+        </div>
       </div>
+
+      <!-- 风险状态条 -->
+      <div id="rl-risk-bar" style="display:none;margin-bottom:12px;padding:10px 14px;border-radius:var(--r-sm);border:1px solid;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:space-between">
+        <span id="rl-risk-label">—</span>
+        <span id="rl-risk-detail" style="font-size:11px;font-weight:400;color:var(--text3)"></span>
+      </div>
+
+      <!-- 层二：复制按钮 -->
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <button id="rl-copy-result-btn" onclick="copyLiqResult()"
+          style="flex:1;padding:8px 0;border:1px solid var(--orange);border-radius:var(--r-sm);background:#fff;color:var(--orange);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s">
+          复制结果
+        </button>
+        <button onclick="copyLiqFormula()"
+          style="flex:1;padding:8px 0;border:1px solid var(--border2);border-radius:var(--r-sm);background:#fff;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s" id="rl-copy-formula-btn">
+          复制计算过程
+        </button>
+      </div>
+
+      <!-- 层三：计算过程折叠 -->
       <div class="formula-wrap">
         <div class="formula-toggle" id="ft-liq" onclick="toggleF('liq')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          查看透明计算公式
+          查看计算过程
           <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:auto"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <div class="formula-body" id="fb-liq"></div>
       </div>
-      <p class="notice">* 强平价格为理论估算，实际还受未实现盈亏和风险准备金影响，全仓模式下账户其他仓位盈亏也会影响强平价。</p>
+      <p class="notice" id="liq-notice">* 强平价格为理论估算，实际还受未实现盈亏和风险准备金影响，全仓模式下账户其他仓位盈亏也会影响强平价。</p>
     </div>
 
     <!-- ── 强平异常验证 ── -->
@@ -1536,7 +1630,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
       </div>
       <div class="form-grid" style="margin-bottom:12px;margin-top:16px">
         <div class="field form-full">
-          <div class="field-label">选择合约（自动填入参数）</div>
+          <div class="field-label">选择合约币种</div>
           <div style="position:relative">
             <div class="mp-sel-box" id="chk-sel-box" onclick="toggleDrop('chk')">
               <img id="chk-sel-icon" class="sel-coin-icon" src="" alt="" onerror="this.classList.remove('loaded')">
@@ -1580,7 +1674,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
           </div>
         </div>
         <div class="field">
-          <div class="field-label">维持保证金率 MMR<span style="font-size:10px;color:var(--orange);font-weight:600" id="chk-mmr-src"> ✦ 自动填入</span></div>
+          <div class="field-label">最低维持保证金率（MMR）<span style="font-size:10px;color:var(--orange);font-weight:600" id="chk-mmr-src"> ✦ 自动填入</span></div>
           <div class="fi" id="chk-mmr-fi"><input type="number" id="chk-mmr" placeholder="0.50" step="any" readonly style="cursor:default"><span class="fi-unit">%</span></div>
         </div>
         <div class="field">
@@ -1627,32 +1721,80 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
       <button class="calc-btn" onclick="doLiqCheck()" style="background:linear-gradient(135deg,#ef4444,#dc2626)">验 证 强 平 是 否 正 常</button>
       <div class="result-section" id="liq-check-rs" style="display:none">
         <div class="result-divider"></div>
-        <div class="result-label">验证结果</div>
-        <div class="result-grid" style="margin-bottom:20px">
-          <div class="ri"><div class="ri-lbl">当前保证金率</div><div class="ri-val" id="rchk-ratio">—</div><div class="ri-sub">%</div></div>
-          <div class="ri"><div class="ri-lbl">触发阈值</div><div class="ri-val" id="rchk-threshold">—</div><div class="ri-sub">MMR + 手续费</div></div>
-          <div class="ri" id="rchk-verdict-card"><div class="ri-lbl">判断结论</div><div class="ri-val" id="rchk-verdict" style="font-size:13px;line-height:1.4">—</div></div>
-          <div class="ri"><div class="ri-lbl">仓位总价值</div><div class="ri-val" id="rchk-pos">—</div><div class="ri-sub">USDT</div></div>
-          <div class="ri"><div class="ri-lbl">有效权益</div><div class="ri-val" id="rchk-eff-equity">—</div><div class="ri-sub">USDT</div></div>
-          <div class="ri"><div class="ri-lbl">差距</div><div class="ri-val" id="rchk-gap">—</div><div class="ri-sub">%</div></div>
+
+        <!-- 层一：验证结论 -->
+        <div class="result-label">验证结论</div>
+        <div class="result-grid" style="margin-bottom:12px">
+          <div class="ri" id="rchk-verdict-card">
+            <div class="ri-lbl">判断结论</div>
+            <div class="ri-val" id="rchk-verdict" style="font-size:13px;line-height:1.4">—</div>
+          </div>
+          <div class="ri">
+            <div class="ri-lbl">当前保证金率</div>
+            <div class="ri-val" id="rchk-ratio">—</div>
+            <div class="ri-sub">%</div>
+          </div>
+          <div class="ri">
+            <div class="ri-lbl">触发阈值（MMR＋手续费）</div>
+            <div class="ri-val" id="rchk-threshold">—</div>
+            <div class="ri-sub">%</div>
+          </div>
+          <div class="ri">
+            <div class="ri-lbl">安全余量</div>
+            <div class="ri-val" id="rchk-gap">—</div>
+            <div class="ri-sub">%</div>
+          </div>
         </div>
 
-        <div class="result-divider"></div>
-        <div class="result-label">最低保证金要求</div>
-        <div class="info-chip" style="margin-bottom:12px">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg>
-          <span>账户权益必须高于「最低所需权益」，否则触发强平</span>
+        <!-- 层二：最低权益要求 -->
+        <div style="margin-bottom:10px">
+          <div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'':'none';this.querySelector('.arr-icon').style.transform=this.nextElementSibling.style.display===''?'rotate(180deg)':''"
+            style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--text3);cursor:pointer;padding:6px 2px;user-select:none">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12" y2="16.5" stroke-width="3"/></svg>
+            最低权益要求
+            <svg class="arr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="margin-left:2px;transition:transform 0.2s"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div style="display:none;background:#f7f8fa;border-radius:var(--r-sm);padding:10px 14px">
+            <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+              <span>仓位总价值</span><span id="rchk-pos" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif">—</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+              <span>有效权益</span><span id="rchk-eff-equity" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif">—</span>
+            </div>
+            <div style="border-top:1px solid var(--border2);margin-top:6px;padding-top:6px">
+              <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+                <span>最低维持保证金</span><span id="rchk-min-maint" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif;color:var(--red)">—</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+                <span>最低平仓手续费</span><span id="rchk-min-fee" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif;color:var(--red)">—</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0 0;border-top:1px solid var(--border2);margin-top:4px;color:var(--text1);font-weight:700">
+                <span>最低所需权益</span><span id="rchk-min-equity" style="font-family:'Inter',-apple-system,sans-serif;color:var(--amber)">—</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0 0;color:var(--text2)">
+                <span>当前权益超出安全线</span><span id="rchk-safety-buffer" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif">—</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="result-grid" style="margin-bottom:20px">
-          <div class="ri ri-red"><div class="ri-lbl">最低维持保证金</div><div class="ri-val red" id="rchk-min-maint">—</div><div class="ri-sub">仓位价值 × MMR</div></div>
-          <div class="ri ri-red"><div class="ri-lbl">最低平仓手续费</div><div class="ri-val red" id="rchk-min-fee">—</div><div class="ri-sub">仓位价值 × 手续费率</div></div>
-          <div class="ri ri-amber"><div class="ri-lbl">最低所需权益</div><div class="ri-val amber" id="rchk-min-equity">—</div><div class="ri-sub">维持保证金 + 手续费 + 其他维持</div></div>
-          <div class="ri"><div class="ri-lbl">当前权益超出安全线</div><div class="ri-val" id="rchk-safety-buffer">—</div><div class="ri-sub">USDT</div></div>
+
+        <!-- 复制按钮 -->
+        <div style="display:flex;gap:8px;margin-bottom:12px">
+          <button id="rchk-copy-result-btn" onclick="copyChkResult()"
+            style="flex:1;padding:8px 0;border:1px solid var(--orange);border-radius:var(--r-sm);background:#fff;color:var(--orange);font-size:12px;font-weight:600;cursor:pointer">
+            复制结果
+          </button>
+          <button onclick="copyChkFormula()"
+            style="flex:1;padding:8px 0;border:1px solid var(--border2);border-radius:var(--r-sm);background:#fff;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer" id="rchk-copy-formula-btn">
+            复制计算过程
+          </button>
         </div>
+
+        <!-- 层三：计算过程折叠 -->
         <div class="formula-wrap">
           <div class="formula-toggle" id="ft-liqcheck" onclick="toggleF('liqcheck')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-            查看完整验证公式
+            查看计算过程
             <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:auto"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <div class="formula-body" id="fb-liqcheck"></div>
@@ -1891,26 +2033,104 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
     <!-- 合约规则卡（选合约后自动显示） -->
     <div class="result-section" id="open-rs">
       <div class="result-divider"></div>
-      <!-- 数量超限警告横幅 -->
+      <!-- 超限警告横幅 -->
       <div id="open-qty-warn" style="display:none;margin-bottom:12px;background:#fef2f2;border:1px solid #fecaca;border-radius:var(--r-sm);padding:10px 13px;font-size:12px;color:#b91c1c;font-weight:600;align-items:flex-start;gap:8px;line-height:1.6;"></div>
-      <div class="result-label">计算结果</div>
-      <div class="result-grid">
-        <div class="ri ri-green"><div class="ri-lbl">最大可开数量</div><div class="ri-val green" id="ro-qty">—</div><div class="ri-sub" id="ro-qty-u">ETH</div></div>
-        <div class="ri ri-orange" style="--orange-start:var(--orange)"><div class="ri-lbl">最大仓位价值</div><div class="ri-val orange" id="ro-notional">—</div><div class="ri-sub" id="ro-notional-u">USDT</div></div>
-        <div class="ri"><div class="ri-lbl">所需保证金</div><div class="ri-val" id="ro-margin">—</div><div class="ri-sub" id="ro-margin-u">USDT</div></div>
-        <div class="ri ri-amber"><div class="ri-lbl">预计手续费</div><div class="ri-val amber" id="ro-fee">—</div><div class="ri-sub" id="ro-fee-u">USDT</div></div>
-        <div class="ri"><div class="ri-lbl">保证金 + 手续费</div><div class="ri-val" id="ro-total">—</div><div class="ri-sub" id="ro-total-u">USDT</div></div>
-        <div class="ri"><div class="ri-lbl" id="ro-usage-lbl">余额使用率</div><div class="ri-val" id="ro-usage">—</div><div class="ri-sub">%</div></div>
+
+      <!-- ── 档位模式专属提示 ── -->
+      <div id="open-tier-notice" style="display:none;margin-bottom:12px;padding:8px 12px;background:#fffbeb;border:1px solid #fed7aa;border-radius:var(--r-sm);font-size:12px;color:#92400e">
+        ⚠ 本结果仅基于档位限制计算，实际可开仓量仍受账户余额限制。
       </div>
+
+      <!-- ── 档位信息（档位模式显示） ── -->
+      <div id="open-tier-result-block" style="display:none;margin-bottom:12px">
+        <div class="result-label">档位空间</div>
+        <div class="result-grid" style="margin-bottom:8px">
+          <div class="ri">
+            <div class="ri-lbl">档位上限</div>
+            <div class="ri-val" id="ro-tier-lim">—</div>
+            <div class="ri-sub">USDT</div>
+          </div>
+          <div class="ri">
+            <div class="ri-lbl">当前仓位价值</div>
+            <div class="ri-val" id="ro-cur-pos-val">—</div>
+            <div class="ri-sub">USDT</div>
+          </div>
+          <div class="ri ri-green">
+            <div class="ri-lbl">档位剩余空间</div>
+            <div class="ri-val green" id="ro-remaining-val">—</div>
+            <div class="ri-sub">USDT</div>
+          </div>
+          <div class="ri">
+            <div class="ri-lbl">档位使用率</div>
+            <div class="ri-val" id="ro-tier-usage-val">—</div>
+            <div class="ri-sub">%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 层一：核心结果 -->
+      <div class="result-label" id="open-result-label">计算结果</div>
+      <div class="result-grid" style="margin-bottom:12px">
+        <div class="ri ri-green">
+          <div class="ri-lbl" id="ro-qty-lbl">最大可开数量</div>
+          <div class="ri-val green" id="ro-qty">—</div>
+          <div class="ri-sub" id="ro-qty-u">ETH</div>
+        </div>
+        <div class="ri ri-orange" style="--orange-start:var(--orange)">
+          <div class="ri-lbl" id="ro-notional-lbl">最大仓位价值</div>
+          <div class="ri-val orange" id="ro-notional">—</div>
+          <div class="ri-sub" id="ro-notional-u">USDT</div>
+        </div>
+        <div class="ri">
+          <div class="ri-lbl" id="ro-usage-lbl">余额使用率</div>
+          <div class="ri-val" id="ro-usage">—</div>
+          <div class="ri-sub">%</div>
+        </div>
+      </div>
+
+      <!-- 层二：资金占用（折叠） -->
+      <div style="margin-bottom:10px">
+        <div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'':'none';this.querySelector('.arr-icon').style.transform=this.nextElementSibling.style.display===''?'rotate(180deg)':''"
+          style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--text3);cursor:pointer;padding:6px 2px;user-select:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
+          资金需求
+          <svg class="arr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="margin-left:2px;transition:transform 0.2s"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div style="display:none;background:#f7f8fa;border-radius:var(--r-sm);padding:10px 14px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+            <span>所需保证金</span><span id="ro-margin" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif">—</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+            <span>预计手续费</span><span id="ro-fee" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif;color:var(--amber)">—</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0 0;border-top:1px solid var(--border2);margin-top:4px;color:var(--text1);font-weight:700">
+            <span>总资金需求</span><span id="ro-total" style="font-family:'Inter',-apple-system,sans-serif">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 复制按钮 -->
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <button id="ro-copy-result-btn" onclick="copyOpenResult()"
+          style="flex:1;padding:8px 0;border:1px solid var(--orange);border-radius:var(--r-sm);background:#fff;color:var(--orange);font-size:12px;font-weight:600;cursor:pointer">
+          复制结果
+        </button>
+        <button onclick="copyOpenFormula()" id="ro-copy-formula-btn"
+          style="flex:1;padding:8px 0;border:1px solid var(--border2);border-radius:var(--r-sm);background:#fff;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer">
+          复制计算过程
+        </button>
+      </div>
+
+      <!-- 层三：计算过程折叠 -->
       <div class="formula-wrap">
         <div class="formula-toggle" id="ft-open" onclick="toggleF('open')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          查看透明计算公式
+          查看计算过程
           <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:auto"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <div class="formula-body" id="fb-open"></div>
       </div>
-      <p class="notice">* 最大可开数量受账户余额、仓位档位上限和手续费共同限制。</p>
+      <p class="notice" id="open-notice">* 最大可开数量受账户余额、仓位档位上限和手续费共同限制。</p>
     </div>
   </div>
 </div>
@@ -1923,7 +2143,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
 <div class="card">
   <div class="card-head">
     <div class="card-head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
-    <div><h2>计算资金费率</h2><p>用于核实用户投诉资金费扣除金额是否正确，支持单笔固定费率或多笔不同费率逐一核算 &nbsp;<span class="api-status" id="fund-api-status" style="display:none"><span class="api-dot"></span></span></p></div>
+    <div><h2>计算资金费率</h2><p>用于核实用户投诉资金费扣除金额是否正确，逐笔输入每次费率自动计算总资金费用 &nbsp;<span class="api-status" id="fund-api-status" style="display:none"><span class="api-dot"></span></span></p></div>
   </div>
   <div class="card-body">
 
@@ -1945,19 +2165,6 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
           </div>
           <div class="mp-dropdown" id="fund-drop"></div>
         </div>
-      </div>
-    </div>
-
-    <!-- 模式切换 -->
-    <div class="field" style="margin-bottom:16px">
-      <div class="field-label">计算模式</div>
-      <div class="seg" id="fund-mode-seg">
-        <button class="seg-btn active-ct" id="fund-mode-multi" onclick="setFundMode('multi',this)">
-          逐笔输入（每次费率不同）
-        </button>
-        <button class="seg-btn" id="fund-mode-fixed" onclick="setFundMode('fixed',this)">
-          固定费率
-        </button>
       </div>
     </div>
 
@@ -2011,20 +2218,6 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
       </div>
     </div>
 
-    <!-- ── 固定费率模式 ── -->
-    <div id="fund-fixed-block" style="display:none">
-      <div class="form-grid">
-        <div class="field">
-          <div class="field-label">资金费率（每 8 小时）</div>
-          <div class="fi"><input type="number" id="fund-rate" placeholder="0.00" step="any"><span class="fi-unit">%</span></div>
-        </div>
-        <div class="field">
-          <div class="field-label">预计持仓时间</div>
-          <div class="fi"><input type="number" id="fund-hours" placeholder="0" min="1"><span class="fi-unit">小时</span></div>
-        </div>
-      </div>
-    </div>
-
     <!-- ── 逐笔输入模式 ── -->
     <div id="fund-multi-block">
       <div class="field-label" style="margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;">
@@ -2062,18 +2255,56 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
 
     <div class="result-section" id="fund-rs">
       <div class="result-divider"></div>
+
+      <!-- 层一：核心结果 -->
       <div class="result-label">计算结果</div>
-      <div class="result-grid">
-        <div class="ri"><div class="ri-lbl">仓位名义价值</div><div class="ri-val" id="rf-notional">—</div><div class="ri-sub" id="rf-notional-u">USDT</div></div>
-        <div class="ri"><div class="ri-lbl">结算次数</div><div class="ri-val" id="rf-n">—</div><div class="ri-sub">次</div></div>
-        <div class="ri" id="rf-total-card"><div class="ri-lbl">净资金费用</div><div class="ri-val" id="rf-total">—</div><div class="ri-sub" id="rf-total-u">USDT</div></div>
-        <div class="ri ri-green"><div class="ri-lbl">收入合计</div><div class="ri-val green" id="rf-income">—</div><div class="ri-sub" id="rf-income-u">USDT</div></div>
-        <div class="ri ri-red"><div class="ri-lbl">支出合计</div><div class="ri-val red" id="rf-expense">—</div><div class="ri-sub" id="rf-expense-u">USDT</div></div>
+      <div class="result-grid" style="margin-bottom:12px">
+        <div class="ri" id="rf-total-card">
+          <div class="ri-lbl">净资金费用</div>
+          <div class="ri-val" id="rf-total">—</div>
+          <div class="ri-sub" id="rf-total-u">USDT</div>
+        </div>
+        <div class="ri">
+          <div class="ri-lbl">结算次数</div>
+          <div class="ri-val" id="rf-n">—</div>
+          <div class="ri-sub">次</div>
+        </div>
+        <div class="ri ri-green">
+          <div class="ri-lbl">收入合计</div>
+          <div class="ri-val green" id="rf-income">—</div>
+          <div class="ri-sub" id="rf-income-u">USDT</div>
+        </div>
+        <div class="ri ri-red">
+          <div class="ri-lbl">支出合计</div>
+          <div class="ri-val red" id="rf-expense">—</div>
+          <div class="ri-sub" id="rf-expense-u">USDT</div>
+        </div>
+      </div>
+
+      <!-- 层二：仓位信息（折叠） -->
+      <div style="margin-bottom:10px">
+        <div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'':'none';this.querySelector('.arr-icon').style.transform=this.nextElementSibling.style.display===''?'rotate(180deg)':''"
+          style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--text3);cursor:pointer;padding:6px 2px;user-select:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+          仓位信息
+          <svg class="arr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="margin-left:2px;transition:transform 0.2s"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div style="display:none;background:#f7f8fa;border-radius:var(--r-sm);padding:10px 14px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+            <span>仓位名义价值</span><span id="rf-notional" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif">—</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+            <span>正费率规则</span><span style="font-weight:600;color:var(--text3)">多方付空方</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+            <span>负费率规则</span><span style="font-weight:600;color:var(--text3)">空方付多方</span>
+          </div>
+        </div>
       </div>
 
       <!-- 逐笔明细 -->
-      <div id="rf-breakdown" style="display:none;margin-top:16px">
-        <div class="result-label">逐笔明细</div>
+      <div id="rf-breakdown" style="display:none;margin-bottom:12px">
+        <div class="result-label" style="margin-top:0">结算明细</div>
         <div style="border:1px solid var(--border2);border-radius:var(--r-sm);overflow:hidden">
           <div style="display:grid;grid-template-columns:36px 1fr 1fr 1fr 1fr;background:#f7f8fa;padding:8px 14px;font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;gap:8px">
             <span>#</span><span>费率</span><span>标记价格</span><span>金额</span><span>方向</span>
@@ -2082,15 +2313,27 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         </div>
       </div>
 
-      <div class="formula-wrap" style="margin-top:16px">
+      <!-- 复制按钮 -->
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <button id="rf-copy-result-btn" onclick="copyFundResult()"
+          style="flex:1;padding:8px 0;border:1px solid var(--orange);border-radius:var(--r-sm);background:#fff;color:var(--orange);font-size:12px;font-weight:600;cursor:pointer">
+          复制结果
+        </button>
+        <button onclick="copyFundFormula()" id="rf-copy-formula-btn"
+          style="flex:1;padding:8px 0;border:1px solid var(--border2);border-radius:var(--r-sm);background:#fff;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer">
+          复制计算过程
+        </button>
+      </div>
+
+      <!-- 层三：计算过程折叠 -->
+      <div class="formula-wrap">
         <div class="formula-toggle" id="ft-fund" onclick="toggleF('fund')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          查看透明计算公式
+          查看计算过程
           <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:auto"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <div class="formula-body" id="fb-fund"></div>
       </div>
-      <!-- 参考话术 -->
     </div>
   </div>
 </div>
@@ -2445,24 +2688,82 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
 
     <div class="result-section" id="tradefee-rs">
       <div class="result-divider"></div>
+
+      <!-- 层一：核心结果 -->
       <div class="result-label">手续费明细</div>
-      <div class="result-grid" style="margin-bottom:20px">
-        <div class="ri"><div class="ri-lbl">名义价值</div><div class="ri-val" id="rtf-notional">—</div><div class="ri-sub">USDT</div></div>
-        <div class="ri ri-amber"><div class="ri-lbl">开仓手续费</div><div class="ri-val amber" id="rtf-open-fee">—</div><div class="ri-sub">USDT</div></div>
-        <div class="ri ri-amber"><div class="ri-lbl">平仓手续费</div><div class="ri-val amber" id="rtf-close-fee">—</div><div class="ri-sub">USDT</div></div>
-        <div class="ri ri-red"><div class="ri-lbl">来回总手续费</div><div class="ri-val red" id="rtf-total">—</div><div class="ri-sub">USDT</div></div>
-        <div class="ri"><div class="ri-lbl">开仓费率</div><div class="ri-val" id="rtf-open-rate">—</div><div class="ri-sub">%</div></div>
-        <div class="ri"><div class="ri-lbl">平仓费率</div><div class="ri-val" id="rtf-close-rate">—</div><div class="ri-sub">%</div></div>
+      <div class="result-grid" style="margin-bottom:12px">
+        <div class="ri ri-red">
+          <div class="ri-lbl">来回总手续费</div>
+          <div class="ri-val red" id="rtf-total">—</div>
+          <div class="ri-sub">USDT</div>
+        </div>
+        <div class="ri ri-amber">
+          <div class="ri-lbl">开仓手续费</div>
+          <div class="ri-val amber" id="rtf-open-fee">—</div>
+          <div class="ri-sub">USDT</div>
+        </div>
+        <div class="ri ri-amber">
+          <div class="ri-lbl">平仓手续费</div>
+          <div class="ri-val amber" id="rtf-close-fee">—</div>
+          <div class="ri-sub">USDT</div>
+        </div>
+        <div class="ri">
+          <div class="ri-lbl">手续费占仓位比例</div>
+          <div class="ri-val" id="rtf-ratio">—</div>
+          <div class="ri-sub">%</div>
+        </div>
       </div>
+
+      <!-- 层二：费率与名义价值（折叠） -->
+      <div style="margin-bottom:10px">
+        <div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'':'none';this.querySelector('.arr-icon').style.transform=this.nextElementSibling.style.display===''?'rotate(180deg)':''"
+          style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--text3);cursor:pointer;padding:6px 2px;user-select:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+          费率与名义价值
+          <svg class="arr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="margin-left:2px;transition:transform 0.2s"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div style="display:none;background:#f7f8fa;border-radius:var(--r-sm);padding:10px 14px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+            <span>开仓费率</span><span id="rtf-open-rate" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif">—</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+            <span>平仓费率</span><span id="rtf-close-rate" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif">—</span>
+          </div>
+          <div style="border-top:1px solid var(--border2);margin-top:6px;padding-top:6px">
+            <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+              <span>开仓名义价值</span><span id="rtf-open-notional" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif">—</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+              <span>平仓名义价值</span><span id="rtf-close-notional" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif">—</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0 0;border-top:1px solid var(--border2);margin-top:4px;color:var(--text1);font-weight:700">
+              <span>总名义价值</span><span id="rtf-notional" style="font-family:'Inter',-apple-system,sans-serif">—</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 复制按钮 -->
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <button id="rtf-copy-result-btn" onclick="copyTfResult()"
+          style="flex:1;padding:8px 0;border:1px solid var(--orange);border-radius:var(--r-sm);background:#fff;color:var(--orange);font-size:12px;font-weight:600;cursor:pointer">
+          复制结果
+        </button>
+        <button onclick="copyTfFormula()" id="rtf-copy-formula-btn"
+          style="flex:1;padding:8px 0;border:1px solid var(--border2);border-radius:var(--r-sm);background:#fff;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer">
+          复制计算过程
+        </button>
+      </div>
+
+      <!-- 层三：计算过程折叠 -->
       <div class="formula-wrap">
         <div class="formula-toggle" id="ft-tradefee" onclick="toggleF('tradefee')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          查看透明计算公式
+          查看计算过程
           <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:auto"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <div class="formula-body" id="fb-tradefee"></div>
       </div>
-      <!-- 参考话术 -->
     </div>
   </div>
 </div>
@@ -4717,8 +5018,8 @@ function toggleF(mod) {
   if (!isOpen) {
     body.classList.add('show');
     body.classList.remove('closing');
-    // inject copy button if not already present
-    if (!body.querySelector('.formula-copy-btn')) {
+    // inject copy button if not already present（pnl/liqcheck 板块有专属复制按钮，跳过）
+    if (!body.querySelector('.formula-copy-btn') && body.id !== 'fb-pnl' && body.id !== 'fb-liqcheck' && body.id !== 'fb-liq' && body.id !== 'fb-open' && body.id !== 'fb-tradefee' && body.id !== 'fb-fund') {
       const btn = document.createElement('button');
       btn.className = 'formula-copy-btn';
       btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> 复制公式';
@@ -5706,29 +6007,21 @@ function doPnl() {
   let notional,margin,rawPnl,openFee,closeFee,netPnl,roe;
   notional=entry*qty; margin=notional/lev; rawPnl=(exit-entry)*qty*dir; openFee=notional*ofr; closeFee=exit*qty*cfr;
   netPnl=rawPnl-openFee-closeFee; roe=(rawPnl/margin)*100;
+  const totalFee = openFee + closeFee;
   setT('rp-margin',   fmt(margin,5));
   setT('rp-rawpnl',   fmt(rawPnl,5), rawPnl>=0?'green':'red');
-  setT('rp-ofee',     fmt(openFee,5),  'amber');
-  setT('rp-cfee',     fmt(closeFee,5), 'amber');
+  setT('rp-ofee',     fmt(openFee,5)+' USDT',  'amber');
+  setT('rp-cfee',     fmt(closeFee,5)+' USDT', 'amber');
+  setT('rp-totalfee',  fmt(totalFee,5), 'amber');
+  setT('rp-totalfee2', fmt(totalFee,5)+' USDT', 'amber');
   setT('rp-pnl',      fmt(netPnl,5), netPnl>=0?'green':'red');
-  setT('rp-roe',      fmt(roe,5), roe>=0?'green':'red');
+  setT('rp-roe',      fmt(roe,2)+'%', roe>=0?'green':'red');
   setT('rp-notional', fmt(notional,5));
   document.getElementById('rp-pnl-card').className='ri '+(netPnl>=0?'ri-green':'ri-red');
   document.getElementById('rp-roe-card').className='ri '+(roe>=0?'ri-green':'ri-red');
-  document.getElementById('rp-rawpnl').closest('.ri').className='ri '+(rawPnl>=0?'ri-green':'ri-red');
-  // 净盈亏公式说明
-  const hintEl   = document.getElementById('rp-formula-hint');
-  const hintText = document.getElementById('rp-formula-hint-text');
-  const totalFee = openFee + closeFee;
-  if (hintEl && hintText) {
-    hintEl.style.display = '';
-    hintText.innerHTML = `
-      <strong>仓位盈亏</strong> = 平仓盈亏 + 总手续费<br>
-      &nbsp;&nbsp;&nbsp;= <span style="color:${rawPnl>=0?'var(--green)':'var(--red)'};font-weight:700">(${fmt(rawPnl,5)})</span>
-      &nbsp;+&nbsp;<span style="color:var(--amber);font-weight:700">(-${fmt(totalFee,5)})</span>
-      &nbsp;=&nbsp;<span style="color:${netPnl>=0?'var(--green)':'var(--red)'};font-weight:700">${fmt(netPnl,5)} USDT</span>
-    `;
-  }
+  // 存储数据供复制按钮使用
+  window._pnlData = { entry, exit, qty, lev, long, ofr, cfr, isLiq,
+    notional, margin, rawPnl, openFee, closeFee, totalFee, netPnl, roe };
   setFB('pnl',[
     fCmt(`U本位 · ${long?'做多':'做空'} · ${lev}x · 开仓${ofr.toFixed(6)} / 平仓${cfr.toFixed(6)}`),
     fLine('仓位名义价值', `${entry} × ${qty}`, fmt(notional,5)+' USDT'),
@@ -5744,6 +6037,50 @@ function doPnl() {
   const pnlDir = long ? '做多' : '做空';
   const pnlResult = netPnl >= 0 ? `盈利 ${fmt(netPnl,5)} USDT` : `亏损 ${fmt(Math.abs(netPnl),5)} USDT`;
   const pnlROE = roe >= 0 ? `+${fmt(roe,2)}%` : `${fmt(roe,2)}%`;
+}
+
+function copyPnlResult() {
+  const d = window._pnlData; if (!d) return;
+  const text = [
+    `仓位盈亏：${fmt(d.netPnl,5)} USDT`,
+    `收益率：${d.roe>=0?'+':''}${fmt(d.roe,2)}%`,
+    ``,
+    `初始保证金：${fmt(d.margin,5)} USDT`,
+    `仓位名义价值：${fmt(d.notional,5)} USDT`,
+    ``,
+    `平仓盈亏：${fmt(d.rawPnl,5)} USDT`,
+    `总手续费：${fmt(d.totalFee,5)} USDT`,
+    `  开仓手续费：${fmt(d.openFee,5)} USDT`,
+    `  平仓手续费：${fmt(d.closeFee,5)} USDT`,
+  ].join('\n');
+  navigator.clipboard?.writeText(text).then(() => {
+    const btn = document.getElementById('rp-copy-result-btn');
+    if (btn) { btn.textContent = '✓ 已复制'; setTimeout(() => btn.textContent = '复制结果', 2000); }
+  });
+}
+
+function copyPnlFormula() {
+  const d = window._pnlData; if (!d) return;
+  const dir = d.long ? '做多' : '做空';
+  const text = [
+    `【仓位参数】`,
+    `合约类型：U本位 · ${dir} · ${d.lev}x`,
+    `开仓价：${d.entry}　平仓价：${d.exit}　数量：${d.qty}`,
+    `手续费率：开仓 ${(d.ofr*100).toFixed(4)}% / 平仓 ${d.isLiq?'0（爆仓）':(d.cfr*100).toFixed(4)+'%'}`,
+    ``,
+    `【计算过程】`,
+    `仓位名义价值 = ${d.entry} × ${d.qty} = ${fmt(d.notional,5)} USDT`,
+    `初始保证金 = ${fmt(d.notional,5)} ÷ ${d.lev} = ${fmt(d.margin,5)} USDT`,
+    `平仓盈亏 = (${d.exit} − ${d.entry}) × ${d.qty} = ${fmt(d.rawPnl,5)} USDT`,
+    `开仓手续费 = ${fmt(d.notional,5)} × ${(d.ofr*100).toFixed(4)}% = ${fmt(d.openFee,5)} USDT`,
+    `平仓手续费 = ${fmt(d.closeFee,5)} USDT`,
+    `仓位盈亏 = ${fmt(d.rawPnl,5)} − ${fmt(d.totalFee,5)} = ${fmt(d.netPnl,5)} USDT`,
+    `收益率 = ${fmt(d.rawPnl,5)} ÷ ${fmt(d.margin,5)} × 100 = ${d.roe>=0?'+':''}${fmt(d.roe,2)}%`,
+  ].join('\n');
+  navigator.clipboard?.writeText(text).then(() => {
+    const btn = document.getElementById('rp-copy-formula-btn');
+    if (btn) { btn.textContent = '✓ 已复制'; setTimeout(() => btn.textContent = '复制计算过程', 2000); }
+  });
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -5857,18 +6194,17 @@ function doLiqCheck() {
 
   setT('rchk-ratio',      fmt(ratio*100, 6)+' %', triggered ? 'red' : 'green');
   setT('rchk-threshold',  fmt(threshold*100, 6)+' %');
-  setT('rchk-pos',        fmt(posValue, 6));
-  setT('rchk-eff-equity', fmt(effEquity, 6));
+  setT('rchk-pos',        fmt(posValue, 6)+' USDT');
+  setT('rchk-eff-equity', fmt(effEquity, 6)+' USDT');
   setT('rchk-gap',        (gap>=0?'+':'')+fmt(gap*100, 6)+' %', gap>=0?'green':'red');
 
-  // 最低保证金要求
   const minMaint   = posValue * mmr;
   const minFee     = posValue * fee;
   const minEquity  = minMaint + minFee + otherMaint;
   const safeBuffer = equity - minEquity;
-  setT('rchk-min-maint',     fmt(minMaint, 6)+' USDT', 'red');
-  setT('rchk-min-fee',       fmtFee(minFee)+' USDT', 'red');
-  setT('rchk-min-equity',    fmt(minEquity, 6)+' USDT', 'amber');
+  setT('rchk-min-maint',     fmt(minMaint, 6)+' USDT');
+  setT('rchk-min-fee',       fmtFee(minFee)+' USDT');
+  setT('rchk-min-equity',    fmt(minEquity, 6)+' USDT');
   setT('rchk-safety-buffer', (safeBuffer>=0?'+':'')+fmt(safeBuffer, 6)+' USDT', safeBuffer>=0?'green':'red');
 
   const verdictEl   = document.getElementById('rchk-verdict');
@@ -5916,10 +6252,41 @@ function doLiqCheck() {
   // auto-expand formula
   const fbEl = document.getElementById('fb-liqcheck');
   if (fbEl && fbEl.parentElement) fbEl.parentElement.style.display = 'block';
-  // 参考话术
-  if (triggered) {
-  } else {
-  }
+  // 存储数据供复制
+  window._chkData = { ratio, threshold, gap, triggered, posValue, equity, effEquity,
+    otherMaint, minMaint, minFee, minEquity, safeBuffer, mmrVal, feeVal: feeVal };
+}
+
+function copyChkResult() {
+  const d = window._chkData; if (!d) return;
+  const lines = [
+    `验证结论：${d.triggered ? '✓ 强平正常触发' : '⚠ 未达触发条件，按此数据不应触发强平'}`,
+    ``,
+    `当前保证金率：${fmt(d.ratio*100, 6)}%`,
+    `触发阈值（MMR＋手续费）：${fmt(d.threshold*100, 6)}%`,
+    `安全余量：${d.gap>=0?'+':''}${fmt(d.gap*100, 6)}%`,
+    ``,
+    `账户权益：${fmt(d.equity, 6)} USDT`,
+    `最低所需权益：${fmt(d.minEquity, 6)} USDT`,
+    `当前超出安全线：${d.safeBuffer>=0?'+':''}${fmt(d.safeBuffer, 6)} USDT`,
+    ``,
+    `结论：${d.triggered ? '按当前数据强平触发合理。' : '按当前数据系统不应触发强平，建议客户提供完整截图进一步核查。'}`,
+  ].join('\n');
+  navigator.clipboard?.writeText(lines).then(() => {
+    const btn = document.getElementById('rchk-copy-result-btn');
+    if (btn) { btn.textContent = '✓ 已复制'; setTimeout(() => btn.textContent = '复制结果', 2000); }
+  });
+}
+
+function copyChkFormula() {
+  const fb = document.getElementById('fb-liqcheck');
+  if (!fb) return;
+  const rows = fb.querySelectorAll('.fl');
+  const text = Array.from(rows).map(r => r.textContent.replace(/\s+/g,' ').trim()).filter(Boolean).join('\n');
+  navigator.clipboard?.writeText(text).then(() => {
+    const btn = document.getElementById('rchk-copy-formula-btn');
+    if (btn) { btn.textContent = '✓ 已复制'; setTimeout(() => btn.textContent = '复制计算过程', 2000); }
+  });
 }
 let liqMode = 'cross'; // 'cross' | 'isolated'
 
@@ -6153,13 +6520,35 @@ function doLiq() {
   setT('rl-price', fmt(liqP,2)+' USDT', 'red');
   if (entry) {
     const dist = Math.abs((liqP - entry) / entry * 100);
+    const distUsdt = Math.abs(liqP - entry);
     setT('rl-dist', fmt(dist,2)+' %', 'amber');
+    const distUsdtEl = document.getElementById('rl-dist-usdt');
+    if (distUsdtEl) distUsdtEl.textContent = `≈ ${fmt(distUsdt,2)} USDT`;
     formulaLines.push(fLine('距爆仓幅度', `|${fmt(liqP,2)}−${entry}| ÷ ${entry} × 100`, fmt(dist,2)+'%'));
+    // 风险状态条
+    const riskBar   = document.getElementById('rl-risk-bar');
+    const riskLabel = document.getElementById('rl-risk-label');
+    const riskDetail= document.getElementById('rl-risk-detail');
+    if (riskBar) {
+      riskBar.style.display = 'flex';
+      let color, bg, border, label;
+      if (dist > 10)      { color='#16a34a'; bg='#f0fdf4'; border='#a7f3d0'; label='✓ 安全区  距爆仓 > 10%'; }
+      else if (dist > 5)  { color='#d97706'; bg='#fffbeb'; border='#fed7aa'; label='⚠ 注意区  距爆仓 5%–10%'; }
+      else if (dist > 1)  { color='#dc2626'; bg='#fef2f2'; border='#fecaca'; label='⚠ 危险区  距爆仓 1%–5%'; }
+      else                { color='#dc2626'; bg='#fef2f2'; border='#fecaca'; label='🔴 爆仓区  距爆仓 < 1%'; }
+      riskBar.style.cssText = `display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:10px 14px;border-radius:var(--r-sm);border:1px solid ${border};background:${bg};font-size:12px;font-weight:600;color:${color}`;
+      if (riskLabel)  riskLabel.textContent  = label;
+      if (riskDetail) riskDetail.textContent = `当前 ${fmt(dist,2)}%，强平价 ${fmt(liqP,2)} USDT`;
+    }
   } else {
     setT('rl-dist', '—', '');
+    const riskBar = document.getElementById('rl-risk-bar');
+    if (riskBar) riskBar.style.display = 'none';
   }
   setT('rl-mmr-r', fmt(mmrVal,2)+' %');
   setT('rl-fee',   fmt(fee*100,3)+' %');
+  // 存储数据供复制
+  window._liqData = { liqP, entry, mmrVal, fee, liqMode, long, lin, sym: S.liq.sym || '' };
 
   // 当前保证金率（逐仓 + 全仓都显示）
   const marginRateCard = document.getElementById('rl-margin-rate-card');
@@ -6199,9 +6588,56 @@ function doLiq() {
   }
   setFB('liq', formulaLines.join(''));
   showRS('liq');
-  // 参考话术
-  const liqMode2 = liqMode === 'cross' ? '全仓' : '逐仓';
-  const liqDir   = long ? '做多' : '做空';
+  // 更新说明文字
+  const noticeEl = document.getElementById('liq-notice');
+  if (noticeEl) {
+    noticeEl.textContent = liqMode === 'cross'
+      ? '* 强平价格为理论估算，实际还受未实现盈亏和风险准备金影响，全仓模式下账户其他仓位盈亏也会影响强平价。'
+      : '* 逐仓模式下仅当前仓位保证金参与强平计算，账户其他仓位不会影响该仓位强平价。强平价格为理论估算，实际以系统为准。';
+  }
+}
+
+function copyLiqResult() {
+  const d = window._liqData; if (!d) return;
+  const mode = d.liqMode === 'cross' ? '全仓' : '逐仓';
+  const dir  = d.long ? '做多' : '做空';
+  const marginRateEl = document.getElementById('rl-margin-rate');
+  const lines = [
+    `强平价格：${fmt(d.liqP,2)} USDT`,
+  ];
+  if (d.entry) {
+    const dist = Math.abs((d.liqP - d.entry) / d.entry * 100);
+    const distUsdt = Math.abs(d.liqP - d.entry);
+    lines.push(`当前开仓价：${d.entry} USDT`);
+    lines.push(`距离爆仓：${fmt(dist,2)}%（≈ ${fmt(distUsdt,2)} USDT）`);
+  }
+  lines.push(``);
+  if (marginRateEl && marginRateEl.textContent !== '—') {
+    lines.push(`当前保证金率：${marginRateEl.textContent}`);
+  }
+  lines.push(`维持保证金率：${fmt(d.mmrVal,2)}%`);
+  lines.push(``);
+  if (d.liqMode === 'cross') {
+    lines.push(`说明：全仓 · ${dir}，全仓模式下账户其他仓位盈亏也会影响强平价，强平价格为理论估算，实际以系统为准。`);
+  } else {
+    lines.push(`说明：逐仓 · ${dir}，逐仓模式下仅当前仓位保证金参与强平计算，账户其他仓位不会影响该仓位强平价格。`);
+  }
+  const text = lines.join('\n');
+  navigator.clipboard?.writeText(text).then(() => {
+    const btn = document.getElementById('rl-copy-result-btn');
+    if (btn) { btn.textContent = '✓ 已复制'; setTimeout(() => btn.textContent = '复制结果', 2000); }
+  });
+}
+
+function copyLiqFormula() {
+  const fb = document.getElementById('fb-liq');
+  if (!fb) return;
+  const rows = fb.querySelectorAll('.fl');
+  const text = Array.from(rows).map(r => r.textContent.replace(/\s+/g,' ').trim()).filter(Boolean).join('\n');
+  navigator.clipboard?.writeText(text).then(() => {
+    const btn = document.getElementById('rl-copy-formula-btn');
+    if (btn) { btn.textContent = '✓ 已复制'; setTimeout(() => btn.textContent = '复制计算过程', 2000); }
+  });
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -6329,20 +6765,37 @@ function doOpen() {
     const openFee  = exceeded ? 0 : remaining * feeRate;
     const total    = margin + openFee;
     const sym = S.open.sym || '币';
+    const tierUsagePct = tierLim > 0 ? curPos / tierLim * 100 : 0;
+
+    // 显示档位专属区域
+    const tierBlock  = document.getElementById('open-tier-result-block');
+    const tierNotice = document.getElementById('open-tier-notice');
+    const openNotice = document.getElementById('open-notice');
+    if (tierBlock)  tierBlock.style.display  = '';
+    if (tierNotice) tierNotice.style.display  = '';
+    if (openNotice) openNotice.style.display  = 'none';
+    document.getElementById('ro-qty-lbl').textContent      = '最大可加数量';
+    document.getElementById('ro-notional-lbl').textContent = '最大可加仓价值';
+    document.getElementById('ro-usage-lbl').textContent    = '档位使用率';
+
+    // 填入档位信息
+    const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    setEl('ro-tier-lim',       fmt(tierLim, 2) + ' USDT');
+    setEl('ro-cur-pos-val',    fmt(curPos, 2) + ' USDT');
+    setEl('ro-remaining-val',  exceeded ? '0 USDT' : fmt(remaining, 2) + ' USDT');
+    setEl('ro-tier-usage-val', fmt(tierUsagePct, 2));
+
     setT('ro-qty',      exceeded ? '0' : fmt(qty, 5), exceeded ? 'red' : 'green');
-    setT('ro-notional', exceeded ? '0' : fmt(remaining, 5), exceeded ? 'red' : 'orange');
-    setT('ro-margin',   fmt(margin, 5));
-    setT('ro-fee',      fmt(openFee, 5), 'amber');
-    setT('ro-total',    fmt(total, 5));
-    setT('ro-usage',    exceeded ? '⚠ 已超档位' : '—', exceeded ? 'red' : '');
+    setT('ro-notional', exceeded ? '0' : fmt(remaining, 2), exceeded ? 'red' : 'orange');
+    setT('ro-margin',   fmt(margin, 5) + ' USDT');
+    setT('ro-fee',      fmt(openFee, 5) + ' USDT', 'amber');
+    setT('ro-total',    fmt(total, 5) + ' USDT');
+    setT('ro-usage',    exceeded ? '⚠ 已超档位' : fmt(tierUsagePct, 2) + ' %', exceeded ? 'red' : tierUsagePct > 90 ? 'red' : tierUsagePct > 70 ? 'amber' : 'green');
     document.getElementById('ro-qty-u').textContent      = lin ? sym : '张';
     document.getElementById('ro-notional-u').textContent = 'USDT';
-    document.getElementById('ro-margin-u').textContent   = 'USDT';
-    document.getElementById('ro-fee-u').textContent      = 'USDT';
-    document.getElementById('ro-total-u').textContent    = 'USDT';
-    // 档位模式专属卡片
-    const tierUsagePct = tierLim > 0 ? curPos / tierLim * 100 : 0;
-    document.getElementById('ro-usage-lbl').textContent = '余额使用率';
+    // 存储供复制
+    window._openData = { isTier: true, qty, remaining, margin, openFee, total, tierLim, curPos, tierUsagePct,
+      exceeded, sym, lin, qu: lin ? sym : '张', entry, lev };
     // 合规检查（档位模式）
     const tierRulesLines = [];
     if (lin && S.open.contractId) {
@@ -6431,9 +6884,22 @@ function doOpen() {
   setT('ro-usage',    fmt(usage, 2) + ' %', usage > 90 ? 'red' : usage > 70 ? 'amber' : 'green');
   document.getElementById('ro-qty-u').textContent      = qu;
   document.getElementById('ro-notional-u').textContent = nu;
-  document.getElementById('ro-margin-u').textContent   = mu;
-  document.getElementById('ro-fee-u').textContent      = mu;
-  document.getElementById('ro-total-u').textContent    = mu;
+  // 隐藏档位专属区域，恢复标签
+  const tierBlock  = document.getElementById('open-tier-result-block');
+  const tierNotice = document.getElementById('open-tier-notice');
+  const openNotice = document.getElementById('open-notice');
+  if (tierBlock)  tierBlock.style.display  = 'none';
+  if (tierNotice) tierNotice.style.display = 'none';
+  if (openNotice) openNotice.style.display = '';
+  const qtyLbl      = document.getElementById('ro-qty-lbl');
+  const notionalLbl = document.getElementById('ro-notional-lbl');
+  const usageLbl    = document.getElementById('ro-usage-lbl');
+  if (qtyLbl)      qtyLbl.textContent      = '最大可开数量';
+  if (notionalLbl) notionalLbl.textContent = '最大仓位价值';
+  if (usageLbl)    usageLbl.textContent    = '余额使用率';
+  // 存储数据供复制
+  window._openData = { isTier: false, qty, maxNotional: lin ? maxNotional : qty*100, margin, openFee, total, usage, lev, balance,
+    feeRate, lin, qu, mu, nu, sym: S.open.sym || '', tierLim, maxNotionalByBalance };
 
   const tierInfo = tierLim > 0
     ? (maxNotionalByBalance > tierLim
@@ -6502,25 +6968,58 @@ function doOpen() {
   }
 }
 
+function copyOpenResult() {
+  const d = window._openData; if (!d) return;
+  let lines;
+  if (d.isTier) {
+    lines = [
+      `档位剩余空间：${fmt(d.remaining, 2)} USDT`,
+      `当前仓位价值：${fmt(d.curPos, 2)} USDT`,
+      `档位使用率：${fmt(d.tierUsagePct, 2)}%`,
+      ``,
+      `最大可加数量：${fmt(d.qty, 5)} ${d.qu}`,
+      `最大可加仓价值：${fmt(d.remaining, 2)} USDT`,
+      ``,
+      `所需保证金：${fmt(d.margin, 5)} USDT`,
+      `预计手续费：${fmt(d.openFee, 5)} USDT`,
+      ``,
+      `说明：本结果仅基于档位限制（上限 ${fmt(d.tierLim, 0)} USDT），实际可开仓量仍受账户余额限制。`,
+    ];
+  } else {
+    lines = [
+      `最大可开数量：${fmt(d.qty, d.lin ? 4 : 2)} ${d.qu}`,
+      `最大仓位价值：${fmt(d.maxNotional, 2)} ${d.nu}`,
+      ``,
+      `所需保证金：${fmt(d.margin, d.lin ? 2 : 6)} ${d.mu}`,
+      `预计手续费：${fmt(d.openFee, d.lin ? 4 : 6)} ${d.mu}`,
+      `总占用资金：${fmt(d.total, d.lin ? 2 : 6)} ${d.mu}`,
+      `余额使用率：${fmt(d.usage, 2)}%`,
+      ``,
+      `说明：余额 ${fmt(d.balance, 2)} USDT，${d.lev}x 杠杆，手续费率 ${(d.feeRate*100).toFixed(4)}%。`,
+    ];
+  }
+  navigator.clipboard?.writeText(lines.join('\n')).then(() => {
+    const btn = document.getElementById('ro-copy-result-btn');
+    if (btn) { btn.textContent = '✓ 已复制'; setTimeout(() => btn.textContent = '复制结果', 2000); }
+  });
+}
+
+function copyOpenFormula() {
+  const fb = document.getElementById('fb-open');
+  if (!fb) return;
+  const rows = fb.querySelectorAll('.fl');
+  const text = Array.from(rows).map(r => r.textContent.replace(/\s+/g,' ').trim()).filter(Boolean).join('\n');
+  navigator.clipboard?.writeText(text).then(() => {
+    const btn = document.getElementById('ro-copy-formula-btn');
+    if (btn) { btn.textContent = '✓ 已复制'; setTimeout(() => btn.textContent = '复制计算过程', 2000); }
+  });
+}
+
 // ═══════════════════════════════════════════════════════════
 // CALC 4: Funding Fee — dual mode
 // ═══════════════════════════════════════════════════════════
-let fundMode = 'multi'; // 'fixed' | 'multi'
+let fundMode = 'multi';
 let fundRows = []; // array of rate strings for multi mode
-
-function setFundMode(mode, btn) {
-  fundMode = mode;
-  document.querySelectorAll('#fund-mode-seg .seg-btn').forEach(b => b.classList.remove('active-ct'));
-  btn.classList.add('active-ct');
-  document.getElementById('fund-fixed-block').style.display = mode === 'fixed' ? '' : 'none';
-  document.getElementById('fund-multi-block').style.display = mode === 'multi' ? '' : 'none';
-  // 固定费率无 API，隐藏状态；逐笔模式也重置
-  const fundApiEl = document.getElementById('fund-api-status');
-  if (fundApiEl) fundApiEl.style.display = 'none';
-  // 切换模式时清空上次计算结果
-  const rs = document.getElementById('fund-rs');
-  if (rs) rs.classList.remove('show');
-}
 
 function addFundRow() {
   const container = document.getElementById('fund-rate-rows');
@@ -7036,12 +7535,17 @@ function doFund() {
   const avgRate    = settlements.reduce((s, x) => s + x.rate, 0) / n;
   const d = lin ? 5 : 6;
 
-  setT('rf-notional', fmt(notional, 2) + (lin ? ' USDT' : ' USD'));
+  // 更新折叠区的名义价值
+  const rfNotionalEl = document.getElementById('rf-notional');
+  if (rfNotionalEl) rfNotionalEl.textContent = fmt(notional, 2) + (lin ? ' USDT' : ' USD');
   setT('rf-n',        n + ' 次');
   setT('rf-total',    fmt(netTotal, d) + ' ' + unit, netTotal >= 0 ? 'green' : 'red');
   setT('rf-income',   income > 0 ? '+' + fmt(income, d) + ' ' + unit : '0', 'green');
   setT('rf-expense',  expense < 0 ? fmt(expense, d) + ' ' + unit : '0', 'red');
   document.getElementById('rf-total-card').className = 'ri ' + (netTotal >= 0 ? 'ri-green' : 'ri-red');
+  // 存储供复制
+  window._fundData = { netTotal, income, expense, n, notional, unit, d, long, lin,
+    sym: S.fund?.sym || '', avgRate, settlements, fundMode };
 
   // breakdown table (multi mode)
   const breakWrap = document.getElementById('rf-breakdown');
@@ -7102,11 +7606,38 @@ function doFund() {
   );
   setFB('fund', fLines.join(''));
   showRS('fund');
-  // 参考话术
-  const fundDir  = long ? '做多' : '做空';
-  const fundResult = netTotal >= 0
-    ? `净收入 <strong>+${fmt(netTotal,d)} ${unit}</strong>`
-    : `净支出 <strong>${fmt(netTotal,d)} ${unit}</strong>`;
+}
+
+function copyFundResult() {
+  const d = window._fundData; if (!d) return;
+  const dir = d.long ? '做多' : '做空';
+  const lines = [
+    `净资金费用：${d.netTotal >= 0 ? '+' : ''}${fmt(d.netTotal, d.d)} ${d.unit}`,
+    `结算次数：${d.n} 次`,
+    ``,
+    d.income > 0 ? `收入合计：+${fmt(d.income, d.d)} ${d.unit}` : null,
+    d.expense < 0 ? `支出合计：${fmt(d.expense, d.d)} ${d.unit}` : null,
+    ``,
+    `仓位名义价值：${fmt(d.notional, 2)} ${d.lin ? 'USDT' : 'USD'}`,
+    `仓位方向：${dir}`,
+    ``,
+    `说明：${d.netTotal >= 0 ? '净收入资金费用' : '净支出资金费用'}。正费率多方付空方，负费率空方付多方。`,
+  ].filter(v => v !== null).join('\n');
+  navigator.clipboard?.writeText(lines).then(() => {
+    const btn = document.getElementById('rf-copy-result-btn');
+    if (btn) { btn.textContent = '✓ 已复制'; setTimeout(() => btn.textContent = '复制结果', 2000); }
+  });
+}
+
+function copyFundFormula() {
+  const fb = document.getElementById('fb-fund');
+  if (!fb) return;
+  const rows = fb.querySelectorAll('.fl');
+  const text = Array.from(rows).map(r => r.textContent.replace(/\s+/g,' ').trim()).filter(Boolean).join('\n');
+  navigator.clipboard?.writeText(text).then(() => {
+    const btn = document.getElementById('rf-copy-formula-btn');
+    if (btn) { btn.textContent = '✓ 已复制'; setTimeout(() => btn.textContent = '复制计算过程', 2000); }
+  });
 }
 
 
@@ -8221,14 +8752,23 @@ function doTradeFee() {
   const openLabel  = tfQtyMode === 'zhang' ? `${openQtyRaw}张×面值${face}=${fmt(openQty,6)}币` : '';
   const closeLabel = tfQtyMode === 'zhang' ? `${closeQtyRaw}张×面值${face}=${fmt(closeQty,6)}币` : '';
 
-  setT('rtf-notional',   hasOpen && hasClose
-    ? `开仓 ${fmt(openNotional,2)} + 平仓 ${fmt(closeNotional,2)} = ${fmt(openNotional+closeNotional,2)} USDT`
-    : fmt(hasOpen ? openNotional : closeNotional, 2) + ' USDT');
   setT('rtf-open-fee',   hasOpen  ? fmtFee(openFee)  + ' USDT' : '— (未填)', hasOpen  ? 'amber' : '');
   setT('rtf-close-fee',  hasClose ? (isLiq ? '0 USDT（爆仓免手续费）' : fmtFee(closeFee) + ' USDT') : '— (未填)', hasClose ? 'amber' : '');
   setT('rtf-total',      fmtFee(totalFee) + ' USDT', 'red');
-  setT('rtf-open-rate',  fmt(openRate*100,  6));
-  setT('rtf-close-rate', isLiq ? '0（爆仓）' : fmt(closeRate*100, 6));
+  // 费率与名义价值（折叠区）
+  const setEl = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  setEl('rtf-open-rate',       fmt(openRate*100, 6) + '%');
+  setEl('rtf-close-rate',      isLiq ? '0%（爆仓）' : fmt(closeRate*100, 6) + '%');
+  setEl('rtf-open-notional',   hasOpen  ? fmt(openNotional, 2) + ' USDT' : '—');
+  setEl('rtf-close-notional',  hasClose ? fmt(closeNotional, 2) + ' USDT' : '—');
+  setEl('rtf-notional',        fmt(openNotional + closeNotional, 2) + ' USDT');
+  // 手续费占比
+  const totalNotional = openNotional + closeNotional;
+  const feeRatio = totalNotional > 0 ? totalFee / totalNotional * 100 : 0;
+  setT('rtf-ratio', fmt(feeRatio, 4) + ' %');
+  // 存储供复制
+  window._tfData = { openFee, closeFee, totalFee, openRate, closeRate, isLiq,
+    openNotional, closeNotional, hasOpen, hasClose, feeRatio };
 
   const zhangNote = tfQtyMode === 'zhang' ? ` (面值${face})` : '';
   const lines = [fCmt(`${hasOpen ? '开仓 '+openPrice+'×'+openQtyRaw+(tfQtyMode==='zhang'?'张':'币') : ''}${hasOpen&&hasClose?' | ':''}${hasClose ? '平仓 '+closePrice+'×'+closeQtyRaw+(tfQtyMode==='zhang'?'张':'币') : ''}${isLiq?' [爆仓平仓手续费=0]':''}`)];
@@ -8245,10 +8785,30 @@ function doTradeFee() {
 
   setFB('tradefee', lines.join(''));
   showRS('tradefee');
-  // 参考话术
-  const tfParts = [];
-  if (hasOpen)  tfParts.push(`开仓手续费：${fmtFee(openFee)} USDT（${fmt(openRate*100,4)}%）`);
-  if (hasClose) tfParts.push(isLiq ? '平仓手续费：0 USDT（爆仓免手续费）' : `平仓手续费：${fmtFee(closeFee)} USDT（${fmt(closeRate*100,4)}%）`);
+}
+
+function copyTfResult() {
+  const d = window._tfData; if (!d) return;
+  const lines = [];
+  if (d.hasOpen)  lines.push(`开仓手续费：${fmtFee(d.openFee)} USDT（费率 ${fmt(d.openRate*100,4)}%）`);
+  if (d.hasClose) lines.push(d.isLiq ? '平仓手续费：0 USDT（爆仓免手续费）' : `平仓手续费：${fmtFee(d.closeFee)} USDT（费率 ${fmt(d.closeRate*100,4)}%）`);
+  lines.push(`来回总手续费：${fmtFee(d.totalFee)} USDT`);
+  lines.push(`手续费占仓位比例：${fmt(d.feeRatio, 4)}%`);
+  navigator.clipboard?.writeText(lines.join('\n')).then(() => {
+    const btn = document.getElementById('rtf-copy-result-btn');
+    if (btn) { btn.textContent = '✓ 已复制'; setTimeout(() => btn.textContent = '复制结果', 2000); }
+  });
+}
+
+function copyTfFormula() {
+  const fb = document.getElementById('fb-tradefee');
+  if (!fb) return;
+  const rows = fb.querySelectorAll('.fl');
+  const text = Array.from(rows).map(r => r.textContent.replace(/\s+/g,' ').trim()).filter(Boolean).join('\n');
+  navigator.clipboard?.writeText(text).then(() => {
+    const btn = document.getElementById('rtf-copy-formula-btn');
+    if (btn) { btn.textContent = '✓ 已复制'; setTimeout(() => btn.textContent = '复制计算过程', 2000); }
+  });
 }
 </script>
 <!-- 币种选择器模态框 -->
