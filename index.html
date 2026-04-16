@@ -2512,60 +2512,138 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
     <div class="result-section" id="adl-rs">
       <div class="result-divider"></div>
 
-      <!-- 触发原因 -->
-      <div class="result-label">触发原因分析</div>
-      <div class="result-grid" style="margin-bottom:20px">
-        <div class="ri"><div class="ri-lbl">标记价值</div><div class="ri-val" id="ra-notional-before">—</div><div class="ri-sub">USDT</div></div>
-        <div class="ri ri-red"><div class="ri-lbl">阶梯最小仓位价值</div><div class="ri-val red" id="ra-trigger-limit">—</div><div class="ri-sub">USDT</div></div>
-        <div class="ri ri-red"><div class="ri-lbl">超出档位上限</div><div class="ri-val red" id="ra-exceed">—</div><div class="ri-sub">USDT</div></div>
-        <div class="ri"><div class="ri-lbl">减仓前所在档位</div><div class="ri-val" id="ra-tier-before">—</div><div class="ri-sub" id="ra-tier-before-mmr">—</div></div>
-        <div class="ri ri-amber"><div class="ri-lbl">减仓后降至档位</div><div class="ri-val amber" id="ra-tier-after">—</div><div class="ri-sub" id="ra-tier-after-mmr">—</div></div>
-        <div class="ri"><div class="ri-lbl">减仓后名义价值</div><div class="ri-val" id="ra-notional-after">—</div><div class="ri-sub">USDT</div></div>
+      <!-- 层一：核查结论 -->
+      <div class="result-label">核查结论</div>
+      <div class="result-grid" style="margin-bottom:12px">
+        <div class="ri" id="ra-verdict-card">
+          <div class="ri-lbl">减仓核查结果</div>
+          <div class="ri-val" id="ra-verdict" style="font-size:13px;line-height:1.4">—</div>
+          <div class="ri-sub" id="ra-verdict-sub">—</div>
+        </div>
+        <div class="ri ri-red">
+          <div class="ri-lbl">超出档位上限</div>
+          <div class="ri-val red" id="ra-exceed">—</div>
+          <div class="ri-sub">USDT</div>
+        </div>
+        <div class="ri">
+          <div class="ri-lbl">减仓前档位</div>
+          <div class="ri-val" id="ra-tier-before">—</div>
+          <div class="ri-sub" id="ra-tier-before-mmr">—</div>
+        </div>
+        <div class="ri ri-amber">
+          <div class="ri-lbl">减仓后档位</div>
+          <div class="ri-val amber" id="ra-tier-after">—</div>
+          <div class="ri-sub" id="ra-tier-after-mmr">—</div>
+        </div>
       </div>
 
-      <!-- 理论减仓数量核对 -->
-      <div class="result-label">理论减仓数量核对</div>
-      <div class="result-grid" style="margin-bottom:20px">
-        <div class="ri"><div class="ri-lbl">减少的仓位价值</div><div class="ri-val" id="ra-reduce-value">—</div><div class="ri-sub">USDT</div></div>
-        <div class="ri"><div class="ri-lbl">基础减仓数量</div><div class="ri-val" id="ra-base-reduce-qty">—</div><div class="ri-sub">张</div></div>
-        <div class="ri"><div class="ri-lbl">MAX附加量</div><div class="ri-val" id="ra-max-addon">—</div><div class="ri-sub">张（MAX取较大值）</div></div>
-        <div class="ri ri-orange"><div class="ri-lbl">理论最终减仓数量</div><div class="ri-val orange" id="ra-theory-reduce-qty">—</div><div class="ri-sub">张</div></div>
-        <div class="ri"><div class="ri-lbl">实际减仓数量</div><div class="ri-val" id="ra-actual-reduce-qty">—</div><div class="ri-sub">张</div></div>
-        <div class="ri" id="ra-verdict-card"><div class="ri-lbl">核查结论</div><div class="ri-val" id="ra-verdict">—</div><div class="ri-sub" id="ra-verdict-sub">—</div></div>
+      <!-- 层二：减仓数量核对（折叠） -->
+      <div style="margin-bottom:10px">
+        <div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'':'none';this.querySelector('.arr-icon').style.transform=this.nextElementSibling.style.display===''?'rotate(180deg)':''"
+          style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--text3);cursor:pointer;padding:6px 2px;user-select:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          减仓数量核对
+          <svg class="arr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="margin-left:2px;transition:transform 0.2s"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div style="display:none;background:#f7f8fa;border-radius:var(--r-sm);padding:10px 14px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+            <span>减少的仓位价值</span><span id="ra-reduce-value" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif">—</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+            <span>基础减仓数量</span><span id="ra-base-reduce-qty" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif">—</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+            <span>MAX附加量</span><span id="ra-max-addon" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif">—</span>
+          </div>
+          <div style="border-top:1px solid var(--border2);margin-top:6px;padding-top:6px">
+            <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+              <span>理论减仓数量</span><span id="ra-theory-reduce-qty" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif;color:var(--orange)">—</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+              <span>实际减仓数量</span><span id="ra-actual-reduce-qty" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif">—</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- 盈亏结果（选填） -->
-      <div id="ra-pnl-section" style="display:none">
-        <div class="result-label">强制减仓盈亏</div>
-        <div class="result-grid" style="margin-bottom:20px">
+      <!-- 层三：减仓后剩余仓位 -->
+      <div class="result-grid" style="margin-bottom:12px">
+        <div class="ri">
+          <div class="ri-lbl">剩余数量</div>
+          <div class="ri-val" id="ra-remain-qty">—</div>
+          <div class="ri-sub" id="ra-remain-u">张</div>
+        </div>
+        <div class="ri">
+          <div class="ri-lbl">剩余名义价值</div>
+          <div class="ri-val" id="ra-remain-notional">—</div>
+          <div class="ri-sub">USDT</div>
+        </div>
+        <div class="ri ri-amber">
+          <div class="ri-lbl">剩余仓位档位</div>
+          <div class="ri-val amber" id="ra-remain-tier">—</div>
+          <div class="ri-sub" id="ra-remain-mmr">—</div>
+        </div>
+      </div>
+
+      <!-- 强制减仓盈亏（选填时显示） -->
+      <div id="ra-pnl-section" style="display:none;margin-bottom:12px">
+        <div class="result-grid">
           <div class="ri"><div class="ri-lbl">减仓部分开仓价</div><div class="ri-val" id="ra-pnl-entry">—</div><div class="ri-sub">USDT</div></div>
           <div class="ri"><div class="ri-lbl">强制平仓价</div><div class="ri-val" id="ra-pnl-exit">—</div><div class="ri-sub">USDT</div></div>
           <div class="ri" id="ra-pnl-card"><div class="ri-lbl">减仓部分盈亏</div><div class="ri-val" id="ra-pnl">—</div><div class="ri-sub">USDT</div></div>
         </div>
       </div>
 
-      <!-- 剩余仓位 -->
-      <div class="result-label">减仓后剩余仓位</div>
-      <div class="result-grid" style="margin-bottom:20px">
-        <div class="ri"><div class="ri-lbl">剩余数量</div><div class="ri-val" id="ra-remain-qty">—</div><div class="ri-sub" id="ra-remain-u">张</div></div>
-        <div class="ri"><div class="ri-lbl">剩余仓位名义价值</div><div class="ri-val" id="ra-remain-notional">—</div><div class="ri-sub">USDT</div></div>
-        <div class="ri ri-amber"><div class="ri-lbl">剩余仓位档位</div><div class="ri-val amber" id="ra-remain-tier">—</div><div class="ri-sub" id="ra-remain-mmr">—</div></div>
+      <!-- 触发信息（折叠辅助信息） -->
+      <div style="margin-bottom:10px">
+        <div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'':'none';this.querySelector('.arr-icon').style.transform=this.nextElementSibling.style.display===''?'rotate(180deg)':''"
+          style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--text3);cursor:pointer;padding:6px 2px;user-select:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+          触发详情
+          <svg class="arr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="margin-left:2px;transition:transform 0.2s"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div style="display:none;background:#f7f8fa;border-radius:var(--r-sm);padding:10px 14px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+            <span>减仓前标记价值</span><span id="ra-notional-before" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif">—</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+            <span>档位上限</span><span id="ra-trigger-limit" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif;color:var(--red)">—</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text2)">
+            <span>减仓后名义价值</span><span id="ra-notional-after" style="font-weight:600;font-family:'Inter',-apple-system,sans-serif">—</span>
+          </div>
+        </div>
       </div>
 
-      <!-- 公式说明 -->
+      <!-- 复制按钮 -->
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <button id="ra-copy-result-btn" onclick="copyAdlResult()"
+          style="flex:1;padding:8px 0;border:1px solid var(--orange);border-radius:var(--r-sm);background:#fff;color:var(--orange);font-size:12px;font-weight:600;cursor:pointer">
+          复制结果
+        </button>
+        <button onclick="copyAdlFormula()" id="ra-copy-formula-btn"
+          style="flex:1;padding:8px 0;border:1px solid var(--border2);border-radius:var(--r-sm);background:#fff;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer">
+          复制计算过程
+        </button>
+      </div>
+
+      <!-- 计算过程折叠 -->
       <div class="formula-wrap">
         <div class="formula-toggle" id="ft-adl" onclick="toggleF('adl')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          查看完整公式说明（可截图发给客户）
+          查看计算过程
           <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:auto"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <div class="formula-body" id="fb-adl"></div>
       </div>
 
-      <!-- 档位总览 -->
-      <div style="margin-top:20px">
-        <div class="result-label">该合约档位一览</div>
-        <div style="border:1px solid var(--border2);border-radius:var(--r-sm);overflow:hidden">
+      <!-- 档位表（默认显示减仓前/后档位，可展开全部） -->
+      <div style="margin-top:12px">
+        <div style="font-size:12px;font-weight:600;color:var(--text3);padding:6px 2px;display:flex;align-items:center;gap:6px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          档位参考
+        </div>
+        <div style="border:1px solid var(--border2);border-radius:var(--r-sm);overflow:hidden;margin-top:4px">
           <div style="display:grid;grid-template-columns:50px 1fr 55px 55px 60px;background:#f7f8fa;padding:9px 14px;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;gap:8px">
             <span>档位</span><span>名义价值上限 (USDT)</span><span>MMR</span><span>最大杠杆</span><span></span>
           </div>
@@ -2813,11 +2891,23 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
       <div class="result-label">核查结果</div>
       <div id="sc-results-list" style="display:flex;flex-direction:column;gap:12px"></div>
 
+      <!-- 复制按钮 -->
+      <div style="display:flex;gap:8px;margin-top:12px" id="sc-copy-btns" style="display:none">
+        <button id="sc-copy-result-btn" onclick="copyScResult()"
+          style="flex:1;padding:8px 0;border:1px solid var(--orange);border-radius:var(--r-sm);background:#fff;color:var(--orange);font-size:12px;font-weight:600;cursor:pointer">
+          复制结果
+        </button>
+        <button onclick="copyScFormula()" id="sc-copy-formula-btn"
+          style="flex:1;padding:8px 0;border:1px solid var(--border2);border-radius:var(--r-sm);background:#fff;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer">
+          复制计算过程
+        </button>
+      </div>
+
       <!-- 公式说明 -->
-      <div class="formula-wrap" style="margin-top:16px">
+      <div class="formula-wrap" style="margin-top:12px">
         <div class="formula-toggle" id="ft-sharecheck" onclick="toggleF('sharecheck')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          查看完整公式说明（可截图发给客户）
+          查看计算过程
           <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:auto"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <div class="formula-body" id="fb-sharecheck"></div>
@@ -5019,7 +5109,7 @@ function toggleF(mod) {
     body.classList.add('show');
     body.classList.remove('closing');
     // inject copy button if not already present（pnl/liqcheck 板块有专属复制按钮，跳过）
-    if (!body.querySelector('.formula-copy-btn') && body.id !== 'fb-pnl' && body.id !== 'fb-liqcheck' && body.id !== 'fb-liq' && body.id !== 'fb-open' && body.id !== 'fb-tradefee' && body.id !== 'fb-fund') {
+    if (!body.querySelector('.formula-copy-btn') && body.id !== 'fb-pnl' && body.id !== 'fb-liqcheck' && body.id !== 'fb-liq' && body.id !== 'fb-open' && body.id !== 'fb-tradefee' && body.id !== 'fb-fund' && body.id !== 'fb-adl' && body.id !== 'fb-sharecheck') {
       const btn = document.createElement('button');
       btn.className = 'formula-copy-btn';
       btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> 复制公式';
@@ -5405,9 +5495,9 @@ function doAdl() {
       : `⚠ 实际减仓比理论值${diff>0?'多':'少'} ${fmt(absDiff,2)} 张，请进一步核查`),
   ].join(''));
 
-  // 档位总览
+  // 档位总览：默认只显示减仓前和减仓后档位，其余折叠
   const tiersRows = document.getElementById('ra-tiers-rows');
-  tiersRows.innerHTML = ladders.map((t, i) => {
+  const renderRow = (t, i, hidden) => {
     const lv = levers[i];
     const isBefore = i === tierBeforeIdx;
     const isAfter  = i === tierAfterIdx;
@@ -5417,21 +5507,104 @@ function doAdl() {
       : isAfter
       ? `<span style="font-size:10px;font-weight:700;color:var(--amber);background:#fef9c3;padding:2px 6px;border-radius:3px">减仓后</span>`
       : '';
-    return `<div style="display:grid;grid-template-columns:50px 1fr 55px 55px 60px;padding:9px 14px;gap:8px;font-size:12px;border-top:1px solid var(--border2);align-items:center;${bg}">
+    return `<div class="ra-tier-row${hidden?' ra-tier-hidden':''}" style="display:${hidden?'none':'grid'};grid-template-columns:50px 1fr 55px 55px 60px;padding:9px 14px;gap:8px;font-size:12px;border-top:1px solid var(--border2);align-items:center;${bg}">
       <span style="font-weight:700;color:${isBefore?'var(--red)':isAfter?'var(--amber)':'var(--text2)'}">第${t.level}档</span>
       <span style="font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums;">${(+t.maxPositionValue).toLocaleString()}</span>
       <span style="font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums;">${(t.minMarginRate*100).toFixed(2)}%</span>
       <span style="font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums;">${lv?.maxLever||'—'}x</span>
       <span>${badge}</span>
     </div>`;
-  }).join('');
+  };
+  const hiddenCount = ladders.length - (tierBeforeIdx !== tierAfterIdx ? 2 : 1);
+  tiersRows.innerHTML = ladders.map((t, i) => {
+    const isKey = i === tierBeforeIdx || i === tierAfterIdx;
+    return renderRow(t, i, !isKey);
+  }).join('') + (hiddenCount > 0 ? `
+    <div id="ra-tiers-expand-btn" onclick="
+      const hidden = document.querySelectorAll('.ra-tier-hidden');
+      const isExpanded = this.dataset.expanded === '1';
+      if (isExpanded) {
+        hidden.forEach(el => el.style.display='none');
+        this.dataset.expanded = '0';
+        this.textContent = '▼ 展开查看全部 ${ladders.length} 个档位';
+      } else {
+        hidden.forEach(el => el.style.display='grid');
+        this.dataset.expanded = '1';
+        this.textContent = '▲ 收起，仅显示减仓前/后档位';
+      }
+    " data-expanded="0" style="padding:8px 14px;text-align:center;font-size:12px;font-weight:600;color:var(--orange);cursor:pointer;border-top:1px solid var(--border2);background:#fffbeb">
+      ▼ 展开查看全部 ${ladders.length} 个档位
+    </div>` : '');
 
   showRS('adl');
-  // 参考话术
-  const adlDir = long ? '做多' : '做空';
-  if (isNormal) {
-  } else {
-  }
+  // 存储供复制
+  window._adlData = { isNormal, theoreticalQty, actualQty, diff, tierBefore, tierAfter,
+    exceeded, remainQty, remainNotional, remainTier: remTier };
+}
+
+function copyAdlResult() {
+  const d = window._adlData; if (!d) return;
+  const lines = [
+    `减仓核查结果：${d.isNormal ? '✓ 减仓数量正常' : '⚠ 减仓数量异常'}`,
+    ``,
+    `理论减仓数量：${fmt(d.theoreticalQty, 2)} 张`,
+    `实际减仓数量：${fmt(d.actualQty, 2)} 张`,
+    `误差：${fmt(Math.abs(d.diff), 2)} 张`,
+    ``,
+    `减仓前档位：第 ${d.tierBefore?.level || '—'} 档`,
+    `减仓后档位：第 ${d.tierAfter?.level || '—'} 档`,
+    ``,
+    `剩余数量：${fmt(d.remainQty, 2)} 张`,
+    `剩余名义价值：${fmt(d.remainNotional, 2)} USDT`,
+    ``,
+    `结论：${d.isNormal ? '系统执行减仓数量符合理论计算，属正常范围。' : '实际减仓数量与理论计算存在较大偏差，建议进一步核查。'}`,
+  ].join('\n');
+  navigator.clipboard?.writeText(lines).then(() => {
+    const btn = document.getElementById('ra-copy-result-btn');
+    if (btn) { btn.textContent = '✓ 已复制'; setTimeout(() => btn.textContent = '复制结果', 2000); }
+  });
+}
+
+function copyAdlFormula() {
+  const fb = document.getElementById('fb-adl');
+  if (!fb) return;
+  const rows = fb.querySelectorAll('.fl');
+  const text = Array.from(rows).map(r => r.textContent.replace(/\s+/g,' ').trim()).filter(Boolean).join('\n');
+  navigator.clipboard?.writeText(text).then(() => {
+    const btn = document.getElementById('ra-copy-formula-btn');
+    if (btn) { btn.textContent = '✓ 已复制'; setTimeout(() => btn.textContent = '复制计算过程', 2000); }
+  });
+}
+
+function copyScResult() {
+  const cards = document.querySelectorAll('#sc-results-list [style*="border:1px solid var(--border2)"]');
+  const lines = [];
+  cards.forEach((card, i) => {
+    const verdict = card.querySelector('[style*="font-size:14px"]')?.textContent?.trim() || '';
+    const amount  = card.querySelector('[style*="font-size:16px"]')?.textContent?.trim() || '';
+    const script  = card.querySelectorAll('div[style*="font-size:11px"]');
+    const scriptText = script[script.length-1]?.textContent?.trim() || '';
+    if (verdict) lines.push(`#${i+1} ${verdict}  ${amount}`);
+    if (scriptText) lines.push(`    ${scriptText}`);
+    lines.push('');
+  });
+  const d = window._scData;
+  if (d) lines.push(d.allNormal && !d.hasError ? '总结：全部核查正常，分摊属正常入账。' : '总结：存在异常分摊记录，建议提交技术团队核查。');
+  navigator.clipboard?.writeText(lines.join('\n')).then(() => {
+    const btn = document.getElementById('sc-copy-result-btn');
+    if (btn) { btn.textContent = '✓ 已复制'; setTimeout(() => btn.textContent = '复制结果', 2000); }
+  });
+}
+
+function copyScFormula() {
+  const fb = document.getElementById('fb-sharecheck');
+  if (!fb) return;
+  const rows = fb.querySelectorAll('.fl');
+  const text = Array.from(rows).map(r => r.textContent.replace(/\s+/g,' ').trim()).filter(Boolean).join('\n');
+  navigator.clipboard?.writeText(text).then(() => {
+    const btn = document.getElementById('sc-copy-formula-btn');
+    if (btn) { btn.textContent = '✓ 已复制'; setTimeout(() => btn.textContent = '复制计算过程', 2000); }
+  });
 }
 async function loadForOpen(contractId, sym) {
   setApiStatus('open-api-status','loading','加载中...');
@@ -8562,24 +8735,39 @@ async function doShareCheck() {
           const sb = isNormal ? '#f0fdf4' : '#fef2f2';
 
           card.innerHTML = `
-            <div style="background:${sb};padding:10px 14px;border-bottom:1px solid var(--border2)">
+            <div style="background:${sb};padding:12px 14px;border-bottom:1px solid var(--border2)">
               <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
                 <div>
-                  <div style="font-size:13px;font-weight:700;color:${sc}">${isNormal?'✅ 正常（有浮盈）':'❌ 异常（无浮盈）'}</div>
-                  <div style="font-size:11px;color:var(--text3);margin-top:2px">${timeStr.slice(0,16)}:${String(seconds).padStart(2,'0')} · ${logicNote}</div>
+                  <div style="font-size:14px;font-weight:700;color:${sc}">${isNormal?'✅ 正常分摊（触发时有浮盈）':'❌ 异常（触发时无浮盈）'}</div>
+                  <div style="font-size:11px;color:var(--text3);margin-top:2px">触发时间：${timeStr.slice(0,16)}</div>
                 </div>
                 <div style="text-align:right">
-                  <div style="font-size:11px;color:var(--text3)">浮盈</div>
-                  <div style="font-size:14px;font-weight:700;font-family:'Inter',sans-serif;color:${sc}">${pnl>0?'+':''}${fmt(pnl,4)} USDT</div>
+                  <div style="font-size:11px;color:var(--text3)">1分钟浮盈（参与条件）</div>
+                  <div style="font-size:16px;font-weight:700;font-family:'Inter',sans-serif;color:${sc}">${pnl>0?'+':''}${fmt(pnl,4)} USDT</div>
                 </div>
               </div>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:9px 14px;gap:8px;font-size:12px">
-              <div><div style="color:var(--text3);margin-bottom:2px">前次Close（${prevMinStr.slice(11,16)}）</div><div style="font-weight:700;font-family:'Inter',sans-serif">${fmt(prevClose,6)}</div></div>
-              <div><div style="color:var(--text3);margin-bottom:2px">本次Close（${currMinStr.slice(11,16)}）</div><div style="font-weight:700;font-family:'Inter',sans-serif">${fmt(curClose,6)}</div></div>
-              <div><div style="color:var(--text3);margin-bottom:2px">计算</div><div style="font-size:11px;font-weight:600;color:${sc}">(${fmt(curClose,4)}-${fmt(prevClose,4)})×${fmt(pos.qty,4)}×${dir}</div></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:10px 14px;gap:8px;font-size:12px;background:#fff">
+              <div>
+                <div style="color:var(--text3);margin-bottom:3px">前次价格</div>
+                <div style="font-weight:700;font-family:'Inter',sans-serif;font-size:13px">${fmt(prevClose,4)}</div>
+                <div style="font-size:10px;color:var(--text3)">${prevMinStr.slice(11,16)}</div>
+              </div>
+              <div>
+                <div style="color:var(--text3);margin-bottom:3px">本次价格</div>
+                <div style="font-weight:700;font-family:'Inter',sans-serif;font-size:13px">${fmt(curClose,4)}</div>
+                <div style="font-size:10px;color:var(--text3)">${currMinStr.slice(11,16)}</div>
+              </div>
+              <div>
+                <div style="color:var(--text3);margin-bottom:3px">价格变化</div>
+                <div style="font-weight:700;font-family:'Inter',sans-serif;font-size:13px;color:${(curClose-prevClose)*dir>0?'var(--green)':'var(--red)'}">${(curClose-prevClose)>=0?'+':''}${fmt(curClose-prevClose,4)}</div>
+                <div style="font-size:10px;color:var(--text3)">${pos.dir==='long'?'做多':'做空'}</div>
+              </div>
             </div>
-            ${!isNormal?`<div style="background:#fef2f2;padding:7px 14px;font-size:12px;color:var(--red);border-top:1px solid #fecaca">⚠ 浮盈 ≤ 0，不应被分摊，建议提交技术核查</div>`:''}
+            <div style="padding:8px 14px;background:#f7f8fa;border-top:1px solid var(--border2);font-size:11px;color:var(--text3)">
+              核验：(${fmt(curClose,4)} − ${fmt(prevClose,4)}) × ${fmt(pos.qty,4)} × ${dir} = <strong style="color:${sc}">${pnl>0?'+':''}${fmt(pnl,4)} USDT</strong>
+            </div>
+            ${!isNormal?`<div style="background:#fef2f2;padding:8px 14px;font-size:12px;color:var(--red);border-top:1px solid #fecaca;font-weight:600">⚠ 触发时浮盈 ≤ 0，不应被分摊，建议提交技术核查</div>`:''}
           `;
           if (statusEl) statusEl.textContent = isNormal ? '✅' : '❌';
 
@@ -8618,6 +8806,10 @@ async function doShareCheck() {
   const scSym = scPosData[1]?.sym || '';
   setApiStatus('sc-api-status', hasError ? 'err' : 'ok', hasError ? '部分查询失败' : `${scSym} 标记价格已加载`);
   showRS('sharecheck');
+  // 显示复制按钮
+  const copyBtns = document.getElementById('sc-copy-btns');
+  if (copyBtns) copyBtns.style.display = 'flex';
+  window._scData = { allNormal, hasError, scSym };
 }
 let adlQtyMode    = 'coin'; // 'coin' | 'zhang'
 let adlReduceMode = 'coin';
