@@ -1508,6 +1508,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <div class="ri ri-amber"><div class="ri-lbl">距爆仓幅度</div><div class="ri-val amber" id="rl-dist">—</div><div class="ri-sub">%</div></div>
         <div class="ri"><div class="ri-lbl">维持保证金率 MMR</div><div class="ri-val" id="rl-mmr-r">—</div><div class="ri-sub">%</div></div>
         <div class="ri"><div class="ri-lbl">手续费率</div><div class="ri-val" id="rl-fee">—</div><div class="ri-sub">%</div></div>
+        <div class="ri" id="rl-margin-rate-card" style="display:none"><div class="ri-lbl">当前保证金率</div><div class="ri-val" id="rl-margin-rate">—</div><div class="ri-sub">%</div></div>
       </div>
       <div class="formula-wrap">
         <div class="formula-toggle" id="ft-liq" onclick="toggleF('liq')">
@@ -1781,15 +1782,22 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
       <div class="lev-ticks" id="open-lev-ticks2"><span>1x</span><span>25x</span><span>50x</span><span>75x</span><span>100x</span><span>125x</span></div>
     </div>
 
-    <!-- 行1：余额模式=余额+开仓价格；档位模式=档位上限+开仓价格 -->
-    <div class="form-grid" style="margin-bottom:12px">
+    <!-- 余额模式：余额+开仓价格 一行 -->
+    <div class="form-grid" style="margin-bottom:12px" id="open-balance-row">
       <div class="field" id="open-balance-field">
         <div class="field-label">账户余额（可用保证金）</div>
         <div class="fi"><input type="number" id="open-balance" placeholder="0.00" step="any"><span class="fi-unit" id="open-bal-u">USDT</span></div>
       </div>
-      <div class="field" id="open-tier-field" style="display:none">
+      <div class="field" id="open-entry-field-balance">
+        <div class="field-label">开仓价格</div>
+        <div class="fi"><input type="number" id="open-entry" placeholder="0.00" step="any"><span class="fi-unit">USDT</span></div>
+      </div>
+    </div>
+    <!-- 余额模式：档位上限单独一行 -->
+    <div class="form-grid" style="margin-bottom:12px" id="open-tier-field">
+      <div class="field form-full">
         <div class="field-label">
-          仓位档位上限
+          仓位档位上限（当前杠杆对应持仓上限）
           <span id="open-tier-src" style="font-size:10px;color:var(--orange);font-weight:700"></span>
         </div>
         <div class="fi" id="open-tier-fi">
@@ -1797,23 +1805,22 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
           <span class="fi-unit">USDT</span>
         </div>
       </div>
-      <div class="field">
-        <div class="field-label">开仓价格</div>
-        <div class="fi"><input type="number" id="open-entry" placeholder="0.00" step="any"><span class="fi-unit">USDT</span></div>
-      </div>
     </div>
-
-    <!-- 行2：余额模式下显示仓位档位上限（参考信息） -->
-    <div class="form-grid" style="margin-bottom:12px" id="open-tier-balance-row">
-      <div class="field form-full">
+    <!-- 档位模式：档位上限+开仓价格 一行 -->
+    <div class="form-grid" style="margin-bottom:12px;display:none" id="open-tier-entry-row">
+      <div class="field">
         <div class="field-label">
-          仓位档位上限
-          <span style="font-size:10px;color:var(--orange);font-weight:700" id="open-tier-src2"></span>
+          仓位档位上限（当前杠杆对应持仓上限）
+          <span id="open-tier-src3" style="font-size:10px;color:var(--orange);font-weight:700"></span>
         </div>
-        <div class="fi" id="open-tier-fi2">
-          <input type="number" id="open-tier-limit2" placeholder="选择合约后自动填入" readonly style="cursor:default">
+        <div class="fi" id="open-tier-fi3">
+          <input type="number" id="open-tier-limit3" placeholder="选择合约后自动填入" readonly style="cursor:default">
           <span class="fi-unit">USDT</span>
         </div>
+      </div>
+      <div class="field">
+        <div class="field-label">开仓价格</div>
+        <div class="fi"><input type="number" id="open-entry2" placeholder="0.00" step="any"><span class="fi-unit">USDT</span></div>
       </div>
     </div>
 
@@ -1844,6 +1851,15 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
           <input type="number" id="open-cur-pos" placeholder="—" style="color:var(--text3);cursor:default" readonly>
           <span class="fi-unit">USDT</span>
         </div>
+      </div>
+    </div>
+
+    <!-- 订单类型 -->
+    <div class="field form-full" style="margin-bottom:12px">
+      <div class="field-label">订单类型 <span style="font-size:10px;color:var(--text3);font-weight:400">影响单笔最大数量限制</span></div>
+      <div class="seg" id="open-order-type-seg">
+        <button class="seg-btn active-ct" id="open-ot-market" onclick="setOpenOrderType('market',this)">市价单</button>
+        <button class="seg-btn" id="open-ot-limit" onclick="setOpenOrderType('limit',this)">限价单</button>
       </div>
     </div>
 
@@ -1883,7 +1899,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <div class="ri"><div class="ri-lbl">所需保证金</div><div class="ri-val" id="ro-margin">—</div><div class="ri-sub" id="ro-margin-u">USDT</div></div>
         <div class="ri ri-amber"><div class="ri-lbl">预计手续费</div><div class="ri-val amber" id="ro-fee">—</div><div class="ri-sub" id="ro-fee-u">USDT</div></div>
         <div class="ri"><div class="ri-lbl">保证金 + 手续费</div><div class="ri-val" id="ro-total">—</div><div class="ri-sub" id="ro-total-u">USDT</div></div>
-        <div class="ri"><div class="ri-lbl">余额使用率</div><div class="ri-val" id="ro-usage">—</div><div class="ri-sub">%</div></div>
+        <div class="ri"><div class="ri-lbl" id="ro-usage-lbl">余额使用率</div><div class="ri-val" id="ro-usage">—</div><div class="ri-sub">%</div></div>
       </div>
       <div class="formula-wrap">
         <div class="formula-toggle" id="ft-open" onclick="toggleF('open')">
@@ -1906,7 +1922,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
 <div class="card">
   <div class="card-head">
     <div class="card-head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
-    <div><h2>计算资金费率</h2><p>用于核实用户投诉资金费扣除金额是否正确，支持单笔固定费率或多笔不同费率逐一核算</p></div>
+    <div><h2>计算资金费率</h2><p>用于核实用户投诉资金费扣除金额是否正确，支持单笔固定费率或多笔不同费率逐一核算 &nbsp;<span class="api-status" id="fund-api-status" style="display:none"><span class="api-dot"></span></span></p></div>
   </div>
   <div class="card-body">
 
@@ -1969,12 +1985,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
     <!-- 公共：标记价格 + 仓位数量 -->
     <div class="form-grid" style="margin-bottom:16px">
       <div class="field">
-        <div class="field-label" style="display:flex;align-items:center;justify-content:space-between;">
-          标记价格
-          <span id="fund-mark-api-status" style="display:none;font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;border:1px solid #a7f3d0;background:#ecfdf5;color:#10b981">
-            <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:currentColor;margin-right:3px;vertical-align:middle"></span>已自动填入
-          </span>
-        </div>
+        <div class="field-label">标记价格</div>
         <div class="fi" id="fund-mark-fi">
           <input type="number" id="fund-mark" placeholder="选择结算时间后自动填入" step="any"
             oninput="this.dataset.manualEdit='1'" onfocus="this.dataset.manualEdit='1'">
@@ -2027,7 +2038,9 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
       </div>
       <!-- 结算时间对照提示 -->
       <div style="background:#fffbeb;border:1px solid #fed7aa;border-radius:6px;padding:8px 12px;margin-bottom:10px;font-size:11px;color:#92400e;line-height:1.8;word-break:break-word">
-        <strong>⚠ 结算时间说明（北京时间）：柬埔寨时间为 23:00 → 选次日 00:00 &nbsp;｜&nbsp; 07:00 → 选 08:00 &nbsp;｜&nbsp; 15:00 → 选 16:00 </strong>。
+        <strong>⚠ 结算时间说明（北京时间）：</strong>官网图表时间轴为北京时间，显示的是<strong>预估费率</strong>，在下一个整点结算。<br>
+        对照关系：官网显示 <strong>23:00</strong> → 选 <strong>次日 00:00</strong><br>
+        官网显示 <strong>07:00</strong> → 选 <strong>08:00</strong> &nbsp;｜&nbsp; 官网显示 <strong>15:00</strong> → 选 <strong>16:00</strong>
       </div>
       <div id="fund-rate-rows" style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px"></div>
       <div style="display:flex;gap:8px;align-items:center">
@@ -2055,7 +2068,6 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <div class="ri" id="rf-total-card"><div class="ri-lbl">净资金费用</div><div class="ri-val" id="rf-total">—</div><div class="ri-sub" id="rf-total-u">USDT</div></div>
         <div class="ri ri-green"><div class="ri-lbl">收入合计</div><div class="ri-val green" id="rf-income">—</div><div class="ri-sub" id="rf-income-u">USDT</div></div>
         <div class="ri ri-red"><div class="ri-lbl">支出合计</div><div class="ri-val red" id="rf-expense">—</div><div class="ri-sub" id="rf-expense-u">USDT</div></div>
-        <div class="ri ri-amber"><div class="ri-lbl">年化资金费率</div><div class="ri-val amber" id="rf-annual">—</div><div class="ri-sub">%（平均）</div></div>
       </div>
 
       <!-- 逐笔明细 -->
@@ -2553,8 +2565,8 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
           <div class="qa-answer">强平价格由官方公式计算，会随账户权益实时变化：<br><br>
           <strong>全仓多单：</strong>强平价 = 标记价 − (账户权益 − 平仓手续费 − 所有仓位维持保证金总和 + 当前仓位档位扣减额) ÷ 数量<br>
           <strong>全仓空单：</strong>强平价 = 标记价 + (账户权益 − 平仓手续费 − 所有仓位维持保证金总和 + 当前仓位档位扣减额) ÷ 数量<br>
-          <strong>逐仓多单：</strong>强平价 = 标记价 − (逐仓权益 − 当前仓位手续费 − 当前仓位维持保证金 + 扣减额) ÷ 数量<br>
-          <strong>逐仓空单：</strong>强平价 = 标记价 + (逐仓权益 − 当前仓位手续费 − 当前仓位维持保证金 + 扣减额) ÷ 数量<br><br>
+          <strong>逐仓多单：</strong>强平价 = 标记价 − (逐仓权益 − 当前仓位手续费 − 强平触发门槛（MMR×名义价值） + 扣减额) ÷ 数量<br>
+          <strong>逐仓空单：</strong>强平价 = 标记价 + (逐仓权益 − 当前仓位手续费 − 强平触发门槛（MMR×名义价值） + 扣减额) ÷ 数量<br><br>
           可使用「强平价格」板块输入仓位数据核算理论强平价。</div>
           <div class="qa-script-label">📋 参考话术</div>
           <div class="qa-script">您好，强平价格并非固定数值，会随您的账户权益、持仓量及维持保证金率实时变化。我已使用系统工具为您核算了理论强平价格，计算结果与系统一致，属正常触发。如需了解详细计算过程，欢迎提供当时的仓位数据，我可为您进一步核查。</div>
@@ -3959,10 +3971,15 @@ function checkOpenQtyLimits(contractId, qtyInCoin, sym) {
   const warns = [];
   if (qtyInCoin < r.minQty)
     warns.push(`数量 ${qtyInCoin.toFixed(6)} ${sym} 低于最小下单量 ${fmtNum(r.minQty)} ${sym}，无法开仓`);
-  if (qtyInCoin > r.marketMaxQty)
-    warns.push(`超过市价单上限 ${fmtNum(r.marketMaxQty)} ${sym}，需拆成约 ${Math.ceil(qtyInCoin / r.marketMaxQty)} 笔市价单`);
-  else if (qtyInCoin > r.limitMaxQty)
-    warns.push(`超过限价单上限 ${fmtNum(r.limitMaxQty)} ${sym}，需拆成约 ${Math.ceil(qtyInCoin / r.limitMaxQty)} 笔限价单`);
+
+  // 根据用户选择的订单类型判断对应上限
+  if (openOrderType === 'limit') {
+    if (qtyInCoin > r.limitMaxQty)
+      warns.push(`超过限价单上限 ${fmtNum(r.limitMaxQty)} ${sym}，需拆成约 ${Math.ceil(qtyInCoin / r.limitMaxQty)} 笔限价单`);
+  } else {
+    if (qtyInCoin > r.marketMaxQty)
+      warns.push(`超过市价单上限 ${fmtNum(r.marketMaxQty)} ${sym}，需拆成约 ${Math.ceil(qtyInCoin / r.marketMaxQty)} 笔市价单`);
+  }
 
   if (warns.length) {
     warnEl.style.display = 'flex';
@@ -4563,24 +4580,22 @@ function updateOpenTierByLev(lev) {
       break;
     }
   }
-  // 更新两个档位上限输入框
-  const ti  = document.getElementById('open-tier-limit');
-  const ti2 = document.getElementById('open-tier-limit2');
+  const ti   = document.getElementById('open-tier-limit');
+  const ti3  = document.getElementById('open-tier-limit3');
   const tfi  = document.getElementById('open-tier-fi');
-  const tfi2 = document.getElementById('open-tier-fi2');
-  if (ti)  ti.value  = tierLimit;
-  if (ti2) ti2.value = tierLimit;
+  const tfi3 = document.getElementById('open-tier-fi3');
+  if (ti)   ti.value  = tierLimit;
+  if (ti3)  ti3.value = tierLimit;
   if (tfi)  tfi.classList.add('auto-filled');
-  if (tfi2) tfi2.classList.add('auto-filled');
+  if (tfi3) tfi3.classList.add('auto-filled');
   const src  = document.getElementById('open-tier-src');
-  const src2 = document.getElementById('open-tier-src2');
+  const src3 = document.getElementById('open-tier-src3');
   if (src)  src.textContent  = '✦ 自动填入';
-  if (src2) src2.textContent = '✦ 自动填入';
+  if (src3) src3.textContent = '✦ 自动填入';
 }
 
 function adjLev(mod, delta) {
   const maxLev = S[mod]?.maxLev || 125;
-  // close any open edit first
   const d = document.getElementById(mod+'-levd');
   if (d && d.classList.contains('editing')) {
     d.classList.remove('editing');
@@ -4591,18 +4606,26 @@ function adjLev(mod, delta) {
 // Click number to type
 function startLevEdit(e, mod) {
   e.stopPropagation();
-  const d = document.getElementById(mod+'-levd');
-  const inp = document.getElementById(mod+'-levinput');
+  // 判断点击的是哪个 levd（可能是 mod-levd 或 mod-levd2）
+  const clickedEl = e.currentTarget || e.target?.closest('.lev-display');
+  const isSecond  = clickedEl && clickedEl.id === mod+'-levd2';
+  const dId   = isSecond ? mod+'-levd2'    : mod+'-levd';
+  const inpId = isSecond ? mod+'-levinput2': mod+'-levinput';
+  const d   = document.getElementById(dId);
+  const inp = document.getElementById(inpId);
   if (!d || !inp) return;
-  if (d.classList.contains('editing')) return; // already editing
-  inp.max = S[mod]?.maxLev || 125;
+  if (d.classList.contains('editing')) return;
+  inp.max   = S[mod]?.maxLev || 125;
   inp.value = S[mod]?.lev || 10;
   d.classList.add('editing');
   setTimeout(() => { inp.focus(); inp.select(); }, 10);
 }
 function commitLevEdit(mod) {
-  const d = document.getElementById(mod+'-levd');
-  const inp = document.getElementById(mod+'-levinput');
+  // 提交时找当前正在 editing 的那个
+  const d1  = document.getElementById(mod+'-levd');
+  const d2  = document.getElementById(mod+'-levd2');
+  const d   = d2?.classList.contains('editing') ? d2 : d1;
+  const inp = d === d2 ? document.getElementById(mod+'-levinput2') : document.getElementById(mod+'-levinput');
   if (!d || !inp) return;
   const v = parseInt(inp.value) || S[mod]?.lev || 10;
   d.classList.remove('editing');
@@ -4610,7 +4633,13 @@ function commitLevEdit(mod) {
 }
 function levInputKey(e, mod) {
   if (e.key === 'Enter')  { e.preventDefault(); commitLevEdit(mod); }
-  if (e.key === 'Escape') { e.stopPropagation(); const d=document.getElementById(mod+'-levd'); if(d) d.classList.remove('editing'); }
+  if (e.key === 'Escape') {
+    e.stopPropagation();
+    const d1 = document.getElementById(mod+'-levd');
+    const d2 = document.getElementById(mod+'-levd2');
+    if (d1) d1.classList.remove('editing');
+    if (d2) d2.classList.remove('editing');
+  }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -5455,6 +5484,19 @@ buildDrop('fund-drop', c => {
     S.fund.face       = ct.face;
     S.fund.sym        = c.sym;
     S.fund.contractId = c.id;
+    // 重置 api status 和标记价格
+    const fundApiEl = document.getElementById('fund-api-status');
+    if (fundApiEl) fundApiEl.style.display = 'none';
+    const fundMarkInput = document.getElementById('fund-mark');
+    const fundMarkFi    = document.getElementById('fund-mark-fi');
+    if (fundMarkInput) {
+      fundMarkInput.value = '';
+      fundMarkInput.dataset.manualEdit = '';
+    }
+    if (fundMarkFi) {
+      fundMarkFi.style.borderColor = '';
+      fundMarkFi.style.background  = '';
+    }
     const faceDisp = document.getElementById('fund-face-display');
     const faceU    = document.getElementById('fund-face-u');
     const faceRow  = document.getElementById('fund-face-row');
@@ -5587,6 +5629,7 @@ function setLiqIsoQtyMode(mode) {
     if (hint) hint.style.display = '';
     if (qtyU) qtyU.textContent = '张';
   }
+  updateIsolatedUpnl();
 }
 
 function setLiqQtyMode(mode) {
@@ -5837,14 +5880,14 @@ function doLiqCheck() {
     fCmt('【公式】全仓保证金率 = (账户权益 − 其他合约维持保证金) ÷ 标记仓位价值'),
     fCmt('触发条件：全仓保证金率 ≤ MMR + 手续费率'),
     fCmt(''),
-    fLine('① 标记仓位价值',      chkQtyMode==='zhang' ? `${mark} × ${qty}张 × 面值${face}` : `${mark} × ${qty}币`, fmt(posValue, 6)+' USDT'),
-    fLine('② 账户权益',          '资产页直接读取',              fmt(equity, 6)+' USDT'),
-    fLine('③ 其他仓位维持保证金', '无其他仓位=0',               fmt(otherMaint, 6)+' USDT'),
+    fLine('① 标记仓位价值',      chkQtyMode==='zhang' ? `${mark} × ${qty} × ${face}` : `${mark} × ${qty}`, fmt(posValue, 6)+' USDT'),
+    fLine('② 账户权益',          '',              fmt(equity, 6)+' USDT'),
+    fLine('③ 其他仓位维持保证金', '',               fmt(otherMaint, 6)+' USDT'),
     fLine('④ 有效权益',          `${equity} − ${otherMaint}`,  fmt(effEquity, 6)+' USDT'),
-    fLine('⑤ 全仓保证金率',      `有效权益 ${fmt(effEquity, 6)} ÷ 仓位价值 ${fmt(posValue, 6)}`, fmt(ratio*100, 6)+'%'),
+    fLine('⑤ 全仓保证金率',      `${fmt(effEquity, 6)} ÷ ${fmt(posValue, 6)}`, fmt(ratio*100, 6)+'%'),
     fCmt(''),
-    fLine('⑥ MMR',              '参数表',       fmt(mmrVal, 6)+'%'),
-    fLine('⑦ 手续费率',          'Maker/Taker', fmt(feeVal, 6)+'%'),
+    fLine('⑥ MMR',              '',       fmt(mmrVal, 6)+'%'),
+    fLine('⑦ 手续费率',          '', fmt(feeVal, 6)+'%'),
     fLine('⑧ 触发阈值',         `${fmt(mmrVal, 6)}% + ${fmt(feeVal, 6)}%`, fmt(threshold*100, 6)+'%'),
     fCmt(''),
     fLine('⑨ 最低维持保证金',    `${fmt(posValue, 6)} × ${fmt(mmrVal, 6)}%`,       fmt(minMaint, 6)+' USDT'),
@@ -5918,16 +5961,30 @@ function setLiqMode(mode, btn) {
   btn.classList.add('active-ct');
   document.getElementById('liq-isolated-block').style.display = mode === 'isolated' ? '' : 'none';
   document.getElementById('liq-cross-block').style.display    = mode === 'cross'    ? '' : 'none';
+  // 切换模式时清空上次计算结果
+  const rs = document.getElementById('liq-rs');
+  if (rs) rs.classList.remove('show');
 }
 
 // Live uPnL preview as user types mark price or entry
 function updateIsolatedUpnl() {
-  const entry = +document.getElementById('liq-entry').value;
-  const mark  = +document.getElementById('liq-isolated-mark')?.value;
-  const qty   = +document.getElementById('liq-isolated-qty')?.value;
-  const disp  = document.getElementById('liq-isolated-upnl-display');
-  const hint  = document.getElementById('liq-isolated-upnl-hint');
+  const entry   = +document.getElementById('liq-entry').value;
+  const mark    = +document.getElementById('liq-isolated-mark')?.value;
+  const qtyRaw  = +document.getElementById('liq-isolated-qty')?.value;
+  const disp    = document.getElementById('liq-isolated-upnl-display');
+  const hint    = document.getElementById('liq-isolated-upnl-hint');
   if (!disp) return;
+  // 张模式需乘面值转为币数
+  const faceText = document.getElementById('liq-iso-face-display')?.textContent;
+  const isoFace  = liqIsoQtyMode === 'zhang' ? (parseFloat(faceText) || 0) : 1;
+  if (liqIsoQtyMode === 'zhang' && !isoFace) {
+    // 面值未加载，无法计算
+    disp.value = '';
+    disp.style.color = 'var(--text3)';
+    if (hint) { hint.textContent = '请先选择合约'; hint.style.color = 'var(--orange)'; }
+    return;
+  }
+  const qty = liqIsoQtyMode === 'zhang' ? mulSafe(qtyRaw, isoFace) : qtyRaw;
   if (entry && mark && qty) {
     const long = S.liq.dir === 'long';
     const upnl = long ? (mark - entry) * qty : (entry - mark) * qty;
@@ -5984,7 +6041,7 @@ function doLiq() {
     // 张模式需乘合约面值换算成币数
     const liqFace = liqQtyMode === 'zhang' ? (+document.getElementById('liq-face-display')?.textContent || 1) : 1;
     const qty     = liqQtyMode === 'zhang' ? mulSafe(qtyRaw, liqFace) : qtyRaw;
-    const qtyDesc = liqQtyMode === 'zhang' ? `${qtyRaw}张 × 面值${liqFace} = ${fmt(qty,6)}币` : `${qty}币`;
+    const qtyDesc = liqQtyMode === 'zhang' ? `${qtyRaw}张 × 面值${liqFace} = ${+qty.toFixed(8)}币` : `${+qty.toFixed(8)}币`;
 
     const usePrice    = mark || entry;
     const notional    = usePrice * qty;
@@ -6001,7 +6058,7 @@ function doLiq() {
     }
 
     // 公式：强平价 = 标记价 - (账户权益 - 平仓手续费 - 所有仓位维持保证金总和 + 当前仓位档位扣减额) / 数量
-    // 所有仓位维持保证金总和 = 当前仓位维持保证金 + 其他仓位维持保证金
+    // 所有仓位维持保证金总和 = 强平触发门槛（MMR×名义价值） + 其他仓位维持保证金
     const allMaint = maintMargin + otherMaint;
     const bracket  = equity - closeFee - allMaint + deduction;
     liqP = long
@@ -6015,32 +6072,32 @@ function doLiq() {
       fCmt(''),
       fCmt('【官方公式】强平价 = 标记价 − (账户权益 − 强平手续费 − 所有仓位维持保证金总和 + 当前仓位档位扣减额) ÷ 数量'),
       fCmt(''),
-      fLine('当前仓位名义价值',       `标记价 ${usePrice} × ${qtyDesc}`,                           fmt(notional,2)+' USDT'),
+      fLine('当前仓位名义价值', `${usePrice} × ${+qty.toFixed(8)}`, fmt(notional,2)+' USDT'),
       fLine('强平手续费',             `${fmt(notional,2)} × ${fmt(fee*100,6)}%`,            fmt(closeFee,6)+' USDT'),
-      fLine('当前仓位维持保证金',     `${fmt(notional,2)} × ${mmrVal.toFixed(2)}%`,     fmt(maintMargin,6)+' USDT'),
-      fLine('其他仓位维持保证金总和', '用户填入（无其他仓位为 0）',                                  fmt(otherMaint,6)+' USDT'),
-      fLine('所有仓位维持保证金总和', `${fmt(maintMargin,6)} + ${fmt(otherMaint,6)}`,           fmt(allMaint,6)+' USDT'),
+      fLine('② 维持保证金（强平触发门槛）', `${fmt(notional,2)} × ${mmrVal.toFixed(2)}%`,     fmt(maintMargin,6)+' USDT'),
+      fLine('③ 其他仓位维持保证金总和', '用户填入（无其他仓位为 0）',                                  fmt(otherMaint,6)+' USDT'),
+      fLine('④ 所有仓位维持保证金总和', `${fmt(maintMargin,6)} + ${fmt(otherMaint,6)}`,           fmt(allMaint,6)+' USDT'),
       fLine('档位扣减额',             'API 参数表该档位 deduction',                                  fmt(deduction,6)+' USDT'),
-      fLine('括号内合计',             `${equity} − ${fmt(closeFee,6)} − ${fmt(allMaint,6)} + ${fmt(deduction,6)}`,                                fmt(bracket,6)+' USDT'),
+      fLine('可承受亏损空间', `${equity} − ${fmt(closeFee,6)} − ${fmt(allMaint,6)} + ${fmt(deduction,6)}`, fmt(bracket,6)+' USDT'),
       fCmt(''),
       fCmt(long ? '做多强平价 = 标记价 − 括号合计 ÷ 数量'
                 : '做空强平价 = 标记价 + 括号合计 ÷ 数量'),
       fLine('⑧ 强平价格',
-        long ? `${usePrice} − ${fmt(bracket,6)} ÷ ${fmt(qty,6)}`
-             : `${usePrice} + ${fmt(bracket,6)} ÷ ${fmt(qty,6)}`,
+        long ? `${usePrice} − ${fmt(bracket,6)} ÷ ${+qty.toFixed(8)}`
+             : `${usePrice} + ${fmt(bracket,6)} ÷ ${+qty.toFixed(8)}`,
         fmt(liqP,2)+' USDT'),
       deduction > 0 ? fCmt(`  ★ 档位扣减额 ${fmt(deduction,2)} USDT 已自动从 API 读取`) : fCmt('  ★ 档位扣减额为 0（第一档或未加载合约参数）'),
     ];
 
   } else {
     // ══ 官方逐仓公式 ══
-    // 强平价 = 标记价 - (逐仓仓位权益 - 强平手续费 - 当前仓位维持保证金 + 档位扣减额) / 数量
+    // 强平价 = 标记价 - (逐仓仓位权益 - 强平手续费 - 强平触发门槛（MMR×名义价值） + 档位扣减额) / 数量
     // 逐仓仓位权益 = 逐仓保证金
     const isolatedMargin = +document.getElementById('liq-isolated-margin').value;
     const qtyRawIso      = +document.getElementById('liq-isolated-qty').value;
     const isoFace        = liqIsoQtyMode === 'zhang' ? (+document.getElementById('liq-iso-face-display')?.textContent || 1) : 1;
     const qty            = liqIsoQtyMode === 'zhang' ? mulSafe(qtyRawIso, isoFace) : qtyRawIso;
-    const qtyDescIso     = liqIsoQtyMode === 'zhang' ? `${qtyRawIso}张 × 面值${isoFace} = ${fmt(qty,6)}币` : `${qty}币`;
+    const qtyDescIso     = liqIsoQtyMode === 'zhang' ? `${qtyRawIso}张 × 面值${isoFace} = ${+qty.toFixed(8)}币` : `${+qty.toFixed(8)}币`;
     const mark           = +document.getElementById('liq-isolated-mark').value;
 
     if (!isolatedMargin || !qty || !mark) {
@@ -6071,15 +6128,15 @@ function doLiq() {
     formulaLines = [
       fCmt(`逐仓 Isolated · U本位 · ${long?'做多':'做空'}`),
       fCmt(''),
-      fCmt('【官方公式】强平价 = 标记价 − (逐仓仓位权益 − 强平手续费 − 当前仓位维持保证金 + 档位扣减额) ÷ 数量'),
+      fCmt('【官方公式】强平价 = 标记价 − (逐仓仓位权益 − 强平手续费 − 强平触发门槛（MMR×名义价值） + 档位扣减额) ÷ 数量'),
       fCmt(''),
       fLine('① 逐仓仓位权益',   '逐仓保证金',                                                      fmt(isoEquity,5)+' USDT'),
-      fLine('② 当前仓位维持保证金', `${usePrice} × ${fmt(qty,6)} × ${mmrVal}%`,           fmt(maintMargin,5)+' USDT'),
+      fLine('② 维持保证金（强平触发门槛）', `${usePrice} × ${+qty.toFixed(8)} × ${mmrVal}%`,           fmt(maintMargin,5)+' USDT'),
       fLine('③ 档位扣减额',     'API 自动读取',                                                     fmt(deduction,5)+' USDT'),
-      fLine('④ 强平手续费',     `${fmt(liqP,2)} × ${fmt(qty,6)} × ${fee.toFixed(6)}`,              fmt(closeFee,5)+' USDT'),
+      fLine('④ 强平手续费',     `${fmt(liqP,2)} × ${+qty.toFixed(8)} × ${fee.toFixed(6)}`,              fmt(closeFee,5)+' USDT'),
       fLine('⑤ 强平价格',       long
-        ? `(${usePrice} − (${fmt(isoEquity,5)} − ${fmt(maintMargin,5)} + ${fmt(deduction,5)}) ÷ ${fmt(qty,6)}) ÷ (1 − ${fee.toFixed(6)})`
-        : `(${usePrice} + (${fmt(isoEquity,5)} − ${fmt(maintMargin,5)} + ${fmt(deduction,5)}) ÷ ${fmt(qty,6)}) ÷ (1 + ${fee.toFixed(6)})`,
+        ? `(${usePrice} − (${fmt(isoEquity,5)} − ${fmt(maintMargin,5)} + ${fmt(deduction,5)}) ÷ ${+qty.toFixed(8)}) ÷ (1 − ${fee.toFixed(6)})`
+        : `(${usePrice} + (${fmt(isoEquity,5)} − ${fmt(maintMargin,5)} + ${fmt(deduction,5)}) ÷ ${+qty.toFixed(8)}) ÷ (1 + ${fee.toFixed(6)})`,
         fmt(liqP,2)+' USDT'),
       deduction > 0 ? fCmt(`  ★ 档位扣减额 ${fmt(deduction,5)} USDT 已自动从 API 读取`) : fCmt('  ★ 档位扣减额为 0（第一档或未加载合约参数）'),
     ];
@@ -6095,6 +6152,43 @@ function doLiq() {
   }
   setT('rl-mmr-r', fmt(mmrVal,2)+' %');
   setT('rl-fee',   fmt(fee*100,3)+' %');
+
+  // 当前保证金率（逐仓 + 全仓都显示）
+  const marginRateCard = document.getElementById('rl-margin-rate-card');
+  if (liqMode === 'isolated') {
+    const isolatedMarginVal = +document.getElementById('liq-isolated-margin').value;
+    const qtyRawIsoVal      = +document.getElementById('liq-isolated-qty').value;
+    const isoFaceVal        = liqIsoQtyMode === 'zhang' ? (parseFloat(document.getElementById('liq-iso-face-display')?.textContent) || 1) : 1;
+    const qtyVal            = liqIsoQtyMode === 'zhang' ? mulSafe(qtyRawIsoVal, isoFaceVal) : qtyRawIsoVal;
+    const markVal           = +document.getElementById('liq-isolated-mark').value;
+    if (isolatedMarginVal && qtyVal && markVal) {
+      const notionalVal  = markVal * qtyVal;
+      const marginRate   = isolatedMarginVal / notionalVal * 100;
+      if (marginRateCard) marginRateCard.style.display = '';
+      const isLow = marginRate <= mmrVal + fee * 100;
+      setT('rl-margin-rate', fmt(marginRate, 4)+' %', isLow ? 'red' : 'green');
+      formulaLines.push(fLine('当前保证金率', `${fmt(isolatedMarginVal,5)} ÷ (${fmt(markVal,2)} × ${+qtyVal.toFixed(8)}) × 100`, fmt(marginRate,4)+'%  '+(isLow?'⚠ 接近触发':'✓ 安全')));
+    } else {
+      if (marginRateCard) marginRateCard.style.display = 'none';
+    }
+  } else {
+    // 全仓：保证金率 = 账户权益 ÷ 仓位名义价值 × 100
+    const equityVal  = +document.getElementById('liq-equity').value;
+    const qtyRawVal  = +document.getElementById('liq-qty').value;
+    const liqFaceVal = liqQtyMode === 'zhang' ? (+document.getElementById('liq-face-display')?.textContent || 1) : 1;
+    const qtyVal     = liqQtyMode === 'zhang' ? mulSafe(qtyRawVal, liqFaceVal) : qtyRawVal;
+    const markVal    = +document.getElementById('liq-mark').value || +document.getElementById('liq-entry').value;
+    if (equityVal && qtyVal && markVal) {
+      const notionalVal = markVal * qtyVal;
+      const marginRate  = equityVal / notionalVal * 100;
+      if (marginRateCard) marginRateCard.style.display = '';
+      const isLow = marginRate <= mmrVal + fee * 100;
+      setT('rl-margin-rate', fmt(marginRate, 4)+' %', isLow ? 'red' : 'green');
+      formulaLines.push(fLine('当前保证金率', `${fmt(equityVal,5)} ÷ (${fmt(markVal,2)} × ${+qtyVal.toFixed(8)}) × 100`, fmt(marginRate,4)+'%  '+(isLow?'⚠ 接近触发':'✓ 安全')));
+    } else {
+      if (marginRateCard) marginRateCard.style.display = 'none';
+    }
+  }
   setFB('liq', formulaLines.join(''));
   showRS('liq');
   // 参考话术
@@ -6106,6 +6200,13 @@ function doLiq() {
 // CALC 3: Max Open Position
 // ═══════════════════════════════════════════════════════════
 let openMode = 'balance'; // 'balance' | 'tier'
+let openOrderType = 'market'; // 'market' | 'limit'
+
+function setOpenOrderType(type, btn) {
+  openOrderType = type;
+  document.querySelectorAll('#open-order-type-seg .seg-btn').forEach(b => b.classList.remove('active-ct'));
+  btn.classList.add('active-ct');
+}
 
 let openCurQtyMode = 'coin';
 
@@ -6163,24 +6264,43 @@ function setOpenMode(mode, btn) {
   document.getElementById('open-info-balance').style.display = mode === 'balance' ? '' : 'none';
   document.getElementById('open-info-tier').style.display    = mode === 'tier'    ? '' : 'none';
   // show/hide balance field vs cur-pos field
-  const balField       = document.getElementById('open-balance-field');
-  const tierField      = document.getElementById('open-tier-field');
-  const levBlock       = document.getElementById('open-levs')?.closest('.field');
-  const curFieldsGrid  = document.getElementById('open-cur-fields-grid');
-  const curLevField    = document.getElementById('open-cur-lev-field');
-  if (balField)      balField.style.display      = mode === 'balance' ? '' : 'none';
-  if (tierField)     tierField.style.display     = mode === 'tier'    ? '' : 'none';
-  // balance mode: show tier as reference row below; tier mode: hide it (already shown left)
-  const tierBalRow = document.getElementById('open-tier-balance-row');
-  if (tierBalRow)    tierBalRow.style.display    = mode === 'balance' ? '' : 'none';
-  if (levBlock)      levBlock.style.display      = mode === 'balance' ? '' : 'none';
-  if (curFieldsGrid) curFieldsGrid.style.display = mode === 'tier'    ? '' : 'none';
-  if (curLevField)   curLevField.style.display   = mode === 'tier'    ? '' : 'none';
+  const balRow        = document.getElementById('open-balance-row');
+  const tierField     = document.getElementById('open-tier-field');
+  const tierEntryRow  = document.getElementById('open-tier-entry-row');
+  const levBlock      = document.getElementById('open-levs')?.closest('.field');
+  const curFieldsGrid = document.getElementById('open-cur-fields-grid');
+  const curLevField   = document.getElementById('open-cur-lev-field');
+  if (mode === 'balance') {
+    if (balRow)        balRow.style.display        = '';
+    if (tierField)     tierField.style.display      = '';
+    if (tierEntryRow)  tierEntryRow.style.display   = 'none';
+    if (levBlock)      levBlock.style.display       = '';
+    if (curFieldsGrid) curFieldsGrid.style.display  = 'none';
+    if (curLevField)   curLevField.style.display    = 'none';
+  } else {
+    if (balRow)        balRow.style.display         = 'none';
+    if (tierField)     tierField.style.display       = 'none';
+    if (tierEntryRow)  tierEntryRow.style.display    = '';
+    if (levBlock)      levBlock.style.display        = 'none';
+    if (curFieldsGrid) curFieldsGrid.style.display   = '';
+    if (curLevField)   curLevField.style.display     = '';
+  }
+  // 切换模式时清空上次计算结果
+  const rs = document.getElementById('open-rs');
+  if (rs) rs.classList.remove('show');
+  const warnEl = document.getElementById('open-qty-warn');
+  if (warnEl) warnEl.style.display = 'none';
 }
 
 function doOpen() {
-  const entry   = +document.getElementById('open-entry').value;
-  const tierLim = +(document.getElementById('open-tier-limit').value || 0);
+  try {
+  const entry   = openMode === 'tier'
+    ? +document.getElementById('open-entry2').value
+    : +document.getElementById('open-entry').value;
+  // 两种模式读对应的档位上限字段
+  const tierLim = openMode === 'tier'
+    ? +(document.getElementById('open-tier-limit3').value || 0)
+    : +(document.getElementById('open-tier-limit').value  || 0);
   const feeRate = (FEES['open-fee'] || 0) / 100;
   const lin     = S.open.ct === 'linear';
 
@@ -6194,35 +6314,77 @@ function doOpen() {
     const lev     = S.open.lev;
     if (!tierLim || !entry) { showModal('缺少输入', '请填写档位上限和开仓价格'); return; }
     if (!curQty || !curMark) { showModal('缺少输入', '请填写当前持仓数量和标记价格'); return; }
-    const remaining = tierLim - curPos;
-    if (remaining <= 0) { showModal('已超档位', `当前持仓价值 ${fmt(curPos,2)} 已达到或超过档位上限 ${fmt(tierLim,2)}`); return; }
-    const qty      = remaining / entry;
-    const margin   = remaining / lev;
-    const openFee  = remaining * feeRate;
+    const remaining = Math.max(0, tierLim - curPos);
+    const exceeded  = curPos >= tierLim;
+    const qty      = exceeded ? 0 : remaining / entry;
+    const margin   = exceeded ? 0 : remaining / lev;
+    const openFee  = exceeded ? 0 : remaining * feeRate;
     const total    = margin + openFee;
-    setT('ro-qty',      fmt(qty, 5), 'green');
-    setT('ro-notional', fmt(remaining, 5), 'orange');
+    const sym = S.open.sym || '币';
+    setT('ro-qty',      exceeded ? '0' : fmt(qty, 5), exceeded ? 'red' : 'green');
+    setT('ro-notional', exceeded ? '0' : fmt(remaining, 5), exceeded ? 'red' : 'orange');
     setT('ro-margin',   fmt(margin, 5));
     setT('ro-fee',      fmt(openFee, 5), 'amber');
     setT('ro-total',    fmt(total, 5));
-    setT('ro-usage',    '—');
-    document.getElementById('ro-qty-u').textContent      = lin ? '币' : '张';
+    setT('ro-usage',    exceeded ? '⚠ 已超档位' : '—', exceeded ? 'red' : '');
+    document.getElementById('ro-qty-u').textContent      = lin ? sym : '张';
     document.getElementById('ro-notional-u').textContent = 'USDT';
     document.getElementById('ro-margin-u').textContent   = 'USDT';
     document.getElementById('ro-fee-u').textContent      = 'USDT';
     document.getElementById('ro-total-u').textContent    = 'USDT';
+    // 档位模式专属卡片
+    const tierUsagePct = tierLim > 0 ? curPos / tierLim * 100 : 0;
+    document.getElementById('ro-usage-lbl').textContent = '余额使用率';
+    // 合规检查（档位模式）
+    const tierRulesLines = [];
+    if (lin && S.open.contractId) {
+      const r = getContractRules(S.open.contractId);
+      if (r) {
+        tierRulesLines.push(fCmt(''));
+        tierRulesLines.push(fCmt(`═══ 下单数量合规检查（${openOrderType === 'market' ? '市价单' : '限价单'}）═══`));
+
+        if (qty < r.minQty) {
+          tierRulesLines.push(fCmt(`⚠ 数量 ${fmt(qty,6)} ${sym} < 最小下单量 ${fmtNum(r.minQty)} ${sym} → 余额不足以开仓`));
+        } else {
+          tierRulesLines.push(fCmt(`✓ 满足最小下单量要求 (≥ ${fmtNum(r.minQty)} ${sym})`));
+        }
+
+        const singleLimit = openOrderType === 'market' ? r.marketMaxQty : r.limitMaxQty;
+        const limitLabel  = openOrderType === 'market' ? '市价单单笔上限' : '限价单单笔上限';
+        if (qty > singleLimit) {
+          const batches = Math.ceil(qty / singleLimit);
+          tierRulesLines.push(fCmt(`⚠ 超过${limitLabel} ${fmtNum(singleLimit)} ${sym}，需拆成 ${batches} 笔`));
+          tierRulesLines.push(fCmt(`  → 单笔可开：${fmtNum(singleLimit)} ${sym}`));
+          checkOpenQtyLimits(S.open.contractId, qty, sym);
+        } else {
+          tierRulesLines.push(fCmt(`✓ ${limitLabel}：${fmtNum(singleLimit)} ${sym}，单笔可行`));
+          const warnEl = document.getElementById('open-qty-warn');
+          if (warnEl) warnEl.style.display = 'none';
+        }
+      }
+    } else {
+      const warnEl = document.getElementById('open-qty-warn');
+      if (warnEl) warnEl.style.display = 'none';
+    }
+
     setFB('open', [
       fCmt(`模式：档位剩余空间 → 最多可加仓位 · ${lev}x · 手续费${(feeRate*100).toFixed(4)}%`),
-      fLine('当前持仓数量',   '',                                              fmt(curQty,5) + ' 币'),
+      exceeded
+        ? fCmt(`⚠ 当前持仓 ${fmt(curPos,2)} USDT 已达到或超过档位上限 ${fmt(tierLim,2)} USDT，无法继续加仓`)
+        : fCmt(`当前持仓 ${fmt(curPos,2)} USDT，档位上限 ${fmt(tierLim,2)} USDT，剩余空间 ${fmt(remaining,2)} USDT（使用率 ${fmt(tierUsagePct,2)}%）`),
+      fLine('档位上限',       '',                                              fmt(tierLim,2) + ' USDT'),
+      fLine('当前持仓数量',   '',                                              fmt(curQty,5) + ' ' + sym),
       fLine('当前标记价格',   '',                                              fmt(curMark,5) + ' USDT'),
-      fLine('当前持仓价值',   `${fmt(curQty,5)} × ${fmt(curMark,5)}`,         fmt(curPos,5) + ' USDT'),
-      fLine('档位上限',       '',                                              fmt(tierLim,5) + ' USDT'),
-      fLine('剩余可用空间',   '档位上限 − 当前持仓价值',                      fmt(remaining,5) + ' USDT'),
-      fLine('可再加数量',     `剩余空间 ÷ 开仓价 ${entry}`,                   fmt(qty,5) + (lin ? ' 币' : ' 张')),
+      fLine('当前持仓价值',   `${fmt(curQty,5)} × ${fmt(curMark,5)}`,         fmt(curPos,2) + ' USDT'),
+      fLine('档位使用率',     `${fmt(curPos,2)} ÷ ${fmt(tierLim,2)} × 100`,  fmt(tierUsagePct,2) + '%'),
+      fLine('档位剩余空间',   `${fmt(tierLim,2)} − ${fmt(curPos,2)}`,         fmt(remaining,2) + ' USDT'),
+      fLine('可再加数量',     `剩余空间 ÷ 开仓价 ${entry}`,                   fmt(qty,5) + (lin ? ' ' + sym : ' 张')),
       fLine('所需保证金',     `剩余空间 ÷ 杠杆 ${lev}`,                       fmt(margin,5) + ' USDT'),
       fLine('预计手续费',     `剩余空间 × ${(feeRate*100).toFixed(4)}%`,      fmt(openFee,5) + ' USDT'),
       fLine('保证金+手续费',  '',                                              fmt(total,5) + ' USDT'),
+      ...tierRulesLines,
     ].join(''));
+
     showRS('open');
     return;
   }
@@ -6265,9 +6427,13 @@ function doOpen() {
   document.getElementById('ro-fee-u').textContent      = mu;
   document.getElementById('ro-total-u').textContent    = mu;
 
-  const tierInfo = tierLim > 0 ? `仓位档位上限: ${fmt(tierLim,0)} USDT` : '未设置仓位档位上限';
+  const tierInfo = tierLim > 0
+    ? (maxNotionalByBalance > tierLim
+        ? `⚠ 余额可开 ${fmt(maxNotionalByBalance,2)} USDT，受档位上限 ${fmt(tierLim,0)} USDT 截断`
+        : `✓ 余额可开 ${fmt(maxNotionalByBalance,2)} USDT，未超档位上限 ${fmt(tierLim,0)} USDT`)
+    : '未加载档位上限（请先选择合约）';
 
-  // ─── 合约规则：检查数量是否超限 ───
+  // ─── 合约规则：按订单类型检查数量限制 ───
   const rulesLines = [];
   if (lin && S.open.contractId) {
     const r = getContractRules(S.open.contractId);
@@ -6275,21 +6441,35 @@ function doOpen() {
     checkOpenQtyLimits(S.open.contractId, qty, sym);
     if (r) {
       rulesLines.push(fCmt(''));
-      rulesLines.push(fCmt('═══ 下单数量合规检查 ═══'));
+      rulesLines.push(fCmt(`═══ 下单数量合规检查（${openOrderType === 'market' ? '市价单' : '限价单'}）═══`));
+
+      // 最小下单量检查
       if (qty < r.minQty) {
-        rulesLines.push(fCmt(`⚠ 数量 ${fmt(qty,6)} ${sym} < 最小下单量 ${fmtNum(r.minQty)} ${sym} → 无法开仓`));
+        rulesLines.push(fCmt(`⚠ 数量 ${fmt(qty,6)} ${sym} < 最小下单量 ${fmtNum(r.minQty)} ${sym} → 余额不足以开仓`));
       } else {
         rulesLines.push(fCmt(`✓ 满足最小下单量要求 (≥ ${fmtNum(r.minQty)} ${sym})`));
       }
-      if (qty > r.marketMaxQty) {
-        rulesLines.push(fCmt(`⚠ 超过市价单单笔上限 ${fmtNum(r.marketMaxQty)} ${sym}，需拆成约 ${Math.ceil(qty/r.marketMaxQty)} 笔`));
+
+      // 按选择的订单类型取上限
+      const singleLimit = openOrderType === 'market' ? r.marketMaxQty : r.limitMaxQty;
+      const limitLabel  = openOrderType === 'market' ? '市价单单笔上限' : '限价单单笔上限';
+
+      if (qty > singleLimit) {
+        const batches = Math.ceil(qty / singleLimit);
+        rulesLines.push(fCmt(`⚠ 超过${limitLabel} ${fmtNum(singleLimit)} ${sym}，需拆成 ${batches} 笔`));
+        // 结果更新为单笔上限
+        qty = singleLimit;
+        setT('ro-qty', fmt(qty, lin ? 4 : 2) + ' ' + qu, 'green');
+        const newNotional = qty * entry;
+        const newMargin   = newNotional / lev;
+        const newFee      = newNotional * feeRate;
+        setT('ro-notional', fmt(newNotional, 2) + ' ' + nu, 'orange');
+        setT('ro-margin',   fmt(newMargin, 2) + ' ' + mu);
+        setT('ro-fee',      fmt(newFee, 4) + ' ' + mu, 'amber');
+        setT('ro-total',    fmt(newMargin + newFee, 2) + ' ' + mu);
+        rulesLines.push(fCmt(`  → 单笔可开：${fmtNum(singleLimit)} ${sym}（每笔所需保证金约 ${fmt(newMargin,2)} USDT）`));
       } else {
-        rulesLines.push(fCmt(`✓ 市价单单笔可行 (≤ ${fmtNum(r.marketMaxQty)} ${sym})`));
-      }
-      if (qty > r.limitMaxQty) {
-        rulesLines.push(fCmt(`⚠ 超过限价单单笔上限 ${fmtNum(r.limitMaxQty)} ${sym}，需拆成约 ${Math.ceil(qty/r.limitMaxQty)} 笔`));
-      } else {
-        rulesLines.push(fCmt(`✓ 限价单单笔可行 (≤ ${fmtNum(r.limitMaxQty)} ${sym})`));
+        rulesLines.push(fCmt(`✓ ${limitLabel}：${fmtNum(singleLimit)} ${sym}，单笔可行`));
       }
     }
   } else {
@@ -6299,7 +6479,6 @@ function doOpen() {
 
   setFB('open', [
     fCmt(`模式：余额最大可开 · U本位 · ${lev}x · 手续费${(feeRate*100).toFixed(3)}%`),
-    fCmt(tierInfo),
     fLine('最大名义价值', lin ? `${fmt(balance,2)} ÷ (1/${lev} + ${(feeRate*100).toFixed(3)}%)` : `${fmt(balance,2)} × ${entry} ÷ (1/${lev} + ${(feeRate*100).toFixed(3)}%)`, fmt(lin ? maxNotional : qty*100, 2) + ' ' + (lin ? 'USDT' : 'USD')),
     lin ? fLine('最大数量', `${fmt(maxNotional,2)} ÷ ${entry}`, fmt(qty, 6) + ' ' + qu)
         : fLine('最大张数', `${fmt(qty*100,2)} ÷ 100`, fmt(qty, 2) + ' 张'),
@@ -6309,6 +6488,10 @@ function doOpen() {
     ...rulesLines,
   ].join(''));
   showRS('open');
+  } catch(e) {
+    console.error('doOpen error:', e);
+    showModal('计算错误', e.message || String(e));
+  }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -6323,6 +6506,12 @@ function setFundMode(mode, btn) {
   btn.classList.add('active-ct');
   document.getElementById('fund-fixed-block').style.display = mode === 'fixed' ? '' : 'none';
   document.getElementById('fund-multi-block').style.display = mode === 'multi' ? '' : 'none';
+  // 固定费率无 API，隐藏状态；逐笔模式也重置
+  const fundApiEl = document.getElementById('fund-api-status');
+  if (fundApiEl) fundApiEl.style.display = 'none';
+  // 切换模式时清空上次计算结果
+  const rs = document.getElementById('fund-rs');
+  if (rs) rs.classList.remove('show');
 }
 
 function addFundRow() {
@@ -6646,6 +6835,9 @@ function updateFundFetchAllBtn() {
 async function fetchFundRateRow(row) {
   const contractId = S.fund?.contractId;
   if (!contractId) { showModal('未选合约', '请先选择合约币种'); return; }
+  const fundApiEl = document.getElementById('fund-api-status');
+  if (fundApiEl) fundApiEl.style.display = '';
+  setApiStatus('fund-api-status', 'loading', '获取中...');
 
   const timeInput = row.querySelector('.fund-row-time');
   const rateInput = row.querySelector('.fund-row-rate');
@@ -6721,11 +6913,9 @@ async function fetchFundRateRow(row) {
       // 同步到公共标记价格（取第一笔，或用最后一笔）
       const fundMarkInput = document.getElementById('fund-mark');
       const fundMarkFi    = document.getElementById('fund-mark-fi');
-      const fundMarkStatus= document.getElementById('fund-mark-api-status');
       if (fundMarkInput && !fundMarkInput.dataset.manualEdit) {
         fundMarkInput.value = Number(markPrice).toFixed(4);
         if (fundMarkFi) { fundMarkFi.style.borderColor='var(--orange)'; fundMarkFi.style.background='var(--orange-light)'; }
-        if (fundMarkStatus) fundMarkStatus.style.display = '';
       }
     }
 
@@ -6733,12 +6923,16 @@ async function fetchFundRateRow(row) {
       if (bestRate !== null && markPrice !== null) {
         const matchedBj = new Date(bestDiff < FOUR_HOUR ? targetTs : 0);
         statusEl.innerHTML = `<span style="color:var(--green)">✓ 已填入</span>`;
+        setApiStatus('fund-api-status', 'ok', `${S.fund.sym || ''} 费率+标记价已加载`);
       } else if (bestRate !== null) {
         statusEl.innerHTML = `<span style="color:var(--green)">✓ 费率已填</span><span style="color:var(--amber);margin-left:4px">标记价格未找到</span>`;
+        setApiStatus('fund-api-status', 'ok', `${S.fund.sym || ''} 费率已加载`);
       } else if (markPrice !== null) {
         statusEl.innerHTML = `<span style="color:var(--amber)">费率未找到（不在返回范围内）</span>`;
+        setApiStatus('fund-api-status', 'err', '费率未找到');
       } else {
         statusEl.innerHTML = `<span style="color:var(--red)">未找到数据</span>`;
+        setApiStatus('fund-api-status', 'err', '未找到数据');
       }
     }
 
@@ -6832,7 +7026,6 @@ function doFund() {
   const income     = settlements.filter(x => x.amount > 0).reduce((s, x) => s + x.amount, 0);
   const expense    = settlements.filter(x => x.amount < 0).reduce((s, x) => s + x.amount, 0);
   const avgRate    = settlements.reduce((s, x) => s + x.rate, 0) / n;
-  const annual     = avgRate * 3 * 365 * 100;
   const d = lin ? 5 : 6;
 
   setT('rf-notional', fmt(notional, 2) + (lin ? ' USDT' : ' USD'));
@@ -6840,7 +7033,6 @@ function doFund() {
   setT('rf-total',    fmt(netTotal, d) + ' ' + unit, netTotal >= 0 ? 'green' : 'red');
   setT('rf-income',   income > 0 ? '+' + fmt(income, d) + ' ' + unit : '0', 'green');
   setT('rf-expense',  expense < 0 ? fmt(expense, d) + ' ' + unit : '0', 'red');
-  setT('rf-annual',   fmt(annual, 2) + ' %', 'amber');
   document.getElementById('rf-total-card').className = 'ri ' + (netTotal >= 0 ? 'ri-green' : 'ri-red');
 
   // breakdown table (multi mode)
@@ -6899,7 +7091,6 @@ function doFund() {
     fLine('收入合计', '各次正收益之和', fmt(income,d)+' '+unit),
     fLine('支出合计', '各次负支出之和', fmt(Math.abs(expense),d)+' '+unit),
     fLine('净资金费用', `${fmt(income,d)} − ${fmt(Math.abs(expense),d)}`, fmt(netTotal,d)+' '+unit+(netTotal>=0?' (净收入)':' (净支出)')),
-    fLine('平均费率年化', `${fmt(avgRate*100,4)}% × 3 × 365 × 100`, fmt(annual,2)+'%'),
   );
   setFB('fund', fLines.join(''));
   showRS('fund');
@@ -7885,7 +8076,8 @@ async function doShareCheck() {
   setFB('sharecheck', formulaLines.join(''));
 
   if (btn) { btn.textContent = '核 查 分 摊 是 否 正 常'; btn.disabled = false; }
-  setApiStatus('sc-api-status', hasError ? 'err' : 'ok', hasError ? '部分查询失败' : '标记价格已加载');
+  const scSym = scPosData[1]?.sym || '';
+  setApiStatus('sc-api-status', hasError ? 'err' : 'ok', hasError ? '部分查询失败' : `${scSym} 标记价格已加载`);
   showRS('sharecheck');
 }
 let adlQtyMode    = 'coin'; // 'coin' | 'zhang'
