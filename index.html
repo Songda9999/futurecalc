@@ -1528,6 +1528,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12" y2="16.5" stroke-width="3"/></svg>
         <span style="font-size:14px;font-weight:700;color:#ef4444">强平异常验证</span>
         <span style="font-size:12px;color:var(--text3)">根据内部算法核实保证金率，判断强平是否正常触发</span>
+        <span class="api-status" id="chk-api-status" style="display:none"><span class="api-dot"></span></span>
       </div>
       <div class="info-chip" style="border-color:#fca5a5;background:#fff5f5">
         <span><strong> &#9888;&nbsp; 当前保证金率 = (账户权益 − 其他合约最低维持保证金) ÷ 当前合约仓位总价值<br>
@@ -4878,20 +4879,21 @@ async function loadForLiq(contractId, sym) {
 
 // ─── Fill Chk from API (independent from liq) ───
 async function loadForChk(contractId, sym) {
+  const chkApiEl = document.getElementById('chk-api-status');
+  if (chkApiEl) chkApiEl.style.display = '';
+  setApiStatus('chk-api-status', 'loading', '加载中...');
   try {
     const data = await fetchMarginData(contractId);
     const ladders = data?.ladderList?.ladderList || [];
-    if (!ladders.length) return;
+    if (!ladders.length) { setApiStatus('chk-api-status', 'err', '加载失败'); return; }
     const mmr = ladders[0].minMarginRate * 100;
     const ct  = CONTRACTS.find(c => c.id === contractId);
-    // fill MMR
     const chkMmr   = document.getElementById('chk-mmr');
     const chkMmrFi = document.getElementById('chk-mmr-fi');
     const chkMmrSrc= document.getElementById('chk-mmr-src');
     if (chkMmr)   { chkMmr.value = mmr.toFixed(2); }
     if (chkMmrFi) chkMmrFi.classList.add('auto-filled');
     if (chkMmrSrc) chkMmrSrc.textContent = ' ✦ 自动填入';
-    // fill face
     const chkFace    = document.getElementById('chk-face');
     const chkFaceDisp= document.getElementById('chk-face-display');
     const chkFaceU   = document.getElementById('chk-face-u');
@@ -4900,11 +4902,11 @@ async function loadForChk(contractId, sym) {
       if (chkFaceDisp) chkFaceDisp.textContent = ct.face;
       if (chkFaceU)    chkFaceU.textContent = sym;
     }
-    // update qty unit — always sync regardless of current mode
     const chkQtyU = document.getElementById('chk-qty-u');
     if (chkQtyU) chkQtyU.textContent = chkQtyMode === 'zhang' ? '张' : sym;
     updateChkPosValue();
-  } catch(e) {}
+    setApiStatus('chk-api-status', 'ok', `${sym} 参数已加载`);
+  } catch(e) { setApiStatus('chk-api-status', 'err', '加载失败'); }
 }
 
 // ─── Fill ADL from API ───
@@ -5807,6 +5809,9 @@ function toggleLiqCheck() {
       btn.style.color      = '#fff';
       btn.textContent      = '← 返回强平计算';
     }
+    // 进入异常验证：隐藏强平计算的 api status
+    const liqApiEl = document.getElementById('liq-api-status');
+    if (liqApiEl) liqApiEl.style.display = 'none';
     window.scrollTo({top:0, behavior:'smooth'});
   } else {
     if (mainForm) mainForm.style.display = '';
@@ -5816,6 +5821,9 @@ function toggleLiqCheck() {
       btn.style.color      = '#ef4444';
       btn.textContent      = '⚠ 验证强平是否异常';
     }
+    // 返回强平计算：恢复强平计算的 api status（如果有内容）
+    const liqApiEl = document.getElementById('liq-api-status');
+    if (liqApiEl && liqApiEl.textContent.trim()) liqApiEl.style.display = '';
   }
 }
 
