@@ -993,7 +993,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
     <div class="mob-drawer-group-items">
       <button class="mob-drawer-item" id="md-adl" onclick="drawerNav('adl')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
-        强制减仓核查<span class="mob-drawer-item-sub">Auto-Deleverage</span>
+        阶梯减仓核查<span class="mob-drawer-item-sub">Tiered Reduction</span>
       </button>
 
       <button class="mob-drawer-item" id="md-sharecheck" onclick="drawerNav('sharecheck')">
@@ -1014,7 +1014,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
       </button>
       <button class="mob-drawer-item" id="md-qa-adl" onclick="drawerNav('qa-adl')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        强制减仓<span class="mob-drawer-item-sub">ADL FAQ</span>
+        阶梯减仓<span class="mob-drawer-item-sub">Tiered Reduction FAQ</span>
       </button>
       <button class="mob-drawer-item" id="md-qa-fee" onclick="drawerNav('qa-fee')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -1084,7 +1084,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
       <div class="sidebar-header">异常核查</div>
       <button class="side-btn" id="sb-adl" onclick="switchTab('adl',this)">
         <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
-        <div><div class="sb-label">强制减仓核查</div><div class="sb-sub">Auto-Deleveraging Check</div></div>
+        <div><div class="sb-label">阶梯减仓核查</div><div class="sb-sub">Tiered Reduction Check</div></div>
       </button>
 
       <button class="side-btn" id="sb-sharecheck" onclick="switchTab('sharecheck',this)">
@@ -1101,7 +1101,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
       </button>
       <button class="side-btn" id="sb-qa-adl" onclick="switchTab('qa-adl',this)">
         <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <div><div class="sb-label">强制减仓</div><div class="sb-sub">ADL FAQ</div></div>
+        <div><div class="sb-label">阶梯减仓</div><div class="sb-sub">Tiered Reduction FAQ</div></div>
       </button>
       <button class="side-btn" id="sb-qa-fee" onclick="switchTab('qa-fee',this)">
         <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -2390,14 +2390,14 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
   <div class="card-head">
     <div class="card-head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg></div>
     <div>
-      <h2>强制减仓核查</h2>
-      <p>用于核实用户投诉被强制减仓是否合理，根据专业公式反推理论减仓数量，与实际减仓数量对比验证 &nbsp;<span class="api-status loading" id="adl-api-status"><span class="api-dot"></span>加载中</span></p>
+      <h2>阶梯减仓核查</h2>
+      <p>用于核实用户投诉被阶梯减仓是否合理，根据专业公式反推理论减仓数量，与实际减仓数量对比验证 &nbsp;<span class="api-status loading" id="adl-api-status"><span class="api-dot"></span>加载中</span></p>
     </div>
   </div>
   <div class="card-body">
 
     <div class="info-chip">
-      <strong> &#9888;&nbsp; 当仓位名义价值超过当前档位上限时，系统触发强制减仓，将仓位降至下一档上限以内。填入客户的持仓与减仓记录，系统自动计算理论减仓数量并与实际对比。</strong>
+      <strong> &#9888;&nbsp; 当仓位名义价值超过当前档位上限时，系统触发阶梯减仓，将仓位降至下一档上限以内。</strong>
     </div>
 
     <!-- 合约 + 方向 -->
@@ -2463,7 +2463,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <div class="fi"><input type="number" id="adl-reduce-qty" placeholder="0" step="any"><span class="fi-unit" id="adl-reduce-qty-u">币</span></div>
       </div>
       <div class="field">
-        <div class="field-label">强制减仓成交价<span style="font-size:10px;color:var(--text3);font-weight:400"> 历史委托「成交均价」</span></div>
+        <div class="field-label">阶梯减仓成交价<span style="font-size:10px;color:var(--text3);font-weight:400"> 历史委托「成交均价」</span></div>
         <div class="fi"><input type="number" id="adl-reduce-price" placeholder="0.00" step="any"><span class="fi-unit">USDT</span></div>
       </div>
     </div>
@@ -2553,7 +2553,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
       <div id="ra-pnl-section" style="display:none;margin-bottom:12px">
         <div class="result-grid">
           <div class="ri"><div class="ri-lbl">减仓部分开仓价</div><div class="ri-val" id="ra-pnl-entry">—</div></div>
-          <div class="ri"><div class="ri-lbl">强制平仓价</div><div class="ri-val" id="ra-pnl-exit">—</div></div>
+          <div class="ri"><div class="ri-lbl">阶梯平仓价</div><div class="ri-val" id="ra-pnl-exit">—</div></div>
           <div class="ri" id="ra-pnl-card"><div class="ri-lbl">减仓部分盈亏</div><div class="ri-val" id="ra-pnl">—</div></div>
         </div>
       </div>
@@ -2882,7 +2882,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
 <!-- 手机端分类切换 -->
 <div class="qa-mobile-tabs">
   <button class="qa-mobile-tab active" onclick="switchTab('qa-liq',this.closest('.panel').previousElementSibling);switchTab('qa-liq',this)">爆仓/强平</button>
-  <button class="qa-mobile-tab" onclick="switchTab('qa-adl',document.getElementById('sb-qa-adl'))">强制减仓</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-adl',document.getElementById('sb-qa-adl'))">阶梯减仓</button>
   <button class="qa-mobile-tab" onclick="switchTab('qa-fee',document.getElementById('sb-qa-fee'))">手续费/资金费</button>
   <button class="qa-mobile-tab" onclick="switchTab('qa-margin',document.getElementById('sb-qa-margin'))">保证金/杠杆</button>
   <button class="qa-mobile-tab" onclick="switchTab('qa-share',document.getElementById('sb-qa-share'))">分摊/穿仓</button>
@@ -2898,27 +2898,27 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
       <div class="qa-item">
         <div class="qa-q">Q：为什么我会被强制平仓（爆仓）？</div>
         <div class="qa-a">
-          <div class="qa-answer">强平是指当标记价格达到强平价格时，系统以破产价格进行平仓。触发条件为：<br>
+          <div class="qa-answer"> 强平是指当标记价格达到仓位的强平价格时，系统会触发风险控制机制，对仓位进行强制平仓处理。触发条件为：<br>
           <strong>保证金率 ≤ 维持保证金率 + 平仓手续费率</strong><br><br>
-          全仓保证金率 = (账户权益 − 其他仓位维持保证金) ÷ 当前仓位价值<br>
-          逐仓保证金率 = 逐仓仓位权益 ÷ 仓位价值<br><br>
+          全仓保证金率 = （账户权益 − 其他仓位维持保证金总和） ÷ 当前仓位价值<br>
+          逐仓保证金率 = （逐仓仓位权益 ÷ 仓位价值）<br>
           注意：标记价格是触发强平的参考价格，而非最新成交价，可防止市场操纵。</div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，经核查您的账户在强平触发时，保证金率已降至系统规定的触发阈值（维持保证金率 + 平仓手续费率）以下，系统依规自动执行了强制平仓。这是正常的风险控制机制，并非系统错误。建议您在持仓期间关注账户保证金率变化，合理控制仓位规模，并可设置止损单提前锁定风险。</div>
+          <div class="qa-script">您好，经核查，您的仓位在当时保证金率已低于系统的风险阈值（最低维持保证金率 MMR + 平仓手续费率），因此系统自动执行了强制平仓。 强制平仓是合约交易中的风险控制机制，当标记价格达到仓位的强平价格时系统会触发该机制。 建议持仓期间关注保证金率变化，合理控制仓位，并可提前设置止损单以降低风险。</div>
         </div>
       </div>
 
       <div class="qa-item">
         <div class="qa-q">Q：强平价格和我预期的不一样，是系统错误吗？</div>
         <div class="qa-a">
-          <div class="qa-answer">强平价格由官方公式计算，会随账户权益实时变化：<br><br>
-          <strong>全仓多单：</strong>强平价 = 标记价 − (账户权益 − 平仓手续费 − 所有仓位维持保证金总和 + 当前仓位档位扣减额) ÷ 数量<br>
-          <strong>全仓空单：</strong>强平价 = 标记价 + (账户权益 − 平仓手续费 − 所有仓位维持保证金总和 + 当前仓位档位扣减额) ÷ 数量<br>
-          <strong>逐仓多单：</strong>强平价 = 标记价 − (逐仓权益 − 当前仓位手续费 − 强平触发门槛（MMR×名义价值） + 扣减额) ÷ 数量<br>
-          <strong>逐仓空单：</strong>强平价 = 标记价 + (逐仓权益 − 当前仓位手续费 − 强平触发门槛（MMR×名义价值） + 扣减额) ÷ 数量<br><br>
-          可使用「强平价格」板块输入仓位数据核算理论强平价。</div>
+          <div class="qa-answer">强平价格由官方公式计算，会随账户权益、仓位价值及风险档位变化而动态调整：<br><br>
+          <strong>全仓多单：</strong>强平价格 = 标记价格 − (账户权益 − 平仓手续费 − 所有仓位维持保证金总和 + 当前风险档位扣减额) ÷ 数量<br>
+          <strong>全仓空单：</strong>强平价格 = 标记价格 + (账户权益 − 平仓手续费 − 所有仓位维持保证金总和 + 当前风险档位扣减额) ÷ 数量<br>
+          <strong>逐仓多单：</strong>强平价格 = 标记价格 − (逐仓权益 − 当前仓位手续费 − 强平触发门槛（MMR × 名义价值） + 当前风险档位扣减额) ÷ 数量<br>
+          <strong>逐仓空单：</strong>强平价格 = 标记价格 + (逐仓权益 − 当前仓位手续费 − 强平触发门槛（MMR × 名义价值） + 当前风险档位扣减额) ÷ 数量<br><br>
+          可使用 <button onclick="drawerNav('liq');document.getElementById('tab-liq').scrollIntoView({behavior:'smooth',block:'start'})" style="display:inline;background:var(--orange-light);color:var(--orange-dark);border:1px solid var(--orange-mid);border-radius:4px;padding:1px 6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:background 0.15s;vertical-align:baseline;line-height:1.6;" onmouseover="this.style.background='var(--orange-mid)'" onmouseout="this.style.background='var(--orange-light)'">「计算强平价格」↗</button> 板块输入仓位数据核算理论强平价。</div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，强平价格并非固定数值，会随您的账户权益、持仓量及维持保证金率实时变化。我已使用系统工具为您核算了理论强平价格，计算结果与系统一致，属正常触发。如需了解详细计算过程，欢迎提供当时的仓位数据，我可为您进一步核查。</div>
+          <div class="qa-script">您好，强平价格并不是固定数值，会随着账户权益、持仓数量以及风险档位的变化实时调整。 我已根据当时的仓位数据进行核算，计算得到的理论强平价格与 APP 显示强平价是一致，因此属于正常触发。如果您希望进一步了解具体计算过程，可以提供当时的仓位价格、数量及账户权益信息，我可以帮您详细核算说明。</div>
         </div>
       </div>
 
@@ -2926,41 +2926,158 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <div class="qa-q">Q：全仓和逐仓的区别是什么？</div>
         <div class="qa-a">
           <div class="qa-answer">
-          <strong>全仓保证金模式：</strong>所有仓位共用合约账户中的保证金来避免仓位被强平。在强平事件中，交易者可能会损失所有的保证金和仓位。<br><br>
-          <strong>逐仓保证金模式：</strong>一定数量保证金被分配到仓位上。如果仓位保证金亏损到低于维持保证金的水平，仓位将被强平。在逐仓模式下，用户可以为仓位添加和减少保证金。</div>
+          <strong>全仓保证金模式：</strong>所有仓位共享账户保证金。当某个仓位亏损时，系统会使用账户内资金维持仓位；若账户整体权益不足时，可能触发全仓仓位强制平仓。<br></strong>
+          <strong>逐仓保证金模式：</strong>每个仓位使用独立分配的保证金。当该仓位的保证金率低于维持保证金率时，系统会对该仓位执行强制平仓。逐仓模式下可以随时为该仓位增加或减少保证金。</div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，全仓模式下所有仓位共享账户保证金，当某仓位出现亏损时，账户内其他资金会自动补充以维持持仓，但一旦整体账户权益不足则所有全仓仓位均会被强平，风险较高。逐仓模式下每个仓位使用独立分配的保证金，亏完该仓位专属保证金才会触发强平，不影响其他仓位，且您可随时为仓位增减保证金。建议根据您的风险偏好选择合适的模式。</div>
+          <div class="qa-script">您好，全仓模式下所有仓位共享账户保证金，当某仓位出现亏损时，账户内其他资金会自动补充以维持持仓，但一旦整体账户权益不足则所有全仓仓位均会被强平，风险较高。逐仓模式下每个仓位使用独立分配的保证金，亏完该仓位专属保证金才会触发强平，不影响其他仓位，且您可随时为仓位增减保证金。建议根据自身的风险偏好选择合适的保证金模式。</div>
         </div>
       </div>
 
       <div class="qa-item">
         <div class="qa-q">Q：我明明有足够的余额，为什么还是被强平了？</div>
         <div class="qa-a">
-          <div class="qa-answer">全仓模式下，触发强平的依据是「账户权益」而非「钱包余额」。<br><br>
-          未实现盈亏计算：单张合约面值 × 合约张数 × 订单方向 × (标记价格 − 开仓价格)<br><br>
-          若您同时持有多个亏损仓位，各仓位的未实现亏损叠加后会大幅拉低账户权益，即使钱包余额充足，账户权益也可能已低于强平阈值。</div>
+          <div class="qa-answer">
+            <strong>全仓模式下</strong>，触发强平的依据是
+            <span class="equity-tooltip-wrap">
+              「<span class="equity-tooltip-trigger">账户权益</span>」
+              <div class="equity-tooltip-box">
+                <div style="font-size:12.5px;line-height:1.7;color:var(--text2)">
+                  <strong style="color:var(--text1)">账户权益</strong> = 钱包余额 + 所有仓位未实现盈亏总合<br><br>
+                  <strong>未实现盈亏</strong> = 数量 × (标记价格 − 开仓价格) × 方向（<strong>  做多 = +1 &nbsp;|&nbsp; 做空 = −1 </strong>）<br>
+                </div>
+                <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border2);font-size:11.5px;color:var(--text3);line-height:1.6">
+                </div>
+              </div>
+            </span>
+            而非「钱包余额」。<br>
+            若您同时持有多个亏损仓位，各仓位的未实现亏损叠加后会大幅拉低账户权益，即使钱包余额充足，账户权益也可能已低于强平阈值。<br><br>
+            例如：钱包余额 5,000 USDT，BTC 多单浮亏 4,532 USDT，账户权益 = 5,000 − 4,532 = 468 USDT。BTC 仓位价值 50,000 USDT（标记价 50,000 × 1 BTC），同时持有 ETH 仓位维持保证金占用 200 USDT，有效权益 = 468 − 200 = 268 USDT，保证金率 = 268 ÷ 50,000 = 0.536%，已低于触发阈值 0.5375%（MMR 0.5% + 手续费 0.0375%），系统触发强平。钱包余额看似充足，实际权益已不足以维持仓位。
+          </div>
+
+          <style>
+          /* ── Tooltip wrapper ── */
+          .equity-tooltip-wrap { position:relative; display:inline-block; }
+          .equity-tooltip-trigger {
+            color:var(--orange-dark); font-weight:700; cursor:default;
+            border-bottom:1px dashed var(--orange); padding-bottom:1px;
+          }
+          /* ── Desktop: tooltip above/below trigger ── */
+          .equity-tooltip-box {
+            display:none;
+            position:absolute; top:calc(100% + 8px); left:50%; transform:translateX(-50%);
+            background:#fff; border:1px solid var(--border);
+            border-radius:10px; padding:12px 14px;
+            box-shadow:0 4px 20px rgba(0,0,0,0.13);
+            width:300px; z-index:500; pointer-events:none;
+            text-align:left;
+          }
+          .equity-tooltip-box::before {
+            content:''; position:absolute; bottom:100%; left:50%; transform:translateX(-50%);
+            border:6px solid transparent; border-bottom-color:var(--border);
+          }
+          .equity-tooltip-box::after {
+            content:''; position:absolute; bottom:calc(100% - 1px); left:50%; transform:translateX(-50%);
+            border:6px solid transparent; border-bottom-color:#fff; z-index:1;
+          }
+          .equity-tooltip-wrap:hover .equity-tooltip-box { display:block; }
+          @media (max-width:767px) {
+            .equity-tooltip-wrap:hover .equity-tooltip-box { display:none !important; }
+          }
+
+          /* ── Mobile bottom sheet ── */
+          .equity-sheet-overlay {
+            display:none; position:fixed; inset:0; z-index:2000;
+            background:rgba(0,0,0,0); transition:background 0.3s ease;
+          }
+          .equity-sheet-overlay.open { display:block; }
+          .equity-sheet-overlay.ready { background:rgba(0,0,0,0.45); }
+          .equity-sheet {
+            position:absolute; bottom:0; left:0; right:0;
+            background:#fff; border-radius:18px 18px 0 0;
+            padding:0 0 env(safe-area-inset-bottom,16px);
+            transform:translateY(100%);
+            transition:transform 0.35s cubic-bezier(.32,0,.18,1);
+          }
+          .equity-sheet-overlay.ready .equity-sheet { transform:translateY(0); }
+          .equity-sheet-handle {
+            width:36px; height:4px; background:var(--border);
+            border-radius:2px; margin:12px auto 0;
+          }
+          .equity-sheet-title {
+            font-size:15px; font-weight:700; color:var(--text1);
+            padding:14px 20px 0;
+          }
+          .equity-sheet-body {
+            padding:12px 20px 20px;
+            font-size:13.5px; line-height:1.75; color:var(--text2);
+          }
+          .equity-sheet-body strong { color:var(--text1); }
+          .equity-sheet-divider {
+            height:1px; background:var(--border2); margin:10px 0;
+          }
+          </style>
+
+          <!-- Mobile bottom sheet DOM -->
+          <div class="equity-sheet-overlay" id="equity-sheet-overlay" onclick="if(event.target===this)closeEquitySheet()">
+            <div class="equity-sheet">
+              <div class="equity-sheet-handle"></div>
+              <div class="equity-sheet-title">账户权益 · 公式说明</div>
+              <div class="equity-sheet-body">
+                <strong>账户权益</strong> = 钱包余额 + 所有仓位未实现盈亏总合
+                <div class="equity-sheet-divider"></div>
+                <strong>未实现盈亏</strong> = 数量 × (标记价格 − 开仓价格) × 方向<br>
+                <span style="margin-left:1em">做多 = <strong>+1</strong> &nbsp;|&nbsp; 做空 = <strong>−1</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <script>
+          function openEquitySheet() {
+            const o = document.getElementById('equity-sheet-overlay');
+            if (!o) return;
+            o.classList.add('open');
+            requestAnimationFrame(() => requestAnimationFrame(() => o.classList.add('ready')));
+            document.body.style.overflow = 'hidden';
+          }
+          function closeEquitySheet() {
+            const o = document.getElementById('equity-sheet-overlay');
+            if (!o) return;
+            o.classList.remove('ready');
+            o.addEventListener('transitionend', () => {
+              o.classList.remove('open');
+              document.body.style.overflow = '';
+            }, { once: true });
+          }
+          // on mobile tap → bottom sheet; on desktop hover already works via CSS
+          document.addEventListener('click', function(e) {
+            const trigger = e.target.closest('.equity-tooltip-trigger');
+            if (trigger && window.innerWidth < 768) {
+              openEquitySheet();
+              e.stopPropagation();
+            }
+          });
+          </script>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，全仓模式下系统判断是否强平的依据是「账户权益」（即钱包余额加上所有仓位的未实现盈亏总和），而非单纯的钱包余额。若您当时同时持有其他亏损仓位，这些仓位的浮亏会降低账户权益，可能导致即使钱包余额看似充足也触发了强平。建议您查看强平时刻的账户权益数值，我可协助您核查。</div>
+          <div class="qa-script">您好，全仓模式下系统判断是否触发强平的依据是「账户权益」，而不是单纯的钱包余额。账户权益由钱包余额与所有仓位的未实现盈亏共同决定。若当时账户同时存在其他亏损仓位，这些仓位的浮亏会降低整体账户权益，因此即使钱包余额看起来充足，也可能触发强制平仓。</div>
         </div>
       </div>
 
       <div class="qa-item">
         <div class="qa-q">Q：强平时的成交价格是怎么确定的？</div>
         <div class="qa-a">
-          <div class="qa-answer">强平是指系统以「破产价格」（即保证金归零时对应的价格）进行平仓。标记价格达到强平价格时触发，实际执行价格由市场流动性决定。<br><br>
-          若强平执行价格劣于破产价格（即出现穿仓），差额将由保险基金补偿；若保险基金不足，则启动分摊机制。</div>
+          <div class="qa-answer">强平是指系统以「破产价格」（即保证金归零时对应的价格）进行平仓。标记价格达到强平价格时触发，实际执行价格由市场流动性决定。若强平执行价格劣于破产价格（即出现穿仓），差额将由保险基金补偿；若保险基金不足，则启动分摊机制。</div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，强平触发后系统以当时市场价格执行平仓。在极端行情下市场流动性不足时，实际成交价可能出现滑点，这属于市场正常现象。您可以在历史订单记录中查看该笔强平订单的具体成交价格。如出现穿仓情况，平台保险基金会优先进行补偿。</div>
+          <div class="qa-script">您好，强平触发后系统会启动强制平仓流程，由系统根据当时的市场情况完成平仓处理。在市场波动较大或市场流动性不足的情况下，实际成交价可能出现滑点，这属于市场正常现象。您可以在历史委托记录中查看该笔强平订单的具体成交价格。如出现穿仓情况，平台保险基金会优先进行补偿。</div>
         </div>
       </div>
 
       <div class="qa-item">
         <div class="qa-q">Q：什么是标记价格？为什么用标记价格而不是成交价触发强平？</div>
         <div class="qa-a">
-          <div class="qa-answer">标记价格是合约交易中用于衡量合约公平价值的参考价格，以多个主流现货交易所（如 Binance、OKX、Huobi 等）价格加权平均计算得出，比最新成交价更稳定。<br><br>
-          使用标记价格触发强平，可以有效防止大户通过短期操纵成交价来恶意触发他人强平，保护交易者权益。</div>
+          <div class="qa-answer">标记价格是合约交易中用于衡量合约公平价值的参考价格，它主要用来计算未实现盈亏、触发强制平仓，并防止市场操纵。与最新成交价不同，标记价格更稳定，不受短期价格波动或市场操纵的影响。<br><br></div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，平台使用「标记价格」而非最新成交价来触发强平，是为了防范市场操纵风险。标记价格综合了多个主流现货交易所的价格加权平均值，比单一交易所的成交价更稳定公允。这一机制能有效避免因短时间价格异动导致的不合理强平，保障您的交易权益。</div>
+          <div class="qa-script">您好，平台使用「标记价格」而非最新成交价来触发强平。
+标记价格是根据市场指数价格等多种因素计算出的参考价格，相比单一成交价更稳定。 采用标记价格作为风控基准，可以有效避免因短时间价格波动或异常交易导致的不合理强平，从而更好地保护交易者权益。 </div>
         </div>
       </div>
 
@@ -2974,8 +3091,8 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
 ══════════════════════════════════════════════ -->
 <div id="tab-qa-adl" class="panel">
 <div class="qa-mobile-tabs">
-  <button class="qa-mobile-tab" onclick="switchTab('qa-liq',document.getElementById('sb-qa-liq'))">爆仓/强平</button>
-  <button class="qa-mobile-tab active" onclick="switchTab('qa-adl',this)">强制减仓</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-liq',document.getElementById('sb-qa-liq'))">爆仓/阶梯</button>
+  <button class="qa-mobile-tab active" onclick="switchTab('qa-adl',this)">阶梯减仓</button>
   <button class="qa-mobile-tab" onclick="switchTab('qa-fee',document.getElementById('sb-qa-fee'))">手续费/资金费</button>
   <button class="qa-mobile-tab" onclick="switchTab('qa-margin',document.getElementById('sb-qa-margin'))">保证金/杠杆</button>
   <button class="qa-mobile-tab" onclick="switchTab('qa-share',document.getElementById('sb-qa-share'))">分摊/穿仓</button>
@@ -2983,64 +3100,62 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
 <div class="card">
   <div class="card-head">
     <div class="card-head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-    <div><h2>强制减仓 常见问题</h2><p>客户仓位被系统强制减仓相关问题的标准解答与话术参考</p></div>
+    <div><h2>阶梯减仓 常见问题</h2><p>客户仓位被系统阶梯减仓相关问题的标准解答与话术参考</p></div>
   </div>
   <div class="card-body">
     <div class="qa-list">
 
       <div class="qa-item">
-        <div class="qa-q">Q：什么是强制减仓？和爆仓有什么区别？</div>
+        <div class="qa-q">Q：什么是阶梯减仓？和爆仓有什么区别？</div>
         <div class="qa-a">
           <div class="qa-answer">
-          <strong>强制减仓：</strong>当仓位名义价值（标记价格 × 数量 × 面值）超过当前风险档位上限时，系统自动将仓位减少至下一档上限以内。触发原因是<strong>仓位规模过大</strong>，与保证金是否充足无关。<br><br>
-          <strong>爆仓（强平）：</strong>当账户保证金率低于维持保证金率 + 手续费率时触发，将仓位全部平掉。触发原因是<strong>保证金不足</strong>。<br><br>
-          两者是完全独立的风控机制，互不影响。</div>
+          <strong>阶梯减仓：</strong>当仓位名义价值（标记价格 × 数量）超过当前风险档位上限时，系统自动将仓位减少至下一档上限以内。触发原因是<strong>仓位规模过大</strong>，与保证金无关。<br>
+          <strong>爆仓（强制平仓）：</strong>当账户保证金率低于维持保证金率 + 手续费率时触发，将仓位全部平掉。触发原因是<strong>保证金不足</strong>。<br>
+          </div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，您遭遇的是「强制减仓」而非「爆仓」，两者是完全不同的风控机制。强制减仓是因为您的仓位名义价值（标记价格 × 持仓量 × 面值）超过了当前风险档位的上限，系统自动将仓位减少至合规范围内，与您的保证金是否充足无关。您的账户资金并未因此清零，只是持仓数量有所减少。</div>
+          <div class="qa-script">您好，您遭遇的是「阶梯减仓」而非「爆仓」。阶梯减仓是因为您的仓位名义价值（标记价格 × 持仓量 ）超过了当前风险档位的上限，系统自动将仓位减少至合规范围内，与您的保证金是否充足无关。</div>
         </div>
       </div>
 
       <div class="qa-item">
-        <div class="qa-q">Q：为什么会触发强制减仓？我什么都没做。</div>
+        <div class="qa-q">Q：为什么会触发阶梯减仓？我什么都没做。</div>
         <div class="qa-a">
-          <div class="qa-answer">触发条件：<strong>仓位标记价值 > 当前档位上限</strong><br><br>
-          即使您没有主动加仓，当市场价格大幅上涨时，做多仓位的标记价值会随之增加，可能突破当前档位上限，从而触发强制减仓。<br><br>
-          例如：您持有 248,888 张 TRUMP 合约（面值 0.01），当标记价格从 10 USDT 涨至 40 USDT，仓位价值从约 24,889 USDT 增至约 99,555 USDT，超过 Level 2 档位上限（25,000 USDT），触发减仓。</div>
+          <div class="qa-answer">触发条件：<strong>仓位标记价值 > 当前风险档位上限</strong><br><br>
+          当市场价格上涨时，做多仓位的标记价值会随之增加，可能突破当前风险档位上限，从而触发阶梯减仓。<br>
+          例如：您持有 248,888 张 TRUMP 合约（面值 0.01），当标记价格从 10 USDT 涨至 40 USDT，仓位价值从约 24,889 USDT 增至约 99,555 USDT，超过 Level 2 档位上限（25,000 USDT），从而触发阶梯减仓。</div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，强制减仓的触发与您是否主动操作无关，而是由仓位的标记价值决定。当市场价格大幅波动导致您的持仓名义价值超过当前风险档位上限时，系统会自动执行减仓操作。这是平台正常的风险控制机制，执行价格为触发时的标记价格，公平透明。</div>
+          <div class="qa-script">您好，当市场价格波动导致您的持仓名义价值超过当前风险档位上限时，系统会根据风险控制规则自动执行减仓操作，以将仓位降至对应档位范围内。该机制属于平台正常的风险控制措施，触发参考价格为标记价格，实际成交价格以 APP 显示为准。</div>
         </div>
       </div>
 
       <div class="qa-item">
-        <div class="qa-q">Q：强制减仓减了多少？计算方式是什么？</div>
+        <div class="qa-q">Q：阶梯减仓减了多少？计算方式是什么？</div>
         <div class="qa-a">
-          <div class="qa-answer">官方计算公式：<br>
-          ① 减少的仓位价值 = 标记价值 − 阶梯最小仓位价值<br>
-          ② 基础减仓数量 = 减少仓位价值 ÷ 标记价格 ÷ 面值<br>
-          ③ <strong>最终减仓数量 = 基础减仓数量 + MAX(10, 阶梯最小仓位价值 × 0.001 ÷ 标记价格 ÷ 面值)</strong><br><br>
-          可使用「强制减仓分析」工具，输入持仓数据自动核算理论减仓数量并与实际对比。</div>
+          <div class="qa-answer">阶梯减仓由官方公式计算：<br>
+          <strong>减少的仓位价值 </strong> = 仓位名义价值 − 阶梯最小仓位价值<br>
+          <strong>基础减仓数量 </strong> = 减少仓位价值 ÷ 标记价格 ÷ 面值<br>
+          <strong>最终减仓数量 </strong> = 基础减仓数量 + MAX (10, 阶梯最小仓位价值 × 0.001 ÷ 标记价格 ÷ 面值)<br><br>
+          可使用 <button onclick="drawerNav('adl');document.getElementById('tab-adl').scrollIntoView({behavior:'smooth',block:'start'})" style="display:inline;background:var(--orange-light);color:var(--orange-dark);border:1px solid var(--orange-mid);border-radius:4px;padding:1px 6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:background 0.15s;vertical-align:baseline;line-height:1.6;" onmouseover="this.style.background='var(--orange-mid)'" onmouseout="this.style.background='var(--orange-light)'">「阶梯减仓核查」↗</button> 板块输入持仓数据自动核算理论减仓数量并与实际对比。</div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，我已使用系统工具按官方公式核算了您的理论减仓数量，与实际减仓数量基本一致，属正常执行范围。强制减仓数量的计算包含基础减仓量和一个附加量（取 10 张与千分之一档位最小价值换算张数中的较大值），确保减仓后仓位落在下一档位的合规范围内。</div>
+          <div class="qa-script">您好，这边已根据平台的阶梯减仓计算公式对您的减仓数量进行了复核，理论减仓数量与实际执行数量基本一致，属正常执行范围。</div>
         </div>
       </div>
 
       <div class="qa-item">
-        <div class="qa-q">Q：强制减仓是以什么价格执行的？会有滑点吗？</div>
+        <div class="qa-q">Q：阶梯减仓是以什么价格执行的？会有滑点吗？</div>
         <div class="qa-a">
-          <div class="qa-answer">强制减仓以触发时的<strong>标记价格</strong>执行，不是市价单，因此不存在滑点问题。标记价格由多个主流现货交易所价格加权平均得出，公平公正。<br><br>
-          您可以在历史订单中找到「强制减仓」那条订单，查看其成交价格，应与触发时刻的标记价格一致。</div>
+          <div class="qa-answer">阶梯减仓以触发时的<strong>标记价格</strong>执行，不是市价单，因此不存在滑点问题。标记价格由多个主流现货交易所价格加权平均得出，公平公正。您可以在历史委托订单中找到「强制减仓」订单查看其成交价格，应与触发时刻的标记价格一致。</div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，强制减仓以触发时的标记价格执行，价格公平透明，不存在滑点问题。您可以在「历史委托」中找到标注为「强制减仓」的订单，核对其成交价格。如成交价格与触发时标记价格存在明显差异，请提供订单截图，我们将为您进一步核查。</div>
+          <div class="qa-script">您好，阶梯减仓以触发时的标记价格执行，价格公平透明，不存在滑点问题。您可以在「历史委托」中找到标注为「强制减仓」的订单，核对其成交价格。如成交价格与触发时标记价格存在明显差异，请提供订单截图，我们将为您进一步核查。</div>
         </div>
       </div>
 
       <div class="qa-item">
         <div class="qa-q">Q：减仓后仓位还是很大，系统还会继续减仓吗？</div>
         <div class="qa-a">
-          <div class="qa-answer">强制减仓每次只将仓位降至「下一档位」的上限范围内，并非全部平仓。减仓完成后，若市场价格继续大幅波动，导致仓位价值再次超过档位上限，系统可能会再次触发减仓。<br><br>
-          这是分级风控的正常运作方式，每次减仓后仓位均满足该档位的合规要求。</div>
+          <div class="qa-answer">阶梯减仓每次只将仓位降至「下一档位」的上限范围内，并非全部平仓。减仓完成后，若市场价格继续大幅波动，导致仓位价值再次超过档位上限，系统可能会再次触发阶梯减仓。这是分级风控的正常运作方式，每次减仓后仓位均满足该档位的合规要求。</div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，强制减仓每次仅将仓位减少至下一档位上限范围，并非全部平仓，因此减仓后您仍持有一定仓位。如果后续市场价格继续大幅波动使仓位价值再次超限，系统可能会再次执行减仓。这是平台分级风控机制的正常运作，每次减仓后仓位均符合对应档位要求。</div>
+          <div class="qa-script">您好，阶梯减仓每次仅将仓位减少至下一档位上限范围，并非全部平仓，因此减仓后您仍持有一定仓位。如果后续市场价格继续大幅波动使仓位价值再次超限，系统可能会再次执行阶梯减仓。这是平台分级风控机制的正常运作，每次减仓后仓位均符合对应档位要求。</div>
         </div>
       </div>
 
@@ -3055,7 +3170,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
 <div id="tab-qa-fee" class="panel">
 <div class="qa-mobile-tabs">
   <button class="qa-mobile-tab" onclick="switchTab('qa-liq',document.getElementById('sb-qa-liq'))">爆仓/强平</button>
-  <button class="qa-mobile-tab" onclick="switchTab('qa-adl',document.getElementById('sb-qa-adl'))">强制减仓</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-adl',document.getElementById('sb-qa-adl'))">阶梯减仓</button>
   <button class="qa-mobile-tab active" onclick="switchTab('qa-fee',this)">手续费/资金费</button>
   <button class="qa-mobile-tab" onclick="switchTab('qa-margin',document.getElementById('sb-qa-margin'))">保证金/杠杆</button>
   <button class="qa-mobile-tab" onclick="switchTab('qa-share',document.getElementById('sb-qa-share'))">分摊/穿仓</button>
@@ -3073,12 +3188,12 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <div class="qa-a">
           <div class="qa-answer">
           <strong>按张数下单：</strong><br>
-          手续费 = 成交均价 × 合约面值 × 合约张数 × 手续费率<br><br>
+          手续费 = 成交均价 × 合约面值 × 合约张数 × 手续费率<br>
           <strong>按币种下单：</strong><br>
-          手续费 = 成交均价 × 成交数量 × 手续费率<br><br>
-          注意：每开仓或平仓一次都会计算一次手续费，手续费率分为 Maker（挂单）和 Taker（吃单）两档。</div>
+          手续费 = 成交均价 × 成交数量 × 手续费率<br>
+          注意：每开仓或平仓一次都会计算一次手续费，手续费率分为 Maker（挂单）和 Taker（吃单）。</div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，合约手续费按「成交名义价值 × 手续费率」计算。我已为您核算了本次交易的理论手续费，与系统实际扣除金额一致，属正常扣费。如您对费率档位有疑问，请在历史成交记录中确认本次交易的成交角色（Maker 或 Taker），对应费率有所不同。</div>
+          <div class="qa-script">您好，按币单位计算手续费「成交均价 × 手续费率」。我已为您核算了本次交易的理论手续费，与 APP 实际扣除金额一致，属正常扣费。如您对费率档位有疑问，请在历史委托记录中确认本次交易的成交角色（Maker 或 Taker），对应费率有所不同。</div>
         </div>
       </div>
 
@@ -3086,35 +3201,33 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <div class="qa-q">Q：Maker（挂单）和 Taker（吃单）的区别是什么？</div>
         <div class="qa-a">
           <div class="qa-answer">
-          <strong>挂单（Maker）：</strong>用户设定目标价格，将委托单挂在交易系统中，等待市场价格达到时再成交，属于「被动等待成交」，费率较低。<br><br>
-          <strong>吃单（Taker）：</strong>用户直接以市场上已有挂单的价格下单，立即成交，属于「主动促成成交」，费率较高。<br><br>
+          <strong>挂单（Maker）：</strong>用户设定目标价格，将委托单挂在订单簿里，等待市场价格达到时再成交，费率较低。<br>
+          <strong>吃单（Taker）：</strong>用户直接以市场上已有挂单的价格下单，立即成交，，费率较高。<br>
           下市价单一定是 Taker；下限价单视情况而定，若与现有挂单立即撮合则为 Taker，若进入订单簿等待则为 Maker。</div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，Maker（挂单方）是指您下限价单后挂在订单簿中等待成交，费率较低；Taker（吃单方）是指您的订单与市场现有挂单立即撮合成交，费率较高。您可以在历史成交记录中查看本笔交易标注的成交角色，以确认适用的费率。</div>
+          <div class="qa-script">您好，Maker（挂单方）是指您下限价单后挂在订单簿中等待成交，费率较低；Taker（吃单方）是指您的订单与市场现有挂单立即成交，费率较高。您可以在历史委托记录中查看本笔交易标注的成交角色，以确认适用的费率。</div>
         </div>
       </div>
 
       <div class="qa-item">
         <div class="qa-q">Q：资金费率是什么？为什么会扣费？</div>
         <div class="qa-a">
-          <div class="qa-answer">资金费率是永续合约特有的机制，每 8 小时结算一次（00:00、08:00、16:00 UTC），用于维持合约价格与现货价格的锚定。<br><br>
+          <div class="qa-answer">资金费率是永续合约特有的机制，每 8 小时结算一次（00:00、08:00、16:00 UTC+8），用于维持合约价格与现货价格的锚定。<br><br>
           <strong>正费率：</strong>多方向空方支付资金费用（市场看涨时）<br>
-          <strong>负费率：</strong>空方向多方支付资金费用（市场看跌时）<br><br>
-          <strong>计算公式：</strong>资金费用 = 标记价格 × 合约面值 × 合约张数 × 资金费率<br><br>
+          <strong>负费率：</strong>空方向多方支付资金费用（市场看跌时）<br>
+          <strong>计算公式：</strong>资金费用 = 标记价格 × 合约面值 × 合约张数 × 资金费率<br>
           注意：本平台仅作为资金费用在多空之间的传递渠道，<strong>平台不收取任何服务费</strong>。</div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，资金费率是永续合约的正常机制，平台仅作为多空双方资金费用的传递渠道，不收取任何服务费。资金费用按结算时刻的标记价格 × 持仓量 × 资金费率计算，我已为您核算，扣费金额与系统一致，属正常结算。如需查看历史资金费率，可在「合约信息 → 资金费率 → 历史费率」中查询。</div>
+          <div class="qa-script">您好，资金费率是永续合约的正常机制，平台仅作为多空双方资金费用的传递渠道，不收取任何服务费。资金费用按结算时刻的标记价格 × 持仓量 × 资金费率计算，我已为您核算，扣费金额与 APP 显示一致，属正常结算。如需查看历史资金费率，可在「合约信息 → 资金费率 → 历史费率」中查询。</div>
         </div>
       </div>
 
       <div class="qa-item">
         <div class="qa-q">Q：资金费率何时结算？结算前平仓可以免除吗？</div>
         <div class="qa-a">
-          <div class="qa-answer">资金费率每 8 小时结算一次，结算时间为 00:00、08:00、16:00（UTC），对应北京时间 08:00、16:00、00:00。<br><br>
-          <strong>只有在结算时刻仍持有仓位的用户才会被收取/支付资金费用。</strong>若您在结算时刻前已平仓，则不会产生该次资金费用。<br><br>
-          您可以在 K 线图上方查看当前资金费率及下次结算倒计时。</div>
+          <div class="qa-answer">资金费率每 8 小时结算一次，结算时间为 00:00、08:00、16:00（UTC+8），<strong>只有在结算时刻仍持有仓位的用户才会被收取/支付资金费用。</strong>若您在结算时刻前已平仓，则不会产生该次资金费用。</div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，资金费率每天结算三次，分别在 00:00、08:00、16:00（UTC 时间）。只有在结算时刻仍持有仓位才会产生资金费用，如果您在结算前已平仓，则不会被收取该次费用。您可以在合约交易页面查看距下次结算的倒计时，合理规划持仓时间以控制资金费用支出。</div>
+          <div class="qa-script">您好，资金费率每天结算三次，分别在 00:00、08:00、16:00（北京时间）。只有在结算时刻仍持有仓位才会产生资金费用，如果您在结算前已平仓，则不会被收取该次费用。您可以在合约交易页面查看资金费率以及结算倒计时。</div>
         </div>
       </div>
 
@@ -3122,11 +3235,11 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <div class="qa-q">Q：如何查询资金费用历史记录？</div>
         <div class="qa-a">
           <div class="qa-answer">
-          <strong>Web 端：</strong>【资产】→【账单记录】→【合约账单】→【交易】→【全部交易】→【资金费用】<br><br>
-          <strong>手机 App：</strong>【资产】→【合约】→【合约账单】→【全部类型】→【资金费用】<br><br>
+          <strong>Web 端：</strong>【资产】→【账单记录】→【合约账单】→【交易】→【资金费用】<br>
+          <strong>App 端：</strong>【资产】→【合约】→【资金流水】→【全部类型】→【资金费用】<br>
           历史资金费率查询：【合约信息】→【资金费率】→【历史费率】→选择交易对</div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，您可以通过以下路径查询资金费用历史记录：Web 端请进入【资产 → 账单记录 → 合约账单 → 资金费用】；手机 App 请进入【资产 → 合约 → 合约账单 → 资金费用】。如需查询历史资金费率，可在【合约信息 → 资金费率 → 历史费率】中按交易对查询。如仍有疑问欢迎进一步联系我们。</div>
+          <div class="qa-script">您好，您可以通过以下路径查询资金费用历史记录：【合约信息 → 资金费率 → 历史费率】中按交易对查询。</div>
         </div>
       </div>
 
@@ -3141,7 +3254,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
 <div id="tab-qa-margin" class="panel">
 <div class="qa-mobile-tabs">
   <button class="qa-mobile-tab" onclick="switchTab('qa-liq',document.getElementById('sb-qa-liq'))">爆仓/强平</button>
-  <button class="qa-mobile-tab" onclick="switchTab('qa-adl',document.getElementById('sb-qa-adl'))">强制减仓</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-adl',document.getElementById('sb-qa-adl'))">阶梯减仓</button>
   <button class="qa-mobile-tab" onclick="switchTab('qa-fee',document.getElementById('sb-qa-fee'))">手续费/资金费</button>
   <button class="qa-mobile-tab active" onclick="switchTab('qa-margin',this)">保证金/杠杆</button>
   <button class="qa-mobile-tab" onclick="switchTab('qa-share',document.getElementById('sb-qa-share'))">分摊/穿仓</button>
@@ -3157,12 +3270,13 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
       <div class="qa-item">
         <div class="qa-q">Q：什么是维持保证金和维持保证金率？</div>
         <div class="qa-a">
-          <div class="qa-answer">维持保证金是用户必须在账户中维持的最低保证金金额，低于此金额仓位将被强平。<br><br>
-          <strong>计算公式（按张）：</strong><br>
-          维持保证金 = 单张面值 × 合约张数 × 标记价格 × 维持保证金率 − 维持保证金扣减额<br><br>
-          维持保证金率根据仓位名义价值所在档位而定，仓位越大档位越高，MMR 越高。仓位金额越大，维持保证金比率也会越高。</div>
+          <div class="qa-answer">维持保证金是系统要求仓位必须维持的最低保证金金额。当账户保证金率接近或低于维持保证金要求时，系统将触发强制平仓机制。<br><br>
+          <strong>计算公式：</strong><br>
+          维持保证金（按张） = 单张面值 × 合约张数 × 标记价格 × 维持保证金率 − 维持保证金扣减额<br>
+          维持保证金（按币） = 币的数量 × 标记价格 × 维持保证金率 − 维持保证金扣减额</div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，维持保证金是系统要求账户必须维持的最低保证金水平，当账户保证金率降至维持保证金率 + 平仓手续费率以下时，会触发强制平仓。维持保证金率根据您的仓位名义价值所在档位而定，仓位越大所在档位越高，MMR 也越高。您可以在「保证金参数」页面查询对应合约各档位的 MMR。</div>
+          <div class="qa-script">您好，维持保证金是系统要求仓位必须维持的最低保证金金额。当账户保证金率降至维持保证金要求附近时，系统会触发强制平仓机制以控制风险。维持保证金率（MMR）根据您的仓位名义价值所在档位决定，仓位越大，对应的维持保证金率也会越高。<br>
+            <strong>App 端</strong> ：您可以在「合约信息」→「保证金参数」页面查看该合约各档位的 MMR 设置。</div>
         </div>
       </div>
 
@@ -3170,25 +3284,30 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <div class="qa-q">Q：什么是初始保证金？开仓需要多少？</div>
         <div class="qa-a">
           <div class="qa-answer">初始保证金是开仓建立仓位时必须缴纳的最低保证金，是开仓的「入场门槛」。<br><br>
-          <strong>计算公式（按张）：</strong><br>
-          初始保证金 = 单张合约面值 × 合约张数 × 标记价格 ÷ 杠杆倍数<br><br>
-          示例：开仓 10 BTC 合约（面值 0.0001 BTC/张），标记价 120,000 USDT，20 倍杠杆：<br>
+          <strong>计算公式：</strong><br>
+          初始保证金（按张） = 单张面值 × 合约张数 × 标记价格 ÷ 杠杆倍数<br>
+          初始保证金（按币） = 币种数量 × 标记价格 ÷ 杠杆倍数<br><br>
+          示例：开仓 10 张 BTC 合约（面值 0.0001 BTC/张），标记价 120,000 USDT，20 倍杠杆：<br>
           初始保证金 = 0.0001 × 10 × 120,000 ÷ 20 = 6 USDT</div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，初始保证金是开仓所需的最低资金，计算公式为：持仓名义价值 ÷ 杠杆倍数。杠杆倍数越高，所需初始保证金越少，但同时爆仓风险也越高。建议根据您的资金规模和风险承受能力合理选择杠杆倍数。</div>
+          <div class="qa-script">您好，初始保证金是开仓所需的最低资金。杠杆倍数越高，所需初始保证金越少，但同时爆仓风险也越高。建议根据您的资金规模和风险承受能力合理选择杠杆倍数。<br><br>
+            <strong>按张计算为</strong>：单张面值 × 张数 × 标记价格 ÷ 杠杆倍数<br>
+            <strong>按币计算为</strong>：币的数量 × 标记价格 ÷ 杠杆倍数。<br>
+            </div>
         </div>
       </div>
 
       <div class="qa-item">
         <div class="qa-q">Q：为什么我调高杠杆后反而更容易爆仓？</div>
         <div class="qa-a">
-          <div class="qa-answer">杠杆倍数代表「用户的本金能撬动多少倍的交易规模」。<br><br>
-          • 10 倍杠杆：价格逆向波动约 10% 亏完本金<br>
-          • 50 倍杠杆：价格逆向波动约 2% 亏完本金<br>
-          • 125 倍杠杆：价格逆向波动约 0.8% 亏完本金<br><br>
-          杠杆越高，初始保证金越少，账户抵御价格波动的能力越弱，触发强平所需的价格变动幅度越小。</div>
+          <div class="qa-answer">杠杆倍数代表「用户可以用较少的保证金放大交易规模」。<br>
+          在不考虑维持保证金和手续费的理论情况下：<br>
+          • 10 倍杠杆：价格逆向波动约 10% 可能触发强平<br>
+          • 50 倍杠杆：价格逆向波动约 2% 可能触发强平<br>
+          • 125 倍杠杆：价格逆向波动约 0.8% 可能触发强平<br><br>
+          杠杆越高，初始保证金越少，账户抵御价格波动的空间越小，触发强制平仓所需的价格变动幅度也越小。</div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，杠杆倍数越高，您用于开仓的初始保证金比例越小，账户抵御市场波动的空间也越窄。以 100 倍杠杆为例，价格仅需逆向波动约 1% 就可能触发强平。建议您根据自身风险承受能力选择合适的杠杆倍数，并严格控制仓位规模。</div>
+          <div class="qa-script">您好，杠杆倍数越高，开仓所需的初始保证金比例越低，但账户抵御市场价格波动的空间也会相应缩小。例如在较高杠杆情况下，价格仅需发生较小幅度的逆向波动，就可能触发强制平仓。因此建议您根据自身资金规模和风险承受能力合理选择杠杆倍数，并注意控制仓位规模。</div>
         </div>
       </div>
 
@@ -3196,23 +3315,26 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <div class="qa-q">Q：我的可用余额为什么突然减少了？</div>
         <div class="qa-a">
           <div class="qa-answer">常见原因：<br>
-          ① <strong>未实现亏损：</strong>全仓模式下，持仓的浮亏会直接影响账户权益和可用余额<br>
-          ② <strong>委托冻结：</strong>挂出的未成交委托单（限价单、计划委托等）会冻结对应保证金<br>
-          ③ <strong>资金费用扣除：</strong>每 8 小时结算一次的资金费用<br><br>
+          • <strong>未实现亏损：</strong>全仓模式下，持仓的浮亏会直接影响账户权益和可用余额<br>
+          • <strong>委托冻结：</strong>挂出的未成交委托单（限价单、计划委托等）会冻结对应保证金<br>
+          • <strong>资金费用扣除：</strong>每 8 小时结算一次的资金费用<br>
           建议检查：当前持仓的未实现盈亏、未成交的委托单列表、合约账单中的资金费用记录。</div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，全仓模式下可用余额减少通常有以下几个原因：一是当前持仓出现浮亏；二是有未成交的委托单冻结了部分保证金；三是资金费率结算扣费。建议您分别检查「当前持仓」的未实现盈亏、「当前委托」中的未成交挂单，以及「合约账单」中的资金费用记录，通常可以找到答案。</div>
+          <div class="qa-script">您好，全仓模式下可用保证金减少通常有以下几个原因：<br>
+          1）当前持仓出现未实现亏损； <br> 
+          2）资金费率结算产生扣费；<br>  
+          3）交易过程中产生的手续费扣除；<br>
+          4）存在未成交的委托单，系统会冻结对应的开仓保证金。<br>
+          建议您分别查看「当前持仓」中的未实现盈亏、「当前委托」中的未成交挂单，以及「合约账单」中的资金费用和手续费记录进行核对。</div>
         </div>
       </div>
 
       <div class="qa-item">
         <div class="qa-q">Q：什么是档位？为什么仓位大了杠杆上限会降低？</div>
         <div class="qa-a">
-          <div class="qa-answer">档位是按仓位名义价值划分的风险等级，不同档位对应不同的最大杠杆倍数和维持保证金率（MMR）。<br><br>
-          仓位名义价值越大，风险越高，平台要求更高的维持保证金率并限制最大杠杆倍数，以控制市场系统性风险。<br><br>
-          仓位名义价值等级提高，并不会造成此前等级的仓位改变杠杆倍数，只影响超出部分对应的要求。</div>
+          <div class="qa-answer">档位是根据仓位名义价值划分的风险等级，不同档位对应不同的最大杠杆倍数和维持保证金率（MMR）。仓位名义价值越大，价格波动对账户风险影响越高，因此平台会提高维持保证金率并降低最大可用杠杆，以进行整体风险控制。当仓位名义价值进入更高档位后，新的风险参数将适用于该仓位，但系统不会自动调整您已设置的杠杆倍数。</div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，平台对不同规模的仓位设有分级的风险档位。当您的仓位名义价值增大进入更高档位后，系统会相应调低最大可用杠杆倍数并提高维持保证金率要求，这是控制市场系统性风险的必要机制。您可以在「保证金参数」页面查看各合约的完整档位信息及对应的 MMR 和最大杠杆。</div>
+          <div class="qa-script">您好，平台会根据仓位名义价值设置分级的风险档位。仓位规模越大，对应的风险也越高，因此系统会提高维持保证金率并限制最大可用杠杆倍数，以进行整体风险控制。当您的仓位名义价值进入更高档位时，将适用该档位对应的维持保证金率和最大杠杆限制。您可以在「合约信息」→「保证金参数」页面查看各合约的完整档位信息。</div>
         </div>
       </div>
 
@@ -3227,7 +3349,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
 <div id="tab-qa-share" class="panel">
 <div class="qa-mobile-tabs">
   <button class="qa-mobile-tab" onclick="switchTab('qa-liq',document.getElementById('sb-qa-liq'))">爆仓/强平</button>
-  <button class="qa-mobile-tab" onclick="switchTab('qa-adl',document.getElementById('sb-qa-adl'))">强制减仓</button>
+  <button class="qa-mobile-tab" onclick="switchTab('qa-adl',document.getElementById('sb-qa-adl'))">阶梯减仓</button>
   <button class="qa-mobile-tab" onclick="switchTab('qa-fee',document.getElementById('sb-qa-fee'))">手续费/资金费</button>
   <button class="qa-mobile-tab" onclick="switchTab('qa-margin',document.getElementById('sb-qa-margin'))">保证金/杠杆</button>
   <button class="qa-mobile-tab active" onclick="switchTab('qa-share',this)">分摊/穿仓</button>
@@ -3244,12 +3366,12 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <div class="qa-q">Q：什么是穿仓？什么是分摊？</div>
         <div class="qa-a">
           <div class="qa-answer">
-          <strong>穿仓：</strong>用户爆仓后，因极端行情导致实际亏损超过其全部保证金，账户出现负余额。<br><br>
-          <strong>分摊机制：</strong>当穿仓损失超过保险基金可覆盖的范围时，由该周期内所有合约盈利的用户按盈利比例共同分担剩余缺口。平台不会因穿仓而损失，用户资金整体得到保护。<br><br>
-          触发顺序：强平执行 → 穿仓（亏损超保证金）→ 保险基金优先补偿 → 不足时启动分摊
+          <strong>穿仓：</strong>当用户仓位被强制平仓后，在行情剧烈波动或市场流动性不足情况下，实际成交亏损可能超过账户保证金，导致账户出现负余额。<br>
+          <strong>分摊机制：</strong>当穿仓损失超过保险基金可覆盖范围时，系统会由当期合约市场中盈利的用户，按照盈利金额占比共同分担剩余缺口。<br>
+          触发顺序：强制平仓 → 穿仓（亏损超过保证金）→ 保险基金优先补偿 → 不足时启动分摊机制
           </div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，分摊是合约交易中针对极端穿仓风险的标准化风控规则，并非针对个人。当市场出现极端行情导致某用户爆仓后保险基金不足以覆盖全部穿仓损失时，系统会由该周期内所有合约盈利的用户按盈利金额占比分摊剩余缺口。这是行业内通用的防范极端行情风险的机制，目的是保护全平台用户的资金安全。</div>
+          <div class="qa-script">您好，分摊机制是合约交易中用于应对行情剧烈波动风险的风控机制，并非针对个人用户。当市场出现行情剧烈波动导致某些仓位发生穿仓，而保险基金不足以完全覆盖损失时，系统会由当期合约市场中盈利的用户按照盈利金额占比分摊剩余缺口。 该机制是用于在行情剧烈波动情况下维持市场稳定运行。</div>
         </div>
       </div>
 
@@ -3258,13 +3380,14 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <div class="qa-a">
           <div class="qa-answer">
           <strong>计算公式：</strong><br>
-          单个用户分摊金额 = 系统需分摊总金额 × 80% × (该用户周期内盈利 ÷ 所有参与分摊的盈利总和)<br><br>
-          <strong>举例：</strong>本次穿仓缺口 10,000 USDT，所有盈利用户净盈利之和 1,000,000 USDT，您周期内盈利 500 USDT：<br>
-          您的分摊 = 500 × (10,000 ÷ 1,000,000) × 80% = <strong>4 USDT</strong><br><br>
-          注意：分摊金额从可用余额直接扣除，具体数据需后台核查。
+          单个用户分摊金额 = 该用户周期盈利 ÷ 所有参与分摊用户的盈利总和 × 系统需分摊总金额 × 80%<br><br>
+          示例：本次穿仓缺口 10,000 USDT，所有参与分摊用户的净盈利总和 1,000,000 USDT，周期内盈利 500 USDT：<br>
+          您的分摊金额 = 500 ÷ 1,000,000 × 10,000 × 80% = 4 USDT<br>
           </div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，分摊金额按「您的周期盈利 ÷ 所有盈利用户净盈利之和 × 系统需分摊总金额 × 80%」计算。具体的分摊总金额和参与用户盈利总和属于系统内部数据，需要技术部门核查。如您对本次分摊金额有疑问，我们会为您提交核查申请，请耐心等候。</div>
+          <div class="qa-script">您好，分摊金额是根据您在该周期内的盈利占比进行计算的。<br>
+          <strong>计算公式</strong>：您的周期盈利 ÷ 所有参与分摊用户的盈利总和 × 系统需分摊总金额 × 80%<br>
+          </div>
         </div>
       </div>
 
@@ -3272,17 +3395,18 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <div class="qa-q">Q：我根本没有盈利，为什么还被分摊了？</div>
         <div class="qa-a">
           <div class="qa-answer">
-          这是最常见的异常投诉场景。根据规则，分摊只扣取<strong>周期内盈利</strong>的用户，若您当时账户整体亏损或仓位已平，理论上不应被分摊。<br><br>
+          这是最常见的异常投诉场景。根据规则，分摊只扣取<strong>周期内（1分钟）盈利</strong>的用户，若您当时账户整体亏损或仓位已平，理论上不应被分摊。<br><br>
           <strong>客服核查步骤：</strong><br>
-          ① 查询分摊触发的精确时间（到分钟）<br>
-          ② 确认分摊时刻用户是否仍持有对应合约仓位<br>
-          ③ 确认分摊周期内（1分钟）用户合约账户整体是否盈利<br><br>
+          • 查询分摊触发的精确时间（到分钟）<br>
+          • 确认分摊时刻用户是否仍持有对应合约仓位<br>
+          • 确认分摊周期内（1分钟）用户合约账户整体是否盈利<br><br>
           满足以下任一条件 → 直接判定异常，提交技术核查：<br>
           ❌ 分摊时刻用户已平仓<br>
-          ❌ 分摊周期内用户整体亏损
+          ❌ 短时间内连续产生多笔分摊<br>
+          ❌ 分摊周期内（1分钟）用户整体亏损
           </div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，根据分摊规则，只有在分摊结算时刻仍持仓且周期内合约账户整体盈利的用户才会被分摊。我已将您的情况记录并提交技术部门核查，核查内容包括：分摊触发时刻您的持仓状态及账户盈亏情况。如经核查确认存在异常，我们将按规定为您处理，请耐心等候，我们会尽快给您答复。</div>
+          <div class="qa-script">您好，根据分摊规则，只有在分摊结算时刻仍存在合约持仓，且该周期内（1分钟）仓位为净盈利的用户，才会参与分摊。 我已将您的情况记录并提交相关部门核查，分摊触发时刻您的持仓状态以及账户盈亏情况。 如核查确认存在异常，我们将按平台规定为您处理。核查完成后会第一时间为您反馈结果，请您耐心等待。 </div>
         </div>
       </div>
 
@@ -3290,12 +3414,10 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <div class="qa-q">Q：分摊是针对我个人的吗？平台在故意扣我的钱吗？</div>
         <div class="qa-a">
           <div class="qa-answer">
-          不是针对个人，也不是平台扣钱。<br><br>
-          分摊机制是行业内通用的风控规则，目的是避免单一大额穿仓引发平台系统性风险。<strong>平台本身不收取任何分摊费用</strong>，所有分摊金额均在盈利用户之间流转，用于填补穿仓缺口，保护全体用户资金安全。<br><br>
-          平台会优先动用保险基金赔付，只有保险基金不足时才启动分摊，且分摊上限为 80%（保留 20% 给保险基金）。
+          不是针对个人，也不是平台扣钱。分摊机制是行业内通用的风控规则，目的是避免单一大额穿仓引发平台系统性风险。<strong>平台本身不收取任何分摊费用</strong>，所有分摊金额均在盈利用户之间流转，用于填补穿仓缺口，保护全体用户资金安全。平台会优先动用保险基金赔付，只有保险基金不足时才启动分摊，且分摊上限为 80%（保留 20% 给保险基金）。
           </div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，分摊机制是合约行业的通用风控规则，并非针对您个人，平台也不会从中获利。所有分摊金额在盈利用户之间流转，用于填补极端行情下的穿仓缺口，目的是保护包括您在内的全体用户的资金安全。平台会优先动用保险基金处理，只有在保险基金不足时才会启动分摊。感谢您的理解与支持。</div>
+          <div class="qa-script">您好，分摊是合约交易中的通用风控机制，并非针对个人用户。当市场出现剧烈波动导致穿仓且保险基金不足以覆盖损失时，系统会由当期盈利用户按盈利占比分担剩余缺口。该机制主要用于控制风险并维持市场稳定，感谢您的理解。</div>
         </div>
       </div>
 
@@ -3303,21 +3425,22 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
         <div class="qa-q">Q：客服如何判断分摊是否正常？</div>
         <div class="qa-a">
           <div class="qa-answer">
-          <strong>第一步：核查基础信息（后台查）</strong><br>
-          · 分摊触发的精确时间（到分钟）<br>
-          · 分摊时刻用户是否仍持仓<br>
-          · 分摊周期内用户合约账户整体盈亏<br><br>
+          <strong>第一步：核查基础信息（用户提供/后台查）</strong><br>
+          • 分摊触发的精确时间（到分钟）<br>
+          • 分摊时刻用户是否仍持仓<br>
+          • 分摊周期内（1分钟）用户仓位整体盈亏<br><br>
           <strong>第二步：查询标记价格历史</strong><br>
-          · 查询分摊触发分钟内的标记价格区间（最高价、最低价）<br><br>
-          <strong>第三步：价格对比判断</strong><br>
-          · 多仓用户：开仓均价 ≤ 该分钟标记价最高价 → ✅ 正常（有浮盈）<br>
-          · 多仓用户：开仓均价 > 该分钟标记价最高价 → ❌ 异常（无浮盈却被分摊）<br>
-          · 空仓用户：开仓均价 ≥ 该分钟标记价最低价 → ✅ 正常<br>
-          · 空仓用户：开仓均价 < 该分钟标记价最低价 → ❌ 异常<br><br>
-          异常情况一律反馈技术部门核实。
+          • 查询分摊触发该分钟的标记价格（本次）及上一分钟的标记价格（前次）<br><br>
+          <strong>第三步：判断用户周期内是否有浮盈</strong><br>
+          <span style="color:var(--text3);font-size:12px">💡 通常理解下，判断用户是否有浮盈是看开仓价与标记价格的关系；但平台目前分摊机制实际采用的是周期内（1分钟）标记价格的涨跌方向来判断。</span><br><br>
+          • 多仓用户：本次标记价格 &gt; 前次标记价格（该分钟价格上涨）→ ✅ 正常（周期内有浮盈）<br>
+          • 多仓用户：本次标记价格 ≤ 前次标记价格（该分钟价格未上涨）→ ❌ 异常（周期内无浮盈却被分摊）<br>
+          • 空仓用户：本次标记价格 &lt; 前次标记价格（该分钟价格下跌）→ ✅ 正常（周期内有浮盈）<br>
+          • 空仓用户：本次标记价格 ≥ 前次标记价格（该分钟价格未下跌）→ ❌ 异常（周期内无浮盈却被分摊）<br><br>
+          可使用 <button onclick="drawerNav('sharecheck');document.getElementById('tab-sharecheck').scrollIntoView({behavior:'smooth',block:'start'})" style="display:inline;background:var(--orange-light);color:var(--orange-dark);border:1px solid var(--orange-mid);border-radius:4px;padding:1px 6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:background 0.15s;vertical-align:baseline;line-height:1.6;" onmouseover="this.style.background='var(--orange-mid)'" onmouseout="this.style.background='var(--orange-light)'">「分摊核查」↗</button> 板块输入仓位信息自动判断分摊是否正常。
           </div>
           <div class="qa-script-label">📋 参考话术</div>
-          <div class="qa-script">您好，我已按照标准流程为您核查了本次分摊情况，包括分摊触发时刻您的持仓状态、账户盈亏及对应的标记价格区间。如核查结果显示存在异常，我们将第一时间为您处理并反馈结果；如属正常分摊，我们也会为您详细说明原因。请耐心等候，感谢您的配合。</div>
+          <div class="qa-script">您好，我已按照流程为您核查本次分摊情况，包括分摊触发时刻的持仓状态、账户盈亏以及当时的标记价格变动情况。如核查确认存在异常，我们会第一时间为您处理并反馈结果；如属正常分摊，也会为您说明具体原因。请您耐心等待。</div>
         </div>
       </div>
 
@@ -4812,6 +4935,18 @@ function switchTab(name, btn) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.side-btn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.mob-drawer-item').forEach(b=>b.classList.remove('active'));
+  // 自动同步侧边栏分组显示（修复常见问题各子页面点击无效的问题）
+  const _group = Object.entries(GROUP_TABS).find(([, v]) => v.tabs.includes(name))?.[0];
+  if (_group) {
+    ['basic','margin','fee','check','qa'].forEach(g => {
+      const el = document.getElementById('sg-'+g);
+      if (el) el.style.display = g === _group ? '' : 'none';
+    });
+    // 同步顶部导航高亮
+    document.querySelectorAll('.topnav-btn').forEach(b => b.classList.remove('active'));
+    const tnBtn = document.getElementById('tn-'+_group);
+    if (tnBtn) tnBtn.classList.add('active');
+  }
   document.getElementById('tab-'+name).classList.add('active');
   // highlight sidebar
   const sb=document.getElementById('sb-'+name);
@@ -5441,7 +5576,7 @@ function doAdl() {
   const rdUnit        = adlReduceMode === 'coin' ? sym : '张';
 
   setFB('adl', [
-    fCmt(`强制减仓分析 · ${sym}-USDT · ${long?'做多':'做空'}`),
+    fCmt(`阶梯减仓分析 · ${sym}-USDT · ${long?'做多':'做空'}`),
     fCmt(''),
     fCmt('触发原因'),
     fLine('标记价值',
@@ -5450,7 +5585,7 @@ function doAdl() {
         : `${markPrice} × ${qtyBeforeFinal}张 × ${face}`,
       fmt(markValue,5)+' USDT'),
     fLine('阶梯最小仓位价值', tierBeforeIdx>0?`第${tierBefore.level}档起始值（第${tierBefore.level-1}档上限）`:'第1档，最小为0', fmt(tierMinValue,5)+' USDT'),
-    fLine('超出档位上限',    `${fmt(markValue,5)} − ${fmt(tierMinValue,5)}`,              '+'+fmt(exceeded,5)+' USDT → 触发强制减仓'),
+    fLine('超出档位上限',    `${fmt(markValue,5)} − ${fmt(tierMinValue,5)}`,              '+'+fmt(exceeded,5)+' USDT → 触发阶梯减仓'),
     fCmt(''),
     fCmt('理论减仓数量计算'),
     adlReduceMode === 'coin'
