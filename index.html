@@ -1635,11 +1635,53 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
 
       <div class="form-grid" style="margin-bottom:16px">
         <div class="field">
-          <div class="field-label">账户权益<span style="font-size:10px;color:var(--text3);font-weight:400"> 资产页「账户权益」</span></div>
-          <div class="fi"><input type="number" id="chk-equity" placeholder="0.00" step="any"><span class="fi-unit">USDT</span></div>
+          <div class="field-label">持仓保证金<span style="font-size:10px;color:var(--text3);font-weight:400"> 后台「持仓保证金」</span></div>
+          <div class="fi"><input type="number" id="chk-held-margin" placeholder="0.00" step="any" oninput="calcChkEquity()"><span class="fi-unit">USDT</span></div>
         </div>
         <div class="field">
-          <div class="field-label">标记价格<span style="font-size:10px;color:var(--text3);font-weight:400"> 持仓页「标记价格」</span></div>
+          <div class="field-label">当前价格<span style="font-size:10px;color:var(--text3);font-weight:400"> 后台「当前价格」</span></div>
+          <div class="fi"><input type="number" id="chk-cur-price" placeholder="0.00" step="any" oninput="calcChkEquity()"><span class="fi-unit">USDT</span></div>
+        </div>
+        <div class="field">
+          <div class="field-label">接管价格<span style="font-size:10px;color:var(--text3);font-weight:400"> 后台「接管价格」</span></div>
+          <div class="fi"><input type="number" id="chk-takeover-price" placeholder="0.00" step="any" oninput="calcChkEquity()"><span class="fi-unit">USDT</span></div>
+        </div>
+        <div class="field">
+          <div class="field-label">交易方向</div>
+          <div class="seg">
+            <button class="seg-btn active-long" id="chk-dir-long" onclick="setChkDir('long')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>做多 Long
+            </button>
+            <button class="seg-btn" id="chk-dir-short" onclick="setChkDir('short')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>做空 Short
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 实时保证金 + 爆仓亏损 自动计算结果行 -->
+      <div id="chk-realtime-row" style="display:none;margin-bottom:16px;padding:12px 14px;background:var(--orange-light);border:1.5px solid var(--orange-mid);border-radius:var(--r-sm)">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 16px">
+        <div>
+            <div style="font-size:11px;color:var(--text3);font-weight:600;margin-bottom:6px">实时保证金（→ 账户权益）= 持仓保证金 − (当前价 − 标记价) × 数量 × 方向</div>
+            <div id="chk-realtime-val" style="font-size:14px;font-weight:600;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums;color:var(--orange-dark)">—</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--text3);font-weight:600;margin-bottom:6px">爆仓亏损 = (接管价 − 当前价) × 数量 × 方向</div>
+            <div id="chk-liq-loss-val" style="font-size:14px;font-weight:600;font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums;color:var(--red)">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-grid" style="margin-bottom:16px">
+        <div class="field">
+          <div class="field-label">账户权益<span style="font-size:10px;color:var(--text3);font-weight:400"></span>
+            <span id="chk-equity-auto-badge" style="font-size:10px;color:var(--orange);font-weight:700;margin-left:4px">✦ 自动计算</span>
+          </div>
+          <div class="fi auto-filled" id="chk-equity-fi"><input type="number" id="chk-equity" placeholder="0.00" step="any" readonly style="cursor:default"><span class="fi-unit">USDT</span></div>
+        </div>
+        <div class="field">
+          <div class="field-label">标记价格<span style="font-size:10px;color:var(--text3);font-weight:400"> 后台「标记价格」</span></div>
           <div class="fi"><input type="number" id="chk-mark" placeholder="0.00" step="any" oninput="updateChkPosValue()"><span class="fi-unit">USDT</span></div>
         </div>
         <div class="field">
@@ -1649,9 +1691,9 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
               <button id="chk-qty-mode-coin" onclick="setChkQtyMode('coin')" style="padding:1px 8px;font-size:11px;font-weight:600;border:none;background:var(--orange);color:#fff;cursor:pointer">币</button>
               <button id="chk-qty-mode-zhang" onclick="setChkQtyMode('zhang')" style="padding:1px 8px;font-size:11px;font-weight:600;border:none;background:#fff;color:var(--text3);cursor:pointer">张</button>
             </span>
-            <span style="font-size:10px;color:var(--text3);font-weight:400"> 持仓页「数量」</span>
+            <span style="font-size:10px;color:var(--text3);font-weight:400"> 后台「数量」</span>
           </div>
-          <div class="fi"><input type="number" id="chk-qty" placeholder="0" step="any" oninput="updateChkPosValue()"><span class="fi-unit" id="chk-qty-u">BTC</span></div>
+          <div class="fi"><input type="number" id="chk-qty" placeholder="0.00" step="any" oninput="updateChkPosValue()"><span class="fi-unit" id="chk-qty-u">BTC</span></div>
           <div id="chk-face-field" style="display:none;font-size:12px;color:var(--text2);margin-top:4px">
             合约面值：<span id="chk-face-display" style="font-weight:700;color:var(--orange-dark);font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">—</span>
             <span id="chk-face-u" style="color:var(--text3)">BTC</span> / 张
@@ -4548,7 +4590,8 @@ function drawerNav(name) {
 // 其他仓位维持保证金计算工具
 // ═══════════════════════════════════════════════════════════
 let otherPosCount = 0;
-const otherPosMmr  = {}; // {idx: mmrDecimal}
+const otherPosMmr   = {}; // {idx: mmrDecimal} — 已废弃，保留以防引用
+const otherPosLadders = {}; // {idx: ladderList数组} — 用于动态查档位
 const otherPosMode = {}; // {idx: 'coin'|'zhang'}
 const otherPosFace = {}; // {idx: faceValue}
 
@@ -4659,7 +4702,10 @@ async function onOtherPosSymChangeDirect(idx, contractId, sym) {
   try {
     const data    = await fetchMarginData(contractId);
     const ladders = data?.ladderList?.ladderList || [];
-    if (ladders.length) otherPosMmr[idx] = ladders[0].minMarginRate;
+    if (ladders.length) {
+      otherPosMmr[idx]     = ladders[0].minMarginRate; // 兼容保留
+      otherPosLadders[idx] = ladders;                  // 存完整档位
+    }
   } catch(e) {
     otherPosMmr[idx] = null;
     if (resEl) resEl.textContent = '加载失败';
@@ -4671,17 +4717,26 @@ function calcOtherPosMaint(idx) {
   const mark  = +document.getElementById(`other-pos-mark-${idx}`)?.value;
   const qty   = +document.getElementById(`other-pos-qty-${idx}`)?.value;
   const resEl = document.getElementById(`other-pos-result-${idx}`);
-  const mmr   = otherPosMmr[idx];
   const mode  = otherPosMode[idx] || 'coin';
   const face  = otherPosFace[idx] || 1;
+  const ladders = otherPosLadders[idx];
 
-  if (!otherPosMmr.hasOwnProperty(idx) || mmr == null) {
+  if (!ladders && !otherPosMmr.hasOwnProperty(idx)) {
     if (resEl) resEl.textContent = '请先选币种';
     updateOtherPositionsTotal(); return;
   }
   if (mark && qty) {
     const coinQty = mode === 'zhang' ? mulSafe(qty, face) : qty;
-    const maint   = mark * coinQty * mmr;
+    const notional = mark * coinQty;
+    // 动态查档位 MMR
+    let mmr = otherPosMmr[idx] || 0; // fallback 第1档
+    if (ladders && ladders.length) {
+      for (let i = 0; i < ladders.length; i++) {
+        if (notional <= ladders[i].maxPositionValue) { mmr = ladders[i].minMarginRate; break; }
+        if (i === ladders.length - 1) mmr = ladders[i].minMarginRate;
+      }
+    }
+    const maint = notional * mmr;
     if (resEl) resEl.textContent = maint.toFixed(6) + ' USDT';
   } else {
     if (resEl) resEl.textContent = '— USDT';
@@ -4693,6 +4748,7 @@ function removeOtherPosition(idx) {
   const row = document.getElementById(`other-pos-${idx}`);
   if (row) row.remove();
   delete otherPosMmr[idx];
+  delete otherPosLadders[idx];
   delete otherPosMode[idx];
   delete otherPosFace[idx];
   updateOtherPositionsTotal();
@@ -4707,6 +4763,7 @@ function clearAllOtherPositions() {
   const list = document.getElementById('other-positions-list');
   list.innerHTML = '';
   Object.keys(otherPosMmr).forEach(k => delete otherPosMmr[k]);
+  Object.keys(otherPosLadders).forEach(k => delete otherPosLadders[k]);
   Object.keys(otherPosMode).forEach(k => delete otherPosMode[k]);
   Object.keys(otherPosFace).forEach(k => delete otherPosFace[k]);
   otherPosCount = 0;
@@ -4720,14 +4777,23 @@ function updateOtherPositionsTotal() {
   const list = document.getElementById('other-positions-list');
   let total  = 0;
   Array.from(list.children).forEach(row => {
-    const idNum = row.id.replace('other-pos-', '');
-    const mark  = +document.getElementById(`other-pos-mark-${idNum}`)?.value || 0;
-    const qty   = +document.getElementById(`other-pos-qty-${idNum}`)?.value  || 0;
-    const mmr   = otherPosMmr[idNum]  || 0;
-    const mode  = otherPosMode[idNum] || 'coin';
-    const face  = otherPosFace[idNum] || 1;
+    const idNum   = row.id.replace('other-pos-', '');
+    const mark    = +document.getElementById(`other-pos-mark-${idNum}`)?.value || 0;
+    const qty     = +document.getElementById(`other-pos-qty-${idNum}`)?.value  || 0;
+    const mode    = otherPosMode[idNum] || 'coin';
+    const face    = otherPosFace[idNum] || 1;
     const coinQty = mode === 'zhang' ? mulSafe(qty, face) : qty;
-    total += mark * coinQty * mmr;
+    const notional = mark * coinQty;
+    // 动态查档位 MMR
+    let mmr = otherPosMmr[idNum] || 0;
+    const ladders = otherPosLadders[idNum];
+    if (ladders && ladders.length && notional) {
+      for (let i = 0; i < ladders.length; i++) {
+        if (notional <= ladders[i].maxPositionValue) { mmr = ladders[i].minMarginRate; break; }
+        if (i === ladders.length - 1) mmr = ladders[i].minMarginRate;
+      }
+    }
+    total += notional * mmr;
   });
   const hidden = document.getElementById('liq-other-maint');
   if (hidden) hidden.value = total;
@@ -4737,9 +4803,10 @@ function updateOtherPositionsTotal() {
 
 // ─── 验证强平：其他仓位计算器 ───
 let chkPosCount = 0;
-const chkPosMmr  = {};
-const chkPosMode = {};
-const chkPosFace = {};
+const chkPosMmr     = {};
+const chkPosLadders = {}; // {idx: ladderList数组} — 用于动态查档位
+const chkPosMode    = {};
+const chkPosFace    = {};
 
 function addChkPosition() {
   const list = document.getElementById('chk-positions-list');
@@ -4831,7 +4898,10 @@ async function onChkPosSymChange(idx, contractId, sym) {
   try {
     const data = await fetchMarginData(contractId);
     const ladders = data?.ladderList?.ladderList || [];
-    if (ladders.length) chkPosMmr[idx] = ladders[0].minMarginRate;
+    if (ladders.length) {
+      chkPosMmr[idx]     = ladders[0].minMarginRate; // 兼容保留
+      chkPosLadders[idx] = ladders;                  // 存完整档位
+    }
   } catch(e) { chkPosMmr[idx] = null; if (resEl) resEl.textContent = '加载失败'; }
   calcChkPosMaint(idx);
 }
@@ -4840,16 +4910,26 @@ function calcChkPosMaint(idx) {
   const mark  = +document.getElementById(`chk-pos-mark-${idx}`)?.value;
   const qty   = +document.getElementById(`chk-pos-qty-${idx}`)?.value;
   const resEl = document.getElementById(`chk-pos-result-${idx}`);
-  const mmr   = chkPosMmr[idx];
   const mode  = chkPosMode[idx] || 'coin';
   const face  = chkPosFace[idx] || 1;
-  if (!chkPosMmr.hasOwnProperty(idx) || mmr == null) {
+  const ladders = chkPosLadders[idx];
+
+  if (!ladders && !chkPosMmr.hasOwnProperty(idx)) {
     if (resEl) resEl.textContent = '请先选币种';
     updateChkPositionsTotal(); return;
   }
   if (mark && qty) {
-    const coinQty = mode === 'zhang' ? mulSafe(qty, face) : qty;
-    const maint   = mark * coinQty * mmr;
+    const coinQty  = mode === 'zhang' ? mulSafe(qty, face) : qty;
+    const notional = mark * coinQty;
+    // 动态查档位 MMR
+    let mmr = chkPosMmr[idx] || 0;
+    if (ladders && ladders.length) {
+      for (let i = 0; i < ladders.length; i++) {
+        if (notional <= ladders[i].maxPositionValue) { mmr = ladders[i].minMarginRate; break; }
+        if (i === ladders.length - 1) mmr = ladders[i].minMarginRate;
+      }
+    }
+    const maint = notional * mmr;
     if (resEl) resEl.textContent = maint.toFixed(6) + ' USDT';
   } else {
     if (resEl) resEl.textContent = '— USDT';
@@ -4860,7 +4940,7 @@ function calcChkPosMaint(idx) {
 function removeChkPosition(idx) {
   const row = document.getElementById(`chk-pos-${idx}`);
   if (row) row.remove();
-  delete chkPosMmr[idx]; delete chkPosMode[idx]; delete chkPosFace[idx];
+  delete chkPosMmr[idx]; delete chkPosLadders[idx]; delete chkPosMode[idx]; delete chkPosFace[idx];
   updateChkPositionsTotal();
   const list = document.getElementById('chk-positions-list');
   const isEmpty = !list.children.length;
@@ -4874,6 +4954,7 @@ function clearAllChkPositions() {
   // 清除所有挂在 body 上的下拉框
   document.querySelectorAll('[id^="chk-pos-"][id$="-drop"]').forEach(d => d.remove());
   Object.keys(chkPosMmr).forEach(k => delete chkPosMmr[k]);
+  Object.keys(chkPosLadders).forEach(k => delete chkPosLadders[k]);
   Object.keys(chkPosMode).forEach(k => delete chkPosMode[k]);
   Object.keys(chkPosFace).forEach(k => delete chkPosFace[k]);
   chkPosCount = 0;
@@ -4887,14 +4968,23 @@ function updateChkPositionsTotal() {
   const list = document.getElementById('chk-positions-list');
   let total = 0;
   Array.from(list.children).forEach(row => {
-    const idNum  = row.id.replace('chk-pos-', '');
-    const mark   = +document.getElementById(`chk-pos-mark-${idNum}`)?.value || 0;
-    const qty    = +document.getElementById(`chk-pos-qty-${idNum}`)?.value  || 0;
-    const mmr    = chkPosMmr[idNum]  || 0;
-    const mode   = chkPosMode[idNum] || 'coin';
-    const face   = chkPosFace[idNum] || 1;
+    const idNum   = row.id.replace('chk-pos-', '');
+    const mark    = +document.getElementById(`chk-pos-mark-${idNum}`)?.value || 0;
+    const qty     = +document.getElementById(`chk-pos-qty-${idNum}`)?.value  || 0;
+    const mode    = chkPosMode[idNum] || 'coin';
+    const face    = chkPosFace[idNum] || 1;
     const coinQty = mode === 'zhang' ? mulSafe(qty, face) : qty;
-    total += mark * coinQty * mmr;
+    const notional = mark * coinQty;
+    // 动态查档位 MMR
+    let mmr = chkPosMmr[idNum] || 0;
+    const ladders = chkPosLadders[idNum];
+    if (ladders && ladders.length && notional) {
+      for (let i = 0; i < ladders.length; i++) {
+        if (notional <= ladders[i].maxPositionValue) { mmr = ladders[i].minMarginRate; break; }
+        if (i === ladders.length - 1) mmr = ladders[i].minMarginRate;
+      }
+    }
+    total += notional * mmr;
   });
   const hidden  = document.getElementById('chk-other-maint');
   if (hidden)   hidden.value = total;
@@ -5389,6 +5479,8 @@ async function loadForChk(contractId, sym) {
     }
     const chkQtyU = document.getElementById('chk-qty-u');
     if (chkQtyU) chkQtyU.textContent = chkQtyMode === 'zhang' ? '张' : sym;
+    if (!S.chk) S.chk = {};
+    S.chk.marginData = data; // 存档供动态 MMR 查询使用
     updateChkPosValue();
     setApiStatus('chk-api-status', 'ok', `${sym} 参数已加载`);
   } catch(e) { setApiStatus('chk-api-status', 'err', '加载失败'); }
@@ -6442,20 +6534,127 @@ function setChkQtyMode(mode) {
   updateChkPosValue();
 }
 
+// ── 实时保证金 + 爆仓亏损辅助计算 ──
+let chkDir = 'long';
+
+function setChkDir(dir) {
+  chkDir = dir;
+  const longBtn  = document.getElementById('chk-dir-long');
+  const shortBtn = document.getElementById('chk-dir-short');
+  if (longBtn)  longBtn.className  = 'seg-btn' + (dir === 'long'  ? ' active-long'  : '');
+  if (shortBtn) shortBtn.className = 'seg-btn' + (dir === 'short' ? ' active-short' : '');
+  calcChkEquity();
+}
+
+function calcChkEquity() {
+  const heldMargin    = +document.getElementById('chk-held-margin')?.value;
+  const curPrice      = +document.getElementById('chk-cur-price')?.value;
+  const takeoverPrice = +document.getElementById('chk-takeover-price')?.value;
+  const mark          = +document.getElementById('chk-mark')?.value;
+  const qty           = +document.getElementById('chk-qty')?.value || 0;
+  const face          = +document.getElementById('chk-face')?.value || 1;
+  const mode          = typeof chkQtyMode !== 'undefined' ? chkQtyMode : 'coin';
+  const coinQty       = mode === 'zhang' ? mulSafe(qty, face) : qty;
+  const dir           = chkDir === 'long' ? 1 : -1;
+
+  const realtimeRow  = document.getElementById('chk-realtime-row');
+  const realtimeVal  = document.getElementById('chk-realtime-val');
+  const liqLossVal   = document.getElementById('chk-liq-loss-val');
+  const equityInput  = document.getElementById('chk-equity');
+  const equityFi     = document.getElementById('chk-equity-fi');
+  const autoBadge    = document.getElementById('chk-equity-auto-badge');
+
+  const canCalcRealtime = heldMargin && curPrice && mark && coinQty;
+  const canCalcLiqLoss  = takeoverPrice && curPrice && coinQty;
+  const hasHeldMargin   = !!heldMargin;
+
+  // 只要填了持仓保证金就锁定账户权益输入框
+  if (hasHeldMargin) {
+
+
+
+  }
+
+  if (canCalcRealtime || canCalcLiqLoss) {
+    if (realtimeRow) realtimeRow.style.display = '';
+
+    // 实时保证金 = 持仓保证金 − (当前价 − 标记价) × 数量 × 方向
+    if (canCalcRealtime) {
+      const realtimeMargin = heldMargin - (curPrice - mark) * coinQty * dir;
+      if (realtimeVal) {
+        realtimeVal.textContent = realtimeMargin.toFixed(5) + ' USDT';
+        realtimeVal.style.color = realtimeMargin >= 0 ? 'var(--orange-dark)' : 'var(--red)';
+      }
+      if (equityInput) equityInput.value = realtimeMargin.toFixed(8);
+    } else {
+      if (realtimeVal) { realtimeVal.textContent = '— (需填标记价格和数量)'; realtimeVal.style.color = 'var(--text3)'; }
+      // 数量未填时用持仓保证金直接填入权益
+      if (hasHeldMargin && equityInput && !equityInput.value) equityInput.value = heldMargin.toFixed(8);
+    }
+
+    // 爆仓亏损 = (接管价 − 当前价) × 数量 × 方向
+    if (canCalcLiqLoss) {
+      const liqLoss = (takeoverPrice - curPrice) * coinQty * dir;
+      if (liqLossVal) {
+        liqLossVal.textContent = (liqLoss >= 0 ? '+' : '') + liqLoss.toFixed(5) + ' USDT';
+        liqLossVal.style.color = liqLoss >= 0 ? 'var(--green)' : 'var(--red)';
+      }
+    } else {
+      if (liqLossVal) { liqLossVal.textContent = '— (需填接管价格和数量)'; liqLossVal.style.color = 'var(--text3)'; }
+    }
+  } else {
+    if (realtimeRow) realtimeRow.style.display = hasHeldMargin ? '' : 'none';
+    if (!hasHeldMargin) {
+
+
+
+    }
+  }
+}
+
 function updateChkPosValue() {
   const mark = +document.getElementById('chk-mark').value;
   const qty  = +document.getElementById('chk-qty').value;
   const face = +document.getElementById('chk-face').value || 1;
   const el   = document.getElementById('chk-pos-value');
   if (mark && qty) {
-    // 张模式: 标记价 × 张数 × 面值；币模式: 标记价 × 币数
     const posVal = chkQtyMode === 'zhang' ? mark * mulSafe(qty, face) : mark * qty;
     el.value = posVal.toFixed(4);
     el.style.color = 'var(--text1)';
+    // ── 实时根据名义价值刷新 MMR 显示 ──
+    updateChkMmrDisplay(posVal);
   } else {
     el.value = '';
     el.style.color = 'var(--text3)';
   }
+  calcChkEquity(); // 数量/价格变化时同步刷新爆仓亏损
+}
+
+// ── 根据名义价值动态匹配档位并更新 chk MMR 输入框 ──
+function updateChkMmrDisplay(notional) {
+  const ladders = S.chk?.marginData?.ladderList?.ladderList
+               || S.liq?.marginData?.ladderList?.ladderList
+               || [];
+  if (!ladders.length || !notional) return;
+  let matchedMmr = null, matchedLevel = null;
+  for (let i = 0; i < ladders.length; i++) {
+    if (notional <= ladders[i].maxPositionValue) {
+      matchedMmr   = ladders[i].minMarginRate * 100;
+      matchedLevel = ladders[i].level;
+      break;
+    }
+    if (i === ladders.length - 1) {
+      matchedMmr   = ladders[i].minMarginRate * 100;
+      matchedLevel = ladders[i].level;
+    }
+  }
+  if (matchedMmr === null) return;
+  const mmrInput = document.getElementById('chk-mmr');
+  const mmrSrc   = document.getElementById('chk-mmr-src');
+  const mmrFi    = document.getElementById('chk-mmr-fi');
+  if (mmrInput) mmrInput.value = matchedMmr.toFixed(2);
+  if (mmrSrc)   mmrSrc.textContent = ` ✦ 第${matchedLevel}档自动匹配`;
+  if (mmrFi)    mmrFi.classList.add('auto-filled');
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -6505,13 +6704,38 @@ function doLiqCheck() {
 
   if (!equity || !posValue) { showModal('缺少输入','请填写账户权益，以及标记价格和数量'); return; }
 
-  // MMR: auto-filled by API, fallback to liq-mmr
-  const chkMmrEl = document.getElementById('chk-mmr');
-  if (!chkMmrEl.value) {
-    const liqMmr = document.getElementById('liq-mmr')?.value;
-    if (liqMmr) chkMmrEl.value = liqMmr;
+  // MMR: 根据名义价值动态匹配档位，不依赖固定填入的第1档值
+  const ladders = S.chk?.marginData?.ladderList?.ladderList
+               || S.liq?.marginData?.ladderList?.ladderList
+               || [];
+  let mmrVal = 0.5; // fallback
+  let mmrTierLevel = '—';
+  if (ladders.length && posValue) {
+    for (let i = 0; i < ladders.length; i++) {
+      if (posValue <= ladders[i].maxPositionValue) {
+        mmrVal       = ladders[i].minMarginRate * 100;
+        mmrTierLevel = ladders[i].level;
+        break;
+      }
+      if (i === ladders.length - 1) {
+        mmrVal       = ladders[i].minMarginRate * 100;
+        mmrTierLevel = ladders[i].level;
+      }
+    }
+    // 同步更新输入框显示
+    const chkMmrEl2  = document.getElementById('chk-mmr');
+    const chkMmrSrc2 = document.getElementById('chk-mmr-src');
+    if (chkMmrEl2)  chkMmrEl2.value = mmrVal.toFixed(2);
+    if (chkMmrSrc2) chkMmrSrc2.textContent = ` ✦ 第${mmrTierLevel}档自动匹配`;
+  } else {
+    // 未加载档位数据，回退到输入框当前值
+    const chkMmrEl = document.getElementById('chk-mmr');
+    if (!chkMmrEl.value) {
+      const liqMmr = document.getElementById('liq-mmr')?.value;
+      if (liqMmr) chkMmrEl.value = liqMmr;
+    }
+    mmrVal = +document.getElementById('chk-mmr').value || 0.5;
   }
-  const mmrVal = +chkMmrEl.value || 0.5;
   const feeVal = FEES['chk-fee-sel'] || 0.014;
 
   const mmr        = mmrVal / 100;
@@ -6549,23 +6773,44 @@ function doLiqCheck() {
     verdictCard.className = 'ri ri-red';
   }
 
+  // 读取辅助计算的值（如有）
+  const heldMarginVal    = +document.getElementById('chk-held-margin')?.value || 0;
+  const curPriceVal      = +document.getElementById('chk-cur-price')?.value   || 0;
+  const takeoverPriceVal = +document.getElementById('chk-takeover-price')?.value || 0;
+  const chkDirCoef  = typeof chkDir !== 'undefined' ? (chkDir === 'long' ? 1 : -1) : 1;
+  const chkDirNum   = chkDirCoef === 1 ? '1' : '-1';
+
   setFB('liqcheck', [
-    fCmt('【公式】标记仓位价值 = 标记价格 × 数量 (币/张)'), 
+    fCmt('【公式】标记仓位价值 = 标记价格 × 数量 (币/张)'),
     fCmt('【公式】全仓保证金率 = (账户权益 − 其他合约维持保证金) ÷ 标记仓位价值'),
     fCmt('触发条件：保证金率 ≤ 最低维持保证金率 + 手续费率'),
     fCmt(''),
-    fLine('标记仓位价值',      chkQtyMode==='zhang' ? `${mark} × ${qty} × ${face}` : `${mark} × ${qty}`, fmt(posValue, 5)+' USDT'),
+    fLine('标记仓位价值', chkQtyMode==='zhang' ? `${mark} × ${qty} × ${face}` : `${mark} × ${qty}`, fmt(posValue, 5)+' USDT'),
+
+    // 实时保证金部分（如填了持仓保证金）
+    heldMarginVal && curPriceVal && mark ? fCmt('') : null,
+    heldMarginVal && curPriceVal && mark ? fCmt('实时保证金计算') : null,
+    heldMarginVal && curPriceVal && mark ? fLine('持仓保证金', '后台数据', fmt(heldMarginVal, 5)+' USDT') : null,
+    heldMarginVal && curPriceVal && mark ? fLine('实时保证金（账户权益）', `${fmt(heldMarginVal,5)} − (${curPriceVal} − ${mark}) × ${fmt(posValue/mark, 5)} × ${chkDirNum}`, fmt(equity, 5)+' USDT') : null,
+
+    // 爆仓亏损部分（如填了接管价格）
+    takeoverPriceVal && curPriceVal ? fCmt('') : null,
+    takeoverPriceVal && curPriceVal ? fCmt('爆仓亏损计算') : null,
+    takeoverPriceVal && curPriceVal ? fLine('爆仓亏损', `(${takeoverPriceVal} − ${curPriceVal}) × ${fmt(posValue/mark, 5)} × ${chkDirNum}`, fmt((takeoverPriceVal - curPriceVal) * (posValue/mark) * chkDirCoef, 5)+' USDT') : null,
+
+    fCmt(''),
+    fCmt('强平触发验证'),
     fLine('账户权益',          '',              fmt(equity, 5)+' USDT'),
     fLine('其他仓位维持保证金', '',               fmt(otherMaint, 5)+' USDT'),
-    fLine('有效权益',          `${equity} − ${otherMaint}`,  fmt(effEquity, 5)+' USDT'),
+    fLine('有效权益',          `${fmt(equity, 5)} − ${fmt(otherMaint, 5)}`,  fmt(effEquity, 5)+' USDT'),
     fLine('全仓保证金率',      `${fmt(effEquity, 5)} ÷ ${fmt(posValue, 5)}`, fmt(ratio*100, 2)+'%'),
     fCmt(''),
-    fLine('最低维持保证金率（MMR）',              '',       fmt(mmrVal, 5)+'%'),
+    fLine('最低维持保证金率（MMR）', '', fmt(mmrVal, 5)+'%'),
     fLine('手续费率',          '', fmt(feeVal, 5)+'%'),
     fLine('触发阈值',         `${fmt(mmrVal, 5)}% + ${fmt(feeVal, 5)}%`, fmt(threshold*100, 2)+'%'),
     fCmt(''),
-    fLine('最低维持保证金',    `${fmt(posValue, 5)} × ${fmt(mmrVal, 5)}%`,       fmt(minMaint, 5)+' USDT'),
-    fLine('最低平仓手续费',    `${fmt(posValue, 5)} × ${fmt(feeVal, 5)}%`,  fmt(minFee, 5)+' USDT'),
+    fLine('最低维持保证金',    `${fmt(posValue, 5)} × ${fmt(mmrVal, 5)}%`,      fmt(minMaint, 5)+' USDT'),
+    fLine('最低平仓手续费',    `${fmt(posValue, 5)} × ${fmt(feeVal, 5)}%`, fmt(minFee, 5)+' USDT'),
     fLine('最低所需权益',      `${fmt(minMaint, 5)} + ${fmt(minFee, 5)} + ${fmt(otherMaint, 5)}`, fmt(minEquity, 5)+' USDT'),
     fCmt(''),
     fCmt(triggered
@@ -6672,6 +6917,51 @@ function setLiqMode(mode, btn) {
 }
 
 // Live uPnL preview as user types mark price or entry
+// ── 实时根据名义价值刷新 MMR 输入框显示 ──
+function updateLiqMmrDisplay() {
+  const ladders = S.liq.marginData?.ladderList?.ladderList || [];
+  if (!ladders.length) return; // 未加载 API 数据，保持不变
+
+  // 根据当前模式计算名义价值
+  let notional = 0;
+  if (liqMode === 'cross') {
+    const mark    = +document.getElementById('liq-mark')?.value || +document.getElementById('liq-entry')?.value;
+    const qtyRaw  = +document.getElementById('liq-qty')?.value;
+    const liqFace = liqQtyMode === 'zhang' ? (+document.getElementById('liq-face-display')?.textContent || 1) : 1;
+    const qty     = liqQtyMode === 'zhang' ? mulSafe(qtyRaw, liqFace) : qtyRaw;
+    notional = mark * qty;
+  } else {
+    const mark    = +document.getElementById('liq-isolated-mark')?.value;
+    const qtyRaw  = +document.getElementById('liq-isolated-qty')?.value;
+    const isoFace = liqIsoQtyMode === 'zhang' ? (parseFloat(document.getElementById('liq-iso-face-display')?.textContent) || 1) : 1;
+    const qty     = liqIsoQtyMode === 'zhang' ? mulSafe(qtyRaw, isoFace) : qtyRaw;
+    notional = mark * qty;
+  }
+  if (!notional) return;
+
+  // 匹配档位
+  let matchedMmr = null, matchedLevel = null;
+  for (let i = 0; i < ladders.length; i++) {
+    if (notional <= ladders[i].maxPositionValue) {
+      matchedMmr   = ladders[i].minMarginRate * 100;
+      matchedLevel = ladders[i].level;
+      break;
+    }
+    if (i === ladders.length - 1) {
+      matchedMmr   = ladders[i].minMarginRate * 100;
+      matchedLevel = ladders[i].level;
+    }
+  }
+  if (matchedMmr === null) return;
+
+  const mmrInput = document.getElementById('liq-mmr');
+  const mmrSrc   = document.getElementById('liq-mmr-src');
+  const mmrFi    = document.getElementById('liq-mmr-fi');
+  if (mmrInput) mmrInput.value = matchedMmr.toFixed(2);
+  if (mmrSrc)   mmrSrc.textContent = `✦ 第${matchedLevel}档自动匹配`;
+  if (mmrFi)    mmrFi.classList.add('auto-filled');
+}
+
 function updateIsolatedUpnl() {
   const entry   = +document.getElementById('liq-entry').value;
   const mark    = +document.getElementById('liq-isolated-mark')?.value;
@@ -6683,7 +6973,6 @@ function updateIsolatedUpnl() {
   const faceText = document.getElementById('liq-iso-face-display')?.textContent;
   const isoFace  = liqIsoQtyMode === 'zhang' ? (parseFloat(faceText) || 0) : 1;
   if (liqIsoQtyMode === 'zhang' && !isoFace) {
-    // 面值未加载，无法计算
     disp.value = '';
     disp.style.color = 'var(--text3)';
     if (hint) { hint.textContent = '请先选择合约'; hint.style.color = 'var(--orange)'; }
@@ -6701,6 +6990,7 @@ function updateIsolatedUpnl() {
     disp.style.color = 'var(--text3)';
     if (hint) { hint.textContent = '自动计算'; hint.style.color = 'var(--orange)'; }
   }
+  updateLiqMmrDisplay(); // 实时刷新 MMR 档位
 }
 
 function updateLiqUpnl() {
@@ -6724,6 +7014,7 @@ function updateLiqUpnl() {
     disp.style.color = 'var(--text3)';
     if (hint) { hint.textContent = '自动计算'; hint.style.color = 'var(--orange)'; }
   }
+  updateLiqMmrDisplay(); // 实时刷新 MMR 档位
 }
 
 function doLiq() {
@@ -6735,6 +7026,7 @@ function doLiq() {
   const lin    = S.liq.ct  === 'linear';
 
   let liqP, imr, levDisplay, formulaLines;
+  let usedMmrVal = mmrVal; // 实际使用的 MMR（动态匹配档位后更新）
 
   if (liqMode === 'cross') {
     // ══ 官方全仓公式 ══
@@ -6751,19 +7043,39 @@ function doLiq() {
     const usePrice    = mark || entry;
     const notional    = usePrice * qty;
     const closeFee    = notional * fee;
-    const maintMargin = notional * mmr;
     const ladders  = S.liq.marginData?.ladderList?.ladderList || [];
+    // ── 根据名义价值动态查找正确档位的 MMR 和扣减额 ──
+    let dynamicMmr = mmr; // fallback：若未加载 API 数据则使用输入框值
+    let dynamicMmrVal = mmrVal;
+    let dynamicTierLevel = '—';
     let deduction = 0;
     if (ladders.length) {
       for (let i = 0; i < ladders.length; i++) {
         if (notional <= ladders[i].maxPositionValue) {
-          deduction = +(ladders[i].deduction || 0); break;
+          dynamicMmr      = +(ladders[i].minMarginRate);
+          dynamicMmrVal   = dynamicMmr * 100;
+          dynamicTierLevel= ladders[i].level;
+          deduction       = +(ladders[i].deduction || 0);
+          break;
+        }
+        // 名义价值超过所有档位上限时取最后一档
+        if (i === ladders.length - 1) {
+          dynamicMmr      = +(ladders[i].minMarginRate);
+          dynamicMmrVal   = dynamicMmr * 100;
+          dynamicTierLevel= ladders[i].level;
+          deduction       = +(ladders[i].deduction || 0);
         }
       }
+      // 同步更新 MMR 输入框显示，方便用户看到实际使用值
+      const mmrInput = document.getElementById('liq-mmr');
+      if (mmrInput) mmrInput.value = dynamicMmrVal.toFixed(2);
+      const mmrSrc = document.getElementById('liq-mmr-src');
+      if (mmrSrc) mmrSrc.textContent = `✦ 第${dynamicTierLevel}档自动匹配`;
     }
+    const maintMargin = notional * dynamicMmr;
+    usedMmrVal = dynamicMmrVal; // 更新实际使用的 MMR 供结果展示
 
     // 公式：强平价 = 标记价 - (账户权益 - 平仓手续费 - 所有仓位维持保证金总和 + 当前仓位档位扣减额) / 数量
-    // 所有仓位维持保证金总和 = 强平触发门槛（MMR×名义价值） + 其他仓位维持保证金
     const allMaint = maintMargin + otherMaint;
     const bracket  = equity - closeFee - allMaint + deduction;
     liqP = long
@@ -6778,8 +7090,9 @@ function doLiq() {
       fCmt('【官方公式】强平价 = 标记价 − (账户权益 − 强平手续费 − 所有仓位维持保证金总和 + 当前仓位档位扣减额) ÷ 数量'),
       fCmt(''),
       fLine('当前仓位名义价值', `${usePrice} × ${+qty.toFixed(8)}`, fmt(notional,5)+' USDT'),
+      ladders.length ? fCmt(`所在风险档位：第 ${dynamicTierLevel} 档（MMR ${dynamicMmrVal.toFixed(2)}%，按名义价值 ${fmt(notional,2)} USDT 自动匹配）`) : fCmt('未加载档位数据，使用手动输入 MMR'),
       fLine('强平手续费',             `${fmt(notional,5)} × ${fmt(fee*100,6)}%`,            fmt(closeFee,5)+' USDT'),
-      fLine('维持保证金（强平触发门槛）', `${fmt(notional,5)} × ${mmrVal.toFixed(2)}%`,     fmt(maintMargin,5)+' USDT'),
+      fLine('维持保证金（强平触发门槛）', `${fmt(notional,5)} × ${dynamicMmrVal.toFixed(2)}%`,     fmt(maintMargin,5)+' USDT'),
       fLine('其他仓位维持保证金总和', '用户填入（无其他仓位为 0）',                                  fmt(otherMaint,5)+' USDT'),
       fLine('所有仓位维持保证金总和', `${fmt(maintMargin,5)} + ${fmt(otherMaint,5)}`,           fmt(allMaint,5)+' USDT'),
       fLine('档位扣减额',             'API 自动读取',                                  fmt(deduction,5)+' USDT'),
@@ -6812,16 +7125,38 @@ function doLiq() {
     const usePrice    = mark;
     const isoEquity   = isolatedMargin;   // 逐仓仓位权益 = 逐仓保证金
     const notional    = usePrice * qty;
-    const maintMargin = notional * mmr;
 
-    // 档位扣减额
+    // ── 根据名义价值动态查找正确档位的 MMR 和扣减额 ──
     const ladders = S.liq.marginData?.ladderList?.ladderList || [];
+    let dynamicMmr = mmr; // fallback：若未加载 API 数据则使用输入框值
+    let dynamicMmrVal = mmrVal;
+    let dynamicTierLevel = '—';
     let deduction = 0;
     if (ladders.length) {
       for (let i = 0; i < ladders.length; i++) {
-        if (notional <= ladders[i].maxPositionValue) { deduction = +(ladders[i].deduction || 0); break; }
+        if (notional <= ladders[i].maxPositionValue) {
+          dynamicMmr      = +(ladders[i].minMarginRate);
+          dynamicMmrVal   = dynamicMmr * 100;
+          dynamicTierLevel= ladders[i].level;
+          deduction       = +(ladders[i].deduction || 0);
+          break;
+        }
+        // 名义价值超过所有档位上限时取最后一档
+        if (i === ladders.length - 1) {
+          dynamicMmr      = +(ladders[i].minMarginRate);
+          dynamicMmrVal   = dynamicMmr * 100;
+          dynamicTierLevel= ladders[i].level;
+          deduction       = +(ladders[i].deduction || 0);
+        }
       }
+      // 同步更新 MMR 输入框显示，方便用户看到实际使用值
+      const mmrInput = document.getElementById('liq-mmr');
+      if (mmrInput) mmrInput.value = dynamicMmrVal.toFixed(2);
+      const mmrSrc = document.getElementById('liq-mmr-src');
+      if (mmrSrc) mmrSrc.textContent = `✦ 第${dynamicTierLevel}档自动匹配`;
     }
+    const maintMargin = notional * dynamicMmr;
+    usedMmrVal = dynamicMmrVal; // 更新实际使用的 MMR 供结果展示
 
     const base = (isoEquity - maintMargin + deduction) / qty;
     liqP = long
@@ -6836,7 +7171,8 @@ function doLiq() {
       fCmt('【官方公式】强平价 = 标记价 − (逐仓仓位权益 − 强平手续费 − 强平触发门槛（维持保证金率×名义价值） + 档位扣减额) ÷ 数量'),
       fCmt(''),
       fLine('逐仓仓位权益',   '逐仓保证金',                                                      fmt(isoEquity,5)+' USDT'),
-      fLine('维持保证金（强平触发门槛）', `${usePrice} × ${+qty.toFixed(8)} × ${mmrVal}%`,           fmt(maintMargin,5)+' USDT'),
+      ladders.length ? fCmt(`所在风险档位：第 ${dynamicTierLevel} 档（MMR ${dynamicMmrVal.toFixed(2)}%，按名义价值 ${fmt(notional,2)} USDT 自动匹配）`) : fCmt('未加载档位数据，使用手动输入 MMR'),
+      fLine('维持保证金（强平触发门槛）', `${usePrice} × ${+qty.toFixed(8)} × ${dynamicMmrVal.toFixed(2)}%`,           fmt(maintMargin,5)+' USDT'),
       fLine('档位扣减额',     'API 自动读取',                                                     fmt(deduction,5)+' USDT'),
       fLine('强平手续费',     `${fmt(liqP,5)} × ${+qty.toFixed(8)} × ${fee.toFixed(6)}`,              fmt(closeFee,5)+' USDT'),
       fLine('强平价格',       long
@@ -6875,10 +7211,10 @@ function doLiq() {
     const riskBar = document.getElementById('rl-risk-bar');
     if (riskBar) riskBar.style.display = 'none';
   }
-  setT('rl-mmr-r', fmt(mmrVal,5)+'%');
+  setT('rl-mmr-r', fmt(usedMmrVal,5)+'%');
   setT('rl-fee',   fmt(fee*100,3)+' %');
   // 存储数据供复制
-  window._liqData = { liqP, entry, mmrVal, fee, liqMode, long, lin, sym: S.liq.sym || '' };
+  window._liqData = { liqP, entry, mmrVal: usedMmrVal, fee, liqMode, long, lin, sym: S.liq.sym || '' };
 
   // 当前保证金率（逐仓 + 全仓都显示）
   const marginRateCard = document.getElementById('rl-margin-rate-card');
@@ -8167,6 +8503,14 @@ document.addEventListener('click', e => {
 });
 
 window.addEventListener('DOMContentLoaded', () => {
+  // number 输入框：阻止滚轮改变数值，页面滚动完全正常，焦点不丢失
+  document.addEventListener('wheel', e => {
+    if (e.target?.tagName === 'INPUT' && e.target?.type === 'number') {
+      e.preventDefault();
+      document.scrollingElement.scrollTop += e.deltaY;
+    }
+  }, { passive: false });
+
   // 计算按钮点击波纹效果
   document.querySelectorAll('.calc-btn').forEach(btn => {
     btn.style.position = 'relative';
