@@ -2167,7 +2167,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
 <div class="card">
   <div class="card-head">
     <div class="card-head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
-    <div><h2>计算资金费率</h2><p>用于核实用户投诉资金费扣除金额是否正确，逐笔输入每次费率自动计算总资金费用 &nbsp;<span class="api-status" id="fund-api-status" style="display:none"><span class="api-dot"></span></span></p></div>
+    <div><h2>计算资金费率</h2><p>用于核实用户投诉资金费扣除金额是否正确，逐笔输入每次费率自动计算总资金费用</p></div>
   </div>
   <div class="card-body">
 
@@ -2175,84 +2175,11 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
     <strong> &#9888;&nbsp; 资金费率每 8 小时结算一次。正费率：多方付空方；负费率：空方付多方。</strong>
     </div>
 
-    <!-- 合约选择 -->
-    <div id="fund-contract-row" style="margin-bottom:16px">
-      <div class="field">
-        <div class="field-label">
-          选择合约币种<span style="font-size:10px;color:var(--text3);font-weight:400"></span>
-        </div>
-        <div style="position:relative">
-          <div class="mp-sel-box" id="fund-sel-box" onclick="toggleDrop('fund')">
-            <img id="fund-sel-icon" class="sel-coin-icon" src="" alt="" onerror="this.classList.remove('loaded')">
-            <span id="fund-sel-txt">选择合约币种...</span>
-            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-          <div class="mp-dropdown" id="fund-drop"></div>
-        </div>
-      </div>
-    </div>
 
-    <!-- 公共：合约类型 + 方向 -->
-    <div class="form-grid" style="margin-bottom:16px">
-      <div class="field">
-        <div class="field-label">合约类型</div>
-        <div class="seg" id="fund-ct-seg">
-          <button class="seg-btn active-ct" onclick="setCT('fund','linear',this)">U本位 USDT-M</button>
 
-        </div>
-      </div>
-      <div class="field">
-        <div class="field-label">交易方向</div>
-        <div class="seg">
-          <button class="seg-btn active-long" id="fund-dlong" onclick="setDir('fund','long')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>做多 Long
-          </button>
-          <button class="seg-btn" id="fund-dshort" onclick="setDir('fund','short')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>做空 Short
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 公共：标记价格 + 仓位数量 -->
-    <div class="form-grid" style="margin-bottom:16px">
-      <div class="field">
-        <div class="field-label">标记价格</div>
-        <div class="fi" id="fund-mark-fi">
-          <input type="number" id="fund-mark" placeholder="选择结算时间后自动填入" step="any" readonly style="cursor:default">
-          <span class="fi-unit">USDT</span>
-        </div>
-      </div>
-      <div class="field">
-        <div class="field-label">
-          仓位数量
-          &nbsp;<span style="display:inline-flex;border:1px solid #e5e7eb;border-radius:5px;overflow:hidden;vertical-align:middle">
-            <button id="fund-qty-coin" onclick="setFundQtyMode('coin')" style="padding:1px 8px;font-size:11px;font-weight:600;border:none;background:var(--orange);color:#fff;cursor:pointer">币</button>
-            <button id="fund-qty-zhang" onclick="setFundQtyMode('zhang')" style="padding:1px 8px;font-size:11px;font-weight:600;border:none;background:#fff;color:var(--text3);cursor:pointer">张</button>
-          </span>
-        </div>
-        <div class="fi"><input type="number" id="fund-qty" placeholder="0.00" step="any"><span class="fi-unit" id="fund-qty-u">币</span></div>
-        <!-- 面值提示（张模式 + 已选合约时显示） -->
-        <div id="fund-face-row" style="display:none;font-size:12px;color:var(--text2);margin-top:4px">
-          合约面值：<span id="fund-face-display" style="font-weight:700;color:var(--orange-dark);font-family:'Inter',-apple-system,sans-serif;font-variant-numeric:tabular-nums">—</span>
-          <span id="fund-face-u" style="color:var(--text3)"></span> / 张
-        </div>
-      </div>
-    </div>
 
     <!-- ── 逐笔输入模式 ── -->
     <div id="fund-multi-block">
-      <div class="field-label" style="margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;">
-        <span>逐笔资金费率
-          <span style="font-size:11px;color:var(--text3);font-weight:400;margin-left:6px">选择结算时间后自动拉取费率和标记价格</span>
-        </span>
-      </div>
-      <!-- 结算时间对照提示 -->
-      <div style="background:#fffbeb;border:1px solid #fed7aa;border-radius:6px;padding:8px 12px;margin-bottom:10px;font-size:11px;color:#92400e;line-height:1.8;word-break:break-word">
-        <strong>⚠ 结算时间说明（北京时间）：</strong>官网图表时间轴为北京时间，显示的是<strong>预估费率</strong>，在下一个整点结算。<br>
-        对照关系：官网显示 <strong>23:00</strong> → 选 <strong>次日 00:00</strong><br>
-        官网显示 <strong>07:00</strong> → 选 <strong>08:00</strong> &nbsp;｜&nbsp; 官网显示 <strong>15:00</strong> → 选 <strong>16:00</strong>
-      </div>
       <div id="fund-rate-rows" style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px"></div>
       <div style="display:flex;gap:8px;align-items:center">
         <button onclick="addFundRow()" style="display:flex;align-items:center;gap:4px;padding:3px 10px;border:1.5px solid var(--orange);border-radius:6px;background:var(--orange-light);color:var(--orange-dark);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">
@@ -2318,9 +2245,6 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
       <div id="rf-breakdown" style="display:none;margin-bottom:12px">
         <div class="result-label" style="margin-top:0">结算明细</div>
         <div style="border:1px solid var(--border2);border-radius:var(--r-sm);overflow:hidden">
-          <div style="display:grid;grid-template-columns:36px 1fr 1fr 1fr 1fr;background:#f7f8fa;padding:8px 14px;font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;gap:8px">
-            <span>#</span><span>费率</span><span>标记价格</span><span>金额</span><span>方向</span>
-          </div>
           <div id="rf-breakdown-rows"></div>
         </div>
       </div>
@@ -2854,7 +2778,7 @@ input[type=number] { -moz-appearance:textfield; appearance:textfield; }
     <div class="card-head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
     <div>
       <h2>分摊核查</h2>
-      <p>输入用户持仓信息与分摊触发时间，自动抓取该分钟标记价格区间，判断分摊是否合理 &nbsp;<span class="api-status" id="sc-api-status" style="display:none"><span class="api-dot"></span></span></p>
+      <p>输入用户持仓信息与分摊触发时间，自动抓取该分钟标记价格区间，判断分摊是否合理</p>
     </div>
   </div>
   <div class="card-body">
@@ -7684,22 +7608,29 @@ function copyOpenFormula() {
 let fundMode = 'multi';
 let fundRows = []; // array of rate strings for multi mode
 
+// 每行资金费率行的数据存储（contractId / sym / face / qtyMode）
+const fundRowData = {};
+
 function addFundRow() {
   const container = document.getElementById('fund-rate-rows');
   const idx = container.children.length + 1;
 
-  // 生成默认结算时间（最近一个结算时点，北京时间 08/16/00:00）
   const now = new Date();
   const bj  = new Date(now.getTime() + 8 * 3600 * 1000);
   const pad = n => String(n).padStart(2,'0');
   const bjH = bj.getUTCHours();
-  // 结算时点：北京时间 00:00 / 08:00 / 16:00
   const lastSettleH = bjH >= 16 ? 16 : bjH >= 8 ? 8 : 0;
   const defY  = bj.getUTCFullYear();
   const defMo = bj.getUTCMonth() + 1;
   const defD  = bj.getUTCDate();
 
   const uid = Date.now() + '_fund_' + Math.random().toString(36).slice(2,5);
+
+  // 继承全局默认币种
+  const defSym        = S.fund?.sym        || '';
+  const defContractId = S.fund?.contractId || null;
+  const defFace       = S.fund?.face       || 1;
+  fundRowData[uid] = { contractId: defContractId, sym: defSym, face: defFace, qtyMode: 'coin', dir: 'long' };
 
   const row = document.createElement('div');
   row.className = 'fund-rate-row';
@@ -7709,34 +7640,87 @@ function addFundRow() {
   row.dataset.d  = defD;
   row.dataset.h  = lastSettleH;
   row.dataset.s  = 0;
-  row.style.cssText = 'background:#fafbfc;border:1px solid var(--border2);border-radius:8px;padding:10px 12px;position:relative;';
+  row.style.cssText = 'background:#fafbfc;border:1px solid var(--border2);border-radius:8px;padding:14px;position:relative;';
+
+  const selLabel = defSym ? `${defSym}-USDT 永续` : '选择合约...';
+  const selColor = defSym ? '' : 'color:var(--text3)';
+  const iconHtml = defSym
+    ? `<img id="fund-row-sel-icon-${uid}" class="sel-coin-icon loaded" src="${getCoinIcon(defSym)}" onerror="this.src='${COIN_ICON_FALLBACK}';this.classList.add('loaded')" alt="${defSym}">`
+    : `<img id="fund-row-sel-icon-${uid}" class="sel-coin-icon" src="" alt="">`;
+  const unitLabel = defSym || '币';
 
   row.innerHTML = `
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-      <span style="font-size:11px;font-weight:700;color:var(--text3)">第${idx}次</span>
-      <div style="display:flex;gap:6px;align-items:center">
-        <button onclick="this.closest('.fund-rate-row').remove();renumberFundRows();const cb=document.getElementById('clear-fund-btn');if(cb&&!document.querySelector('#fund-rate-rows .fund-rate-row'))cb.style.display='none';updateFundFetchAllBtn();closeFundPicker();"
-          style="width:26px;height:26px;border:none;background:#f3f4f6;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);flex-shrink:0;transition:all 0.15s"
-          onmouseover="this.style.background='#fef2f2';this.style.color='var(--red)'"
-          onmouseout="this.style.background='#f3f4f6';this.style.color='var(--text3)'">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
+    <!-- 卡片头：序号 + 删除 -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <span style="font-size:11px;font-weight:700;color:var(--text3);min-width:32px">第${idx}次</span>
+      <button onclick="removeFundRow('${uid}');closeFundPicker();"
+        style="width:26px;height:26px;border:none;background:#f3f4f6;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);flex-shrink:0;transition:all 0.15s"
+        onmouseover="this.style.background='#fef2f2';this.style.color='var(--red)'"
+        onmouseout="this.style.background='#f3f4f6';this.style.color='var(--text3)'">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
     </div>
-    <!-- 时间选择器独占一行 -->
-    <div style="margin-bottom:8px">
-      <div style="display:flex;align-items:center;border:1.5px solid var(--border);border-radius:var(--r-sm);background:var(--white);cursor:pointer;min-height:38px;transition:border-color 0.2s"
-        onclick="openFundPicker('${uid}',this)" id="fund-display-${uid}">
-        <div style="flex:1;display:flex;align-items:center;gap:8px;padding:6px 14px">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" style="flex-shrink:0"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          <span id="fund-date-label-${uid}" style="font-size:13px;font-weight:600;color:var(--text1)">${defY}-${pad(defMo)}-${pad(defD)}</span>
-          <span style="color:var(--border);flex-shrink:0">|</span>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span id="fund-time-label-${uid}" style="font-size:13px;font-weight:700;color:var(--orange-dark)">${pad(lastSettleH)}:00</span>
-          <span style="font-size:10px;color:var(--text3);margin-left:auto;flex-shrink:0">北京时间</span>
+
+    <!-- 合约 + 数量：两列 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+      <!-- 合约币种 -->
+      <div class="field" style="position:relative">
+        <div class="field-label" style="font-size:11px;margin-bottom:6px">选择合约币种</div>
+        <div class="mp-sel-box" id="fund-row-${uid}-sel-box" onclick="toggleDrop('fund-row-${uid}')" style="padding:8px 12px;font-size:13px">
+          ${iconHtml}
+          <span id="fund-row-${uid}-sel-txt" style="flex:1;font-size:13px;${selColor}">${selLabel}</span>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="mp-dropdown" id="fund-row-${uid}-drop"></div>
+      </div>
+      <!-- 仓位方向 -->
+      <div class="field">
+        <div class="field-label" style="font-size:11px;margin-bottom:6px">仓位方向</div>
+        <div class="seg" style="height:42px">
+          <button class="seg-btn active-long" id="fund-row-long-${uid}" onclick="setFundRowDir('${uid}','long')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px"><polyline points="18 15 12 9 6 15"/></svg>做多 Long
+          </button>
+          <button class="seg-btn" id="fund-row-short-${uid}" onclick="setFundRowDir('${uid}','short')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px"><polyline points="6 9 12 15 18 9"/></svg>做空 Short
+          </button>
         </div>
       </div>
     </div>
+
+    <!-- 结算时间 + 持仓数量：两列 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+      <!-- 结算时间 -->
+      <div class="field">
+        <div class="field-label" style="font-size:11px;margin-bottom:6px">结算时间（北京时间）</div>
+        <div style="display:flex;align-items:center;border:1.5px solid var(--border);border-radius:var(--r-sm);background:var(--white);cursor:pointer;min-height:42px;transition:border-color 0.2s"
+          onclick="openFundPicker('${uid}',this)" id="fund-display-${uid}">
+          <div style="flex:1;display:flex;align-items:center;gap:8px;padding:6px 14px">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" style="flex-shrink:0"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span id="fund-date-label-${uid}" style="font-size:13px;font-weight:600;color:var(--text1)">${defY}-${pad(defMo)}-${pad(defD)}</span>
+            <span style="color:var(--border);flex-shrink:0">|</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span id="fund-time-label-${uid}" style="font-size:13px;font-weight:700;color:var(--orange-dark)">${pad(lastSettleH)}:00</span>
+            <span style="font-size:10px;color:var(--text3);margin-left:auto;flex-shrink:0">北京时间</span>
+          </div>
+        </div>
+      </div>
+      <!-- 持仓数量 -->
+      <div class="field">
+        <div class="field-label" style="font-size:11px;margin-bottom:6px">
+          持仓数量 &nbsp;<span style="display:inline-flex;border:1px solid #e5e7eb;border-radius:5px;overflow:hidden;vertical-align:middle">
+            <button id="fund-row-coin-${uid}" onclick="setFundRowQtyMode('${uid}','coin')" style="padding:1px 7px;font-size:10px;font-weight:600;border:none;background:var(--orange);color:#fff;cursor:pointer">币</button>
+            <button id="fund-row-zhang-${uid}" onclick="setFundRowQtyMode('${uid}','zhang')" style="padding:1px 7px;font-size:10px;font-weight:600;border:none;background:#fff;color:var(--text3);cursor:pointer">张</button>
+          </span>
+        </div>
+        <div class="fi"><input type="number" id="fund-row-qty-${uid}" placeholder="0.00" step="any"><span class="fi-unit" id="fund-row-qty-u-${uid}">${unitLabel}</span></div>
+        <div id="fund-row-face-row-${uid}" style="display:none;font-size:11px;color:var(--text2);margin-top:3px">
+          面值：<span id="fund-row-face-val-${uid}" style="font-weight:700;color:var(--orange-dark)">${defFace}</span>
+          <span id="fund-row-face-unit-${uid}" style="color:var(--text3)">${defSym}</span>/张
+        </div>
+      </div>
+    </div>
+
+    <!-- 资金费率 + 标记价格 -->
     <div class="fund-row-fields">
       <div style="width:100%">
         <div style="font-size:10px;color:var(--text3);font-weight:600;margin-bottom:3px">资金费率</div>
@@ -7756,8 +7740,79 @@ function addFundRow() {
     </div>
   `;
   container.appendChild(row);
+
+  // 为本行建立下拉列表
+  buildDrop(`fund-row-${uid}-drop`, c => {
+    const ct = CONTRACTS.find(x => x.id === c.id);
+    fundRowData[uid].contractId = c.id;
+    fundRowData[uid].sym        = c.sym;
+    fundRowData[uid].face       = ct?.face || 1;
+    const txtEl  = document.getElementById(`fund-row-${uid}-sel-txt`);
+    const iconEl = document.getElementById(`fund-row-sel-icon-${uid}`);
+    if (txtEl)  { txtEl.textContent = `${c.sym}-USDT 永续`; txtEl.style.color = ''; }
+    if (iconEl) { iconEl.src = getCoinIcon(c.sym); iconEl.alt = c.sym; iconEl.classList.add('loaded'); iconEl.onerror = function(){ this.src=COIN_ICON_FALLBACK; }; }
+    // 更新数量单位
+    const qtyU    = document.getElementById(`fund-row-qty-u-${uid}`);
+    const faceVal = document.getElementById(`fund-row-face-val-${uid}`);
+    const faceUnit= document.getElementById(`fund-row-face-unit-${uid}`);
+    if (qtyU)    qtyU.textContent    = fundRowData[uid].qtyMode === 'zhang' ? '张' : c.sym;
+    if (faceVal) faceVal.textContent = ct?.face || 1;
+    if (faceUnit)faceUnit.textContent= c.sym;
+    // 清除已填数据（币种变了需重新获取）
+    const rateInp = row.querySelector('.fund-row-rate');
+    const markInp = row.querySelector('.fund-row-mark');
+    const rateFi  = row.querySelector('.fund-row-rate-fi');
+    const markFi  = row.querySelector('.fund-row-mark-fi');
+    if (rateInp) rateInp.value = '';
+    if (markInp) markInp.value = '';
+    if (rateFi)  { rateFi.style.borderColor=''; rateFi.style.background=''; }
+    if (markFi)  { markFi.style.borderColor=''; markFi.style.background=''; }
+    closeDrop(`fund-row-${uid}-drop`, `fund-row-${uid}`);
+  });
+
   const clearBtn = document.getElementById('clear-fund-btn');
   if (clearBtn) clearBtn.style.display = 'flex';
+  updateFundFetchAllBtn();
+}
+
+function setFundRowQtyMode(uid, mode) {
+  const d = fundRowData[uid];
+  if (!d) return;
+  d.qtyMode = mode;
+  const coinBtn  = document.getElementById(`fund-row-coin-${uid}`);
+  const zhangBtn = document.getElementById(`fund-row-zhang-${uid}`);
+  const faceRow  = document.getElementById(`fund-row-face-row-${uid}`);
+  const qtyU     = document.getElementById(`fund-row-qty-u-${uid}`);
+  if (mode === 'coin') {
+    if (coinBtn)  { coinBtn.style.background  = 'var(--orange)'; coinBtn.style.color = '#fff'; }
+    if (zhangBtn) { zhangBtn.style.background = '#fff'; zhangBtn.style.color = 'var(--text3)'; }
+    if (faceRow)  faceRow.style.display = 'none';
+    if (qtyU)     qtyU.textContent = d.sym || '币';
+  } else {
+    if (coinBtn)  { coinBtn.style.background  = '#fff'; coinBtn.style.color = 'var(--text3)'; }
+    if (zhangBtn) { zhangBtn.style.background = 'var(--orange)'; zhangBtn.style.color = '#fff'; }
+    if (faceRow)  faceRow.style.display = d.sym ? '' : 'none';
+    if (qtyU)     qtyU.textContent = '张';
+  }
+}
+
+function setFundRowDir(uid, dir) {
+  const d = fundRowData[uid];
+  if (!d) return;
+  d.dir = dir;
+  const longBtn  = document.getElementById(`fund-row-long-${uid}`);
+  const shortBtn = document.getElementById(`fund-row-short-${uid}`);
+  if (longBtn)  longBtn.className  = 'seg-btn' + (dir === 'long'  ? ' active-long'  : '');
+  if (shortBtn) shortBtn.className = 'seg-btn' + (dir === 'short' ? ' active-short' : '');
+}
+
+function removeFundRow(uid) {
+  const row = document.getElementById(`fund-row-${uid}`);
+  if (row) row.remove();
+  delete fundRowData[uid];
+  renumberFundRows();
+  const cb = document.getElementById('clear-fund-btn');
+  if (cb && !document.querySelector('#fund-rate-rows .fund-rate-row')) cb.style.display = 'none';
   updateFundFetchAllBtn();
 }
 
@@ -7996,8 +8051,12 @@ function updateFundFetchAllBtn() {
 }
 
 async function fetchFundRateRow(row) {
-  const contractId = S.fund?.contractId;
-  if (!contractId) { showModal('未选合约', '请先选择合约币种'); return; }
+  // 优先使用行内独立选择的合约，回退全局默认
+  const rowUid = row.id?.replace('fund-row-', '');
+  const rowCoinData = rowUid ? fundRowData[rowUid] : null;
+  const contractId  = rowCoinData?.contractId || S.fund?.contractId;
+  const rowSym      = rowCoinData?.sym || S.fund?.sym || '';
+  if (!contractId) { showModal('未选合约', '请先在该行选择合约币种'); return; }
   const fundApiEl = document.getElementById('fund-api-status');
   if (fundApiEl) fundApiEl.style.display = '';
   setApiStatus('fund-api-status', 'loading', '获取中...');
@@ -8031,14 +8090,19 @@ async function fetchFundRateRow(row) {
       ? normalizeToMinuteBJ(bjStr)          // 本分钟 HH:00:00
       : nextMinuteBJ(normalizeToMinuteBJ(bjStr)); // 下一分钟 HH:01:00
 
-    // 并发请求：资金费率 + 标记价格（用与分摊相同的 fetchMarkKline）
+    // 并发请求：资金费率 + 标记价格，10秒超时
+    const fetchTimeout = (promise, ms=10000) => Promise.race([
+      promise,
+      new Promise((_, rej) => setTimeout(() => rej(new Error('请求超时')), ms))
+    ]);
+
     const [fundRes, kline] = await Promise.all([
-      fetch(FUND_RATE_URL, {
+      fetchTimeout(fetch(FUND_RATE_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contractId, page: 1, limit: 50, securityInfo, uaTime })
-      }),
-      fetchMarkKline(contractId, klineMinStr)
+      })),
+      fetchTimeout(fetchMarkKline(contractId, klineMinStr))
     ]);
 
     const fundData = await fundRes.json();
@@ -8085,10 +8149,10 @@ async function fetchFundRateRow(row) {
       if (bestRate !== null && markPrice !== null) {
         const matchedBj = new Date(bestDiff < FOUR_HOUR ? targetTs : 0);
         statusEl.innerHTML = `<span style="color:var(--green)">✓ 已填入</span>`;
-        setApiStatus('fund-api-status', 'ok', `${S.fund.sym || ''} 费率+标记价已加载`);
+        setApiStatus('fund-api-status', 'ok', `${rowSym} 费率+标记价已加载`);
       } else if (bestRate !== null) {
         statusEl.innerHTML = `<span style="color:var(--green)">✓ 费率已填</span><span style="color:var(--amber);margin-left:4px">标记价格未找到</span>`;
-        setApiStatus('fund-api-status', 'ok', `${S.fund.sym || ''} 费率已加载`);
+        setApiStatus('fund-api-status', 'ok', `${rowSym} 费率已加载`);
       } else if (markPrice !== null) {
         statusEl.innerHTML = `<span style="color:var(--amber)">费率未找到（不在返回范围内）</span>`;
         setApiStatus('fund-api-status', 'err', '费率未找到');
@@ -8118,13 +8182,15 @@ async function fetchAllFundRates() {
 function renumberFundRows() {
   const rows = document.querySelectorAll('#fund-rate-rows .fund-rate-row');
   rows.forEach((row, i) => {
-    const label = row.querySelector('span[style*="min-width:20px"]');
+    const label = row.querySelector('span[style*="min-width:32px"]');
     if (label) label.textContent = `第${i+1}次`;
   });
 }
 
 function clearFundRows() {
   document.getElementById('fund-rate-rows').innerHTML = '';
+  // 清空行数据缓存
+  Object.keys(fundRowData).forEach(k => delete fundRowData[k]);
   const clearBtn = document.getElementById('clear-fund-btn');
   if (clearBtn) clearBtn.style.display = 'none';
   updateFundFetchAllBtn();
@@ -8136,47 +8202,34 @@ function calcFundPerRate(rate, notional, mark, lin) {
 }
 
 async function doFund() {
-  const mark   = +document.getElementById('fund-mark').value;
-  const qtyRaw = +document.getElementById('fund-qty').value;
-  const face   = fundQtyMode === 'zhang' ? (S.fund?.face || 1) : 1;
-  const qty    = mulSafe(qtyRaw, face); // 张模式：张数 × 面值 = 币数
-  // 逐笔模式下标记价格可由各行单独提供，不强制要求公共字段
-  if (fundMode === 'fixed' && (!mark || !qtyRaw)) { showModal('缺少输入','请填写标记价格和仓位数量'); return; }
-  if (fundMode === 'multi' && !qtyRaw) { showModal('缺少输入','请填写仓位数量'); return; }
+  try {
+  const mark   = +document.getElementById('fund-mark')?.value || 0;
+  const qtyRaw = +document.getElementById('fund-qty')?.value  || 0;
+  const face   = 1; // 全局qty已移除，逐笔模式每行自己读
 
-  // 逐笔模式：计算前自动获取所有行的费率和标记价格
+  const lin  = (S.fund?.ct ?? 'linear') === 'linear';
+  const long = (S.fund?.dir ?? 'long') === 'long';
+  const unit = lin ? 'USDT' : 'BTC';
+
+  // 逐笔模式：校验每行都已选合约和填写数量
   if (fundMode === 'multi') {
     const rows = document.querySelectorAll('#fund-rate-rows .fund-rate-row');
-    if (rows.length > 0) {
-      const calcBtn = document.querySelector('.calc-btn[onclick*="doFund"]');
-      if (calcBtn) { calcBtn.textContent = '获取费率中...'; calcBtn.disabled = true; }
-      for (const row of rows) {
-        await fetchFundRateRow(row);
-      }
+    if (!rows.length) { showModal('缺少输入','请至少添加一笔'); return; }
+    // 自动获取所有行费率（不强制前置校验，让后续 settlements 处理缺失数据）
+    const calcBtn = document.querySelector('.calc-btn[onclick*="doFund"]');
+    if (calcBtn) { calcBtn.textContent = '获取费率中...'; calcBtn.disabled = true; }
+    try {
+      for (const row of rows) { await fetchFundRateRow(row); }
+    } finally {
       if (calcBtn) { calcBtn.textContent = '计 算 资 金 费 用'; calcBtn.disabled = false; }
     }
+  } else {
+    if ((!mark || !qtyRaw)) { showModal('缺少输入','请填写标记价格和仓位数量'); return; }
   }
 
-  const lin  = S.fund.ct === 'linear';
-  const long = S.fund.dir === 'long';
-  const unit = lin ? 'USDT' : 'BTC';
-  const notional = lin ? mark * qty : qty * 100;
+  let settlements = [];
 
-  let settlements = []; // [{rate, amount}] amount = signed from user's perspective
-
-  if (fundMode === 'fixed') {
-    const rate  = +document.getElementById('fund-rate').value / 100;
-    const hours = +document.getElementById('fund-hours').value;
-    if (isNaN(rate) || !hours) { showModal('缺少输入','请填写资金费率和持仓时间'); return; }
-    const n = Math.floor(hours / 8);
-    if (n < 1) { showModal('时间太短','持仓时间至少需要 8 小时才有一次结算'); return; }
-    for (let i = 0; i < n; i++) {
-      const abs = Math.abs(calcFundPerRate(rate, notional, mark, lin));
-      // long: positive rate = pay, negative rate = receive
-      const signed = long ? -Math.sign(rate || 1) * abs : Math.sign(rate || 1) * abs;
-      settlements.push({ rate, amount: rate === 0 ? 0 : signed });
-    }
-  } else {
+  {
     const rows = document.querySelectorAll('#fund-rate-rows .fund-rate-row');
     if (!rows.length) { showModal('缺少输入','请至少添加一笔费率'); return; }
     let hasVal = false;
@@ -8186,16 +8239,31 @@ async function doFund() {
       const r = parseFloat(rateInp?.value);
       if (!isNaN(r)) {
         hasVal = true;
-        const rate = r / 100;
-        // 优先使用行内标记价格，否则用公共标记价格
-        const rowMark = parseFloat(markInp?.value) || mark;
-        const rowNotional = lin ? rowMark * qty : qty * 100;
+        const rowUid      = row.id?.replace('fund-row-', '');
+        const rowCoin     = rowUid ? fundRowData[rowUid] : null;
+        const rowQtyMode  = rowCoin?.qtyMode || 'coin';
+        const rowFace     = rowQtyMode === 'zhang' ? (rowCoin?.face || 1) : 1;
+        const rowQtyRaw   = +document.getElementById(`fund-row-qty-${rowUid}`)?.value || 0;
+        const rowQty      = mulSafe(rowQtyRaw, rowFace);
+        const rowSym      = rowCoin?.sym || S.fund?.sym || '';
+        const rowDir      = rowCoin?.dir || 'long';
+        const rowLong     = rowDir === 'long';
+        // 读取该行结算时间（dataset 存的北京时间）
+        const pad2 = n => String(n).padStart(2,'0');
+        const ry = row.dataset.y, rmo = row.dataset.mo, rd = row.dataset.d;
+        const rh = row.dataset.h, rs = row.dataset.s || '0';
+        const rowTimeStr = (ry && rmo && rd)
+          ? `${ry}-${pad2(rmo)}-${pad2(rd)} ${pad2(rh)}:00:${pad2(rs)}`
+          : '—';
+        const rate        = r / 100;
+        const rowMark     = parseFloat(markInp?.value) || 0;
+        const rowNotional = lin ? rowMark * rowQty : rowQty * 100;
         const abs  = Math.abs(calcFundPerRate(rate, rowNotional, rowMark, lin));
-        const signed = rate === 0 ? 0 : (long ? -Math.sign(rate) * abs : Math.sign(rate) * abs);
-        settlements.push({ rate, amount: signed, mark: rowMark });
+        const signed = rate === 0 ? 0 : (rowLong ? -Math.sign(rate) * abs : Math.sign(rate) * abs);
+        settlements.push({ rate, amount: signed, mark: rowMark, sym: rowSym, qty: rowQty, face: rowFace, qtyRaw: rowQtyRaw, dir: rowDir, time: rowTimeStr });
       }
     });
-    if (!hasVal) { showModal('缺少输入','请至少填写一笔费率数值，或点击「获取」按钮自动填入'); return; }
+    if (!hasVal) { showModal('获取失败','未能获取到任何费率数据，请检查合约选择和结算时间是否正确，或网络是否正常'); return; }
   }
 
   const n = settlements.length;
@@ -8205,33 +8273,46 @@ async function doFund() {
   const avgRate    = settlements.reduce((s, x) => s + x.rate, 0) / n;
   const d = lin ? 5 : 6;
 
-  // 更新折叠区的名义价值
+  const totalNotional = settlements.reduce((s, x) => s + (lin ? (x.mark||0) * (x.qty||0) : (x.qty||0) * 100), 0);
+
   const rfNotionalEl = document.getElementById('rf-notional');
-  if (rfNotionalEl) rfNotionalEl.textContent = fmt(notional, 5) + (lin ? ' USDT' : ' USD');
+  if (rfNotionalEl) rfNotionalEl.textContent = fmt(totalNotional, 5) + (lin ? ' USDT' : ' USD');
   setT('rf-n',        n + ' 次');
   setT('rf-total',    fmt(netTotal, 5) + ' ' + unit, netTotal >= 0 ? 'green' : 'red');
   setT('rf-income',   income > 0 ? '+' + fmt(income, 5) + ' ' + unit : '0 ' + unit, 'green');
   setT('rf-expense',  expense < 0 ? fmt(expense, 5) + ' ' + unit : '0 ' + unit, 'red');
-  document.getElementById('rf-total-card').className = 'ri ' + (netTotal >= 0 ? 'ri-green' : 'ri-red');
-  window._fundData = { netTotal, income, expense, n, notional, unit, d, long, lin,
+  const totalCard = document.getElementById('rf-total-card');
+  if (totalCard) totalCard.className = 'ri ' + (netTotal >= 0 ? 'ri-green' : 'ri-red');
+  window._fundData = { netTotal, income, expense, n, notional: totalNotional, unit, d, long, lin,
     sym: S.fund?.sym || '', avgRate, settlements, fundMode };
 
   // breakdown table (multi mode)
   const breakWrap = document.getElementById('rf-breakdown');
   const breakRows = document.getElementById('rf-breakdown-rows');
   if (fundMode === 'multi' && settlements.length > 0) {
+    const syms = [...new Set(settlements.map(s => s.sym).filter(Boolean))];
+    const multiCoin = syms.length > 1;
+    // 列：# | 结算时间 | 费率 | 标记价格 | 金额 | 方向 | [币种]
+    const gridCols = multiCoin
+      ? '28px 1.8fr 0.8fr 1fr 1fr 0.8fr 0.6fr'
+      : '28px 1.8fr 0.8fr 1fr 1fr 0.8fr';
     breakWrap.style.display = 'block';
-    breakRows.innerHTML = settlements.map((s, i) => {
+    breakRows.innerHTML = `<div style="display:grid;grid-template-columns:${gridCols};background:#f7f8fa;padding:8px 14px;font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;gap:8px">
+      <span>#</span><span>结算时间</span><span>费率</span><span>标记价格</span><span>金额</span><span>方向</span>${multiCoin ? '<span>币种</span>' : ''}
+    </div>` + settlements.map((s, i) => {
       const isIncome = s.amount >= 0;
       const color = s.amount === 0 ? 'var(--text3)' : isIncome ? 'var(--green)' : 'var(--red)';
-      const dir = s.amount === 0 ? '—' : isIncome ? '收入 ▲' : '支出 ▼';
+      const dirTag = s.dir === 'long' ? '多' : '空';
+      const dir = s.amount === 0 ? '—' : isIncome ? `收入 ▲ (${dirTag})` : `支出 ▼ (${dirTag})`;
       const markStr = s.mark ? fmt(s.mark, 5) + ' USDT' : '—';
-      return `<div style="display:grid;grid-template-columns:36px 1fr 1fr 1fr 1fr;padding:8px 14px;gap:8px;font-size:12px;border-top:1px solid var(--border2);align-items:center">
+      return `<div style="display:grid;grid-template-columns:${gridCols};padding:8px 14px;gap:8px;font-size:12px;border-top:1px solid var(--border2);align-items:center">
         <span style="color:var(--text3);font-weight:600">${i+1}</span>
-        <span style="font-family:'Inter',sans-serif;font-variant-numeric:tabular-nums;font-weight:600">${(s.rate*100).toFixed(4)}%</span>
+        <span style="font-family:'Inter',sans-serif;font-variant-numeric:tabular-nums;font-size:11px;color:var(--text2)">${s.time||'—'}</span>
+        <span style="font-family:'Inter',sans-serif;font-variant-numeric:tabular-nums;font-weight:600;display:grid;grid-template-columns:10px 1fr;gap:0"><span style="color:inherit">${s.rate < 0 ? '−' : s.rate > 0 ? '+' : '\u00a0'}</span><span>${Math.abs(s.rate*100).toFixed(4)}%</span></span>
         <span style="font-family:'Inter',sans-serif;font-variant-numeric:tabular-nums;color:var(--text2)">${markStr}</span>
         <span style="font-family:'Inter',sans-serif;font-variant-numeric:tabular-nums;font-weight:700;color:${color}">${fmt(Math.abs(s.amount),5)} ${unit}</span>
         <span style="font-weight:600;color:${color}">${dir}</span>
+        ${multiCoin ? `<span style="font-size:11px;font-weight:700;color:var(--orange-dark)">${s.sym||'—'}</span>` : ''}
       </div>`;
     }).join('');
   } else {
@@ -8240,28 +8321,30 @@ async function doFund() {
 
   // formula
   const avgMark = settlements.length ? settlements.reduce((s,x) => s + (x.mark||mark), 0) / settlements.length : mark;
+  const symsForFormula = [...new Set(settlements.map(s => s.sym).filter(Boolean))];
+  const multiCoinFormula = symsForFormula.length > 1;
   const fLines = [
-  fCmt(`U本位 · ${long?'做多':'做空'}${fundMode==='multi' && settlements.length===1 ? ' ｜ 第 1 笔' : ''}`),
+    fCmt(`U本位 · 逐笔结算`),
     fCmt('正费率→多方付空方 | 负费率→空方付多方'),
-    fundMode === 'multi'
-      ? fCmt(`仓位数量 = ${qty} ${S.fund?.sym||'币'}`)
-      : fLine('仓位名义价值', lin?`${mark} × ${qty}`:`${qty}张 × 100`, fmt(notional,5)+(lin?' USDT':' USD')),
+    multiCoinFormula ? fCmt(`涉及币种：${symsForFormula.join(' / ')}`) : fCmt(`结算次数 = ${n} 次`),
     fCmt(`结算次数 = ${n} 次`),
   ];
 
   // 逐笔模式：每笔详细公式
-  if (fundMode === 'multi') {
+  {
     settlements.forEach((s, i) => {
-      const rowMark     = s.mark || mark;
-      const rowNotional = lin ? rowMark * qty : qty * 100;
-      const absAmt      = Math.abs(s.amount);
+      const rowMark     = s.mark || 0;
+      const rowQty      = s.qty  || 0;
+      const rowNotional = lin ? rowMark * rowQty : rowQty * 100;
+      const symNote     = multiCoinFormula ? `【${s.sym||'?'}】` : '';
+      const rowLong2    = s.dir === 'long';
       const dirNote     = s.amount === 0 ? '免结算'
-        : (long
+        : (rowLong2
           ? (s.rate > 0 ? '做多·正费率→支出' : '做多·负费率→收入')
           : (s.rate > 0 ? '做空·正费率→收入' : '做空·负费率→支出'));
       fLines.push(
-        ...(settlements.length > 1 ? [fCmt(`第${i+1}笔`)] : []),
-        fLine(`  名义价值`, lin ? `${fmt(rowMark,5)} × ${fmt(qty,5)}` : `${fmt(qty,5)}张 × 100`, fmt(rowNotional,5)+' USDT'),
+        ...(settlements.length > 1 ? [fCmt(`第${i+1}笔${symNote}`)] : []),
+        fLine(`  名义价值`, lin ? `${fmt(rowMark,5)} × ${fmt(rowQty,5)}` : `${fmt(rowQty,5)}张 × 100`, fmt(rowNotional,5)+' USDT'),
         fLine(`  资金费用`, `${fmt(rowNotional,5)} × ${(s.rate*100).toFixed(4)}%`, (s.amount>=0?'+':'')+fmt(s.amount,5)+' USDT  （'+dirNote+'）'),
       );
     });
@@ -8275,6 +8358,7 @@ async function doFund() {
   );
   setFB('fund', fLines.join(''));
   showRS('fund');
+  } catch(e) { showModal('计算错误', e.message || String(e)); }
 }
 
 function copyFundResult() {
@@ -8591,12 +8675,13 @@ window.addEventListener('DOMContentLoaded', () => {
   // init tf fee displays
   updateFeeDisp('tf-open');
   updateFeeDisp('tf-close');
-  // default BTC for fund and tf selectors
-  setSelCoin('fund', btc.sym);
+  // default BTC for fund rows (S.fund used as default for new rows)
   S.fund = S.fund || {};
   S.fund.face       = btc.face;
   S.fund.sym        = btc.sym;
   S.fund.contractId = btc.id;
+  S.fund.ct         = 'linear';
+  S.fund.dir        = 'long';
   // 同步面值显示元素
   const fundFaceDisp = document.getElementById('fund-face-display');
   const fundFaceU    = document.getElementById('fund-face-u');
@@ -8629,8 +8714,9 @@ window.addEventListener('DOMContentLoaded', () => {
   // chk-fee-sel fixed to Taker 0.0375
   updateFeeDisp('cc-fee');
 
-  // 资金费率计算：页面加载时默认添加第一笔
+  // 资金费率计算：页面加载时默认添加第一笔（继承默认BTC）
   addFundRow();
+  // addFundRow 已在内部继承 S.fund（此时已是 BTC），无需额外处理
   const clearFundBtnInit = document.getElementById('clear-fund-btn');
   if (clearFundBtnInit) clearFundBtnInit.style.display = 'flex';
 
@@ -8717,10 +8803,10 @@ function addScPosition() {
         <div class="field-label" style="font-size:11px">仓位方向</div>
         <div class="seg" style="height:42px">
           <button class="seg-btn active-long" id="sc-pos-long-${idx}" onclick="setScPosDir(${idx},'long')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px"><polyline points="18 15 12 9 6 15"/></svg>做多
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px"><polyline points="18 15 12 9 6 15"/></svg>做多 Long
           </button>
           <button class="seg-btn" id="sc-pos-short-${idx}" onclick="setScPosDir(${idx},'short')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px"><polyline points="6 9 12 15 18 9"/></svg>做空
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px"><polyline points="6 9 12 15 18 9"/></svg>做空 Short
           </button>
         </div>
       </div>
@@ -9167,20 +9253,20 @@ async function doShareCheck() {
 
   const btn = document.querySelector('#tab-sharecheck .calc-btn');
   if (btn) { btn.textContent = '查 询 中...'; btn.disabled = true; }
-  setApiStatus('sc-api-status','loading','查询标记价格中...');
-  document.getElementById('sc-api-status').style.display='';
 
   const resultsList = document.getElementById('sc-results-list');
   resultsList.innerHTML = '';
 
   let allNormal = true;
   let hasError  = false;
-  const scResultItems = []; // 存储每笔结果供复制
+  const scResultItems = [];
   const formulaLines = [
     fCmt('分摊核查 · 每个仓位独立方向与触发时间'),
     fCmt('浮盈公式：(本次分钟 Close - 前次分钟 Close) × 持仓数量 × 方向 (多 =+1 / 空 =-1)'),
     fCmt(''),
   ];
+
+  try {
 
   // 按仓位分组输出结果
   for (const pos of positions) {
@@ -9220,9 +9306,10 @@ async function doShareCheck() {
           logicNote  = `秒=${seconds}>0，本次=${currMinStr.slice(11,16)}，前次=${prevMinStr.slice(11,16)}`;
         }
 
+        const scFetchTimeout = (p) => Promise.race([p, new Promise((_,rej)=>setTimeout(()=>rej(new Error('请求超时')),10000))]);
         const [kline, klinePrev] = await Promise.all([
-          fetchMarkKline(pos.contractId, currMinStr),
-          fetchMarkKline(pos.contractId, prevMinStr)
+          scFetchTimeout(fetchMarkKline(pos.contractId, currMinStr)),
+          scFetchTimeout(fetchMarkKline(pos.contractId, prevMinStr))
         ]);
 
         const card = document.createElement('div');
@@ -9315,16 +9402,17 @@ async function doShareCheck() {
   }
 
   setFB('sharecheck', formulaLines.join(''));
-
-  if (btn) { btn.textContent = '核 查 分 摊 是 否 正 常'; btn.disabled = false; }
-  const scSym = scPosData[1]?.sym || '';
-  setApiStatus('sc-api-status', hasError ? 'err' : 'ok', hasError ? '部分查询失败' : `${scSym} 标记价格已加载`);
   showRS('sharecheck');
-  // 显示复制按钮
   const copyBtns = document.getElementById('sc-copy-btns');
   if (copyBtns) copyBtns.style.display = 'flex';
 
-  window._scData = { allNormal, hasError, scSym, items: scResultItems };
+  window._scData = { allNormal, hasError, scSym: '', items: scResultItems };
+
+  } catch(outerErr) {
+    showModal('查询失败', outerErr.message || '请求失败，请检查网络后重试');
+  } finally {
+    if (btn) { btn.textContent = '核 查 分 摊 是 否 正 常'; btn.disabled = false; }
+  }
 }
 let adlQtyMode    = 'coin'; // 'coin' | 'zhang'
 let adlReduceMode = 'coin';
@@ -9366,26 +9454,7 @@ function setAdlReduceMode(mode) {
   }
 }
 
-let fundQtyMode = 'coin'; // 'coin' | 'zhang'
-
-function setFundQtyMode(mode) {
-  fundQtyMode = mode;
-  const coinBtn  = document.getElementById('fund-qty-coin');
-  const zhangBtn = document.getElementById('fund-qty-zhang');
-  const faceRow  = document.getElementById('fund-face-row');
-  const qtyU     = document.getElementById('fund-qty-u');
-  if (mode === 'coin') {
-    if (coinBtn)  { coinBtn.style.background  = 'var(--orange)'; coinBtn.style.color  = '#fff'; }
-    if (zhangBtn) { zhangBtn.style.background = '#fff';          zhangBtn.style.color = 'var(--text3)'; }
-    if (faceRow)    faceRow.style.display = 'none';
-    if (qtyU)       qtyU.textContent = S.fund?.sym || 'BTC';
-  } else {
-    if (coinBtn)  { coinBtn.style.background  = '#fff';          coinBtn.style.color  = 'var(--text3)'; }
-    if (zhangBtn) { zhangBtn.style.background = 'var(--orange)'; zhangBtn.style.color = '#fff'; }
-    if (faceRow)    faceRow.style.display = (S.fund?.face) ? '' : 'none';
-    if (qtyU)       qtyU.textContent = '张';
-  }
-}
+let fundQtyMode = 'coin'; // kept for fixed mode compatibility
 
 let tfQtyMode = 'coin'; // 'coin' | 'zhang'
 
